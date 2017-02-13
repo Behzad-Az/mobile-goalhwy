@@ -26,7 +26,6 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     marginTop: 25,
     marginLeft: 10,
@@ -36,3 +35,9 @@ const styles = StyleSheet.create({
 });
 
 Exponent.registerRootComponent(App);
+
+
+// <Grid>
+//   <Col><Text>my</Text></Col>
+//   <Col><Text>name</Text></Col>
+// </Grid>

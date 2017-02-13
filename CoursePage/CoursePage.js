@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     padding: 5,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    alignSelf: 'stretch',
     color: 'white',
     fontWeight: 'bold'
   }

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Modal, Text, TouchableHighlight, TouchableOpacity, View, Image, Button } from 'react-native';
+import { StyleSheet, Modal, Text, TouchableHighlight, TouchableOpacity, View,
+        Image, Button } from 'react-native';
+
+import RevisionRow from './RevisionRow.js';
 
 class DocRevisions extends Component {
   constructor(props) {
@@ -31,58 +34,23 @@ class DocRevisions extends Component {
         >
           <View style={styles.modalContainer}>
             <Text style={styles.modalHeader}>Revision Panel:</Text>
-            <View>
-              <Button
-                onPress={() => {alert("new revision btn pressed.")}}
-                title="Upload New Revision"
-                color="#004E89"
-                accessibilityLabel="Upload New Revision"
-              />
-              <Button
-                onPress={() => this.setModalVisible(!this.state.modalVisible)}
-                title="Go Back"
-                color="#004E89"
-                accessibilityLabel="Go Back"
-              />
-            </View>
 
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Button
-                onPress={() => {alert("new revision btn pressed.")}}
-                title="This looks great!"
-                accessibilityLabel="This sounds great!"
-              />
-              <Button
-                onPress={() => {alert("new revision btn pressed.")}}
-                title="Ok!"
-                color="#841584"
-                accessibilityLabel="Ok, Great!"
-              />
-            </View>
+            <TouchableOpacity>
+              <Text style={styles.primaryBtnText}>Upload New Revision</Text>
+            </TouchableOpacity>
 
-            <TouchableOpacity style={styles.primaryBtn}>
-              <Text style={styles.docBtnText}>Upload New Revision</Text>
+            <TouchableOpacity onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+              <Text style={styles.primaryBtnText}>Go back</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.setModalVisible(!this.state.modalVisible)} style={styles.primaryBtn}>
-              <Text style={styles.docBtnText}>Go back</Text>
-            </TouchableOpacity>
+
             <Text style={styles.modalHeader}>Previous Revisions:</Text>
-            { this.props.doc.revisions.map((rev, index) => {
-              return (
-                <TouchableOpacity key={index} style={styles.docBtn} onPress={() => this.handleRevisionRequest(this.props.doc.course_id, this.props.doc.id, rev.id) }>
-                  <Text style={styles.docBtnText}>
-                    <Image source={require('../public/images/pdf-logo.png')}  style={styles.rowImg} />
-                    {rev.title} - {rev.rev_desc}
-                  </Text>
-                </TouchableOpacity>
-              ); }
-            )}
 
+            { this.props.doc.revisions.map((rev, index) => <RevisionRow key={index} rev={rev} />) }
 
           </View>
         </Modal>
 
-      <TouchableHighlight onPress={() => this.setModalVisible(true)} style={styles.docBtn}>
+      <TouchableHighlight onPress={() => this.setModalVisible(true)}>
         <Text style={styles.docBtnText}>{this.props.doc.revisions[0].title}</Text>
       </TouchableHighlight>
 
@@ -94,36 +62,26 @@ class DocRevisions extends Component {
 export default DocRevisions;
 
 const styles = StyleSheet.create({
-  docBtn: {
-    justifyContent: 'center',
-    height: 30,
-    paddingLeft: 10,
-    margin: 5,
-    backgroundColor: '#82ABCA',
-    borderRadius: 5
-  },
-  docBtnText: {
-    color: 'white',
-  },
-  primaryBtn: {
-    justifyContent: 'center',
-    height: 30,
-    paddingLeft: 10,
-    margin: 5,
-    backgroundColor: '#004E89',
-    borderRadius: 5,
-    alignItems:'center'
-  },
   modalContainer: {
-    flex: 1,
     backgroundColor: '#ddd',
     margin: 10,
     borderRadius: 10,
     padding: 10
   },
-  rowImg: {
-    width: 60,
-    height: 60
+  docBtnText: {
+    color: 'white',
+    backgroundColor: '#82ABCA',
+    borderRadius: 5,
+    padding: 5,
+    margin: 5
+  },
+  primaryBtnText: {
+    textAlign: 'center',
+    padding: 5,
+    margin: 5,
+    backgroundColor: '#004E89',
+    borderRadius: 5,
+    color: 'white'
   },
   modalHeader: {
     color: '#004E89',
