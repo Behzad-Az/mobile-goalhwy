@@ -9,6 +9,7 @@ import {
 
 import DocRevisions from './DocRevisions.js';
 import NewDocForm from './NewDocForm.js';
+import NewAssistRequest from './NewAssistRequest.js';
 
 class CourseRow extends React.Component {
   constructor(props) {
@@ -32,7 +33,16 @@ class CourseRow extends React.Component {
     if (this.state.showDocs) {
       return (
         <View style={styles.container}>
-          <NewDocForm />
+
+
+          <View style={styles.dividedRow}>
+            <View style={{ flex: 1 }}><NewDocForm /></View>
+            <View style={{ flex: 1 }}><NewAssistRequest /></View>
+            <TouchableOpacity style={{ flex: 1 }}><Text style={styles.primaryBtn}>Unsub</Text></TouchableOpacity>
+          </View>
+
+
+
           <Text style={styles.docTypeHeader}>Sample Questions:</Text>
           { this.state.sampleQuestions.map((doc, index) => <DocRevisions key={index} doc={doc} />) }
           <Text style={styles.docTypeHeader}>Assignment and Reports:</Text>
@@ -48,7 +58,13 @@ class CourseRow extends React.Component {
     return (
       <View>
         <TouchableOpacity onPress={this.toggleShowDocs}>
-          <Text style={this.state.showDocs ? styles.courseTitleClicked : styles.courseTitle}>{this.props.course.prefix} {this.props.course.suffix}</Text>
+          <Text
+            style={this.state.showDocs ?
+                  [styles.courseTitle, {backgroundColor: '#bbb'}] :
+                  styles.courseTitle}
+          >
+            {this.props.course.prefix} {this.props.course.suffix}
+          </Text>
         </TouchableOpacity>
         { this.renderDocs() }
       </View>
@@ -77,12 +93,19 @@ const styles = StyleSheet.create({
     borderLeftWidth: .5,
     borderRightWidth: .5
   },
-  courseTitleClicked: {
+  dividedRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10
+  },
+  primaryBtn: {
+    color: 'white',
+    backgroundColor: '#004E89',
     padding: 5,
-    fontWeight: 'bold',
-    backgroundColor: '#bbb',
-    borderBottomWidth: .5,
-    borderLeftWidth: .5,
-    borderRightWidth: .5
+    borderRadius: 5,
+    textAlign: 'center',
+    marginRight: 5,
+    marginLeft: 5
   }
 });

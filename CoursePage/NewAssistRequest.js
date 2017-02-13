@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Modal, Text, TouchableHighlight, TouchableOpacity, View, Image, TextInput, Picker } from 'react-native';
 
-class NewDocForm extends Component {
+class NewAssistRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ class NewDocForm extends Component {
         >
           <View style={styles.modalContainer}>
             <View>
-              <Text style={styles.modalHeader}>New Document Form:</Text>
+              <Text style={styles.modalHeader}>New assistance request form</Text>
 
               <TextInput
                 style={{height: 40, borderColor: 'gray', borderWidth: 1}}
@@ -48,7 +48,7 @@ class NewDocForm extends Component {
         </Modal>
 
       <TouchableHighlight onPress={() => this.setModalVisible(true)}>
-        <Text style={styles.primaryBtn}>New Doc</Text>
+        <Text style={styles.primaryBtn}>Assistance</Text>
       </TouchableHighlight>
 
       </View>
@@ -56,7 +56,7 @@ class NewDocForm extends Component {
   }
 }
 
-export default NewDocForm;
+export default NewAssistRequest;
 
 const styles = StyleSheet.create({
   modalContainer: {
