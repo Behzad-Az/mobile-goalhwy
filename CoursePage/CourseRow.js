@@ -34,14 +34,11 @@ class CourseRow extends React.Component {
       return (
         <View style={styles.container}>
 
-
           <View style={styles.dividedRow}>
             <View style={{ flex: 1 }}><NewDocForm /></View>
             <View style={{ flex: 1 }}><NewAssistRequest /></View>
             <TouchableOpacity style={{ flex: 1 }}><Text style={styles.primaryBtn}>Unsub</Text></TouchableOpacity>
           </View>
-
-
 
           <Text style={styles.docTypeHeader}>Sample Questions:</Text>
           { this.state.sampleQuestions.map((doc, index) => <DocRevisions key={index} doc={doc} />) }

@@ -18,7 +18,7 @@ class CoursePage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://127.0.0.1:19002/api/login', {
+    fetch('http://127.0.0.1:19001/api/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -29,7 +29,7 @@ class CoursePage extends React.Component {
         password: 'ben123'
       })
     })
-    .then(() => fetch('http://127.0.0.1:19002/api/mobile/courses'))
+    .then(() => fetch('http://127.0.0.1:19001/api/mobile/courses'))
     .then(response => response.json())
     .then(resJSON => this.setState(resJSON))
     .catch(err => console.log("Error here: ", err));

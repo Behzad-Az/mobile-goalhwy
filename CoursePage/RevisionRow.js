@@ -16,21 +16,19 @@ class RevisionRow extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <Text style={styles.revTitle}>{this.props.rev.title}</Text>
-          <Text style={styles.revDesc}>"{this.props.rev.rev_desc}"</Text>
+
+        <View style={styles.dividedRow}>
+          <TouchableOpacity style={{ flex: 4 }}>
+            <Text style={[{backgroundColor: '#004E89'}, styles.lowerBtn]}>Download</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flex: 1 }}>
+            <Text style={[{backgroundColor: '#9D0600'}, styles.lowerBtn]}>Flag</Text>
+          </TouchableOpacity>
         </View>
 
-        <View style={{ position: 'absolute', top: 5, right: 5 }}>
-
-          <TouchableOpacity>
-            <Text style={styles.downloadBtnText}>Download</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Text style={styles.flagBtnText}>Flag</Text>
-          </TouchableOpacity>
-
+        <View style={{marginBottom: 35}}>
+          <Text style={styles.revTitle}>{this.props.rev.title}</Text>
+          <Text style={styles.revDesc}>"{this.props.rev.rev_desc}"</Text>
         </View>
 
 
@@ -41,42 +39,39 @@ class RevisionRow extends React.Component {
 
 export default RevisionRow;
 
-const vw = percentageWidth => Dimensions.get('window').width * (percentageWidth / 100);
-const COLUMNS = 2;
-const MARGIN = vw(1);
-const SPACING = (COLUMNS + 1) / COLUMNS * MARGIN;
+// const vw = percentageWidth => Dimensions.get('window').width * (percentageWidth / 100);
+// const COLUMNS = 2;
+// const MARGIN = vw(1);
+// const SPACING = (COLUMNS + 1) / COLUMNS * MARGIN;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
+    padding: 10,
     borderWidth: .5,
     borderRadius: 5,
     backgroundColor: 'white',
-    marginTop: 5,
-    minHeight: 75
+    marginTop: 5
   },
   revTitle: {
-    fontWeight: 'bold',
-    width: Dimensions.get('window').width - 10 - 10 - 115
+    fontWeight: 'bold'
   },
   revDesc: {
-    fontStyle: 'italic',
-    width: Dimensions.get('window').width - 10 - 10 - 115
+    fontStyle: 'italic'
   },
-  downloadBtnText: {
-    backgroundColor: '#004E89',
+  dividedRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    position: 'absolute',
+    bottom: 5,
+    left: 5
+  },
+  lowerBtn: {
     color: 'white',
     padding: 5,
     borderRadius: 5,
-    width: 90,
-    textAlign: 'center'
-  },
-  flagBtnText: {
-    backgroundColor: '#9D0600',
-    color: 'white',
-    padding: 5,
-    borderRadius: 5,
-    marginTop: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    margin: 5
   }
 });
