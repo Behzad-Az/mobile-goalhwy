@@ -8,18 +8,40 @@ import {
   ScrollView
 } from 'react-native';
 
+import Navbar from './Navbar/Navbar.js';
 import CoursePage from './CoursePage/CoursePage.js';
 import InstPage from './InstPage/InstPage.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      page: 'coursePage'
+    };
+    this.changePage = this.changePage.bind(this);
+    this.selectPage = this.selectPage.bind(this);
+  }
+
+  changePage(page) {
+    this.setState({ page });
+  }
+
+  selectPage() {
+    switch (this.state.page) {
+      case 'coursePage':
+        return <CoursePage />
+      case 'instPage':
+        return <InstPage />
+      default:
+        return <CoursePage />
+    }
   }
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        <InstPage />
+        <Navbar changePage={this.changePage} />
+        { this.selectPage() }
       </ScrollView>
     );
   }
@@ -36,9 +58,3 @@ const styles = StyleSheet.create({
 });
 
 Exponent.registerRootComponent(App);
-
-
-// <Grid>
-//   <Col><Text>my</Text></Col>
-//   <Col><Text>name</Text></Col>
-// </Grid>
