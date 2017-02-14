@@ -7,6 +7,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { Ionicons, FontAwesome } from '@exponent/vector-icons';
+
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,7 @@ class Navbar extends React.Component {
           <Text style={styles.navItem}>Courses</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('instPage')}>
-          <Text style={styles.navItem}>Institutions</Text>
+          <Text style={styles.navItem}><FontAwesome name="graduation-cap" size={19} color="white" /></Text>
         </TouchableOpacity>
       </View>
     );
