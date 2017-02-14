@@ -69,11 +69,13 @@ const styles = StyleSheet.create({
     padding: 10
   },
   docBtnText: {
-    color: 'white',
-    backgroundColor: '#82ABCA',
+    // color: 'white',
+    // backgroundColor: '#82ABCA',
+    backgroundColor: 'white',
     borderRadius: 5,
     padding: 5,
-    margin: 5
+    margin: 5,
+    borderWidth: .5
   },
   primaryBtnText: {
     textAlign: 'center',

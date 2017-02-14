@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import CoursePage from './CoursePage/CoursePage.js';
+import InstPage from './InstPage/InstPage.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class App extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <CoursePage />
+        <InstPage />
       </ScrollView>
     );
   }
