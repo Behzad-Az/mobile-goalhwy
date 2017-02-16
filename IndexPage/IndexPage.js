@@ -4,9 +4,11 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TouchableOpacity
 } from 'react-native';
 
+import Navbar from '../Navbar/Navbar.js';
 import IndexRow from './IndexRow.js';
 
 class IndexPage extends React.Component {
@@ -39,10 +41,11 @@ class IndexPage extends React.Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
+        <Navbar />
         <Text style={styles.header}>My Courses:</Text>
-        { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
-      </View>
+        { this.state.courses.map((course, index) => <IndexRow key={index} course={course} navigator={this.props.navigator} />) }
+      </ScrollView>
     );
   }
 }

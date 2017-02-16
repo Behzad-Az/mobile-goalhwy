@@ -5,13 +5,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Navigator
 } from 'react-native';
 
-import Navbar from './Navbar/Navbar.js';
 import CoursePage from './CoursePage/CoursePage.js';
 import InstPage from './InstPage/InstPage.js';
-
 import IndexPage from './IndexPage/IndexPage.js';
 
 class App extends React.Component {
@@ -20,20 +19,15 @@ class App extends React.Component {
     this.state = {
       page: 'CoursePage'
     };
-    this.changePage = this.changePage.bind(this);
     this.selectPage = this.selectPage.bind(this);
   }
 
-  changePage(page) {
-    this.setState({ page });
-  }
-
-  selectPage() {
-    switch (this.state.page) {
+  selectPage(route, navigator) {
+    switch (route.title) {
       case 'IndexPage':
-        return <IndexPage />
+        return <IndexPage navigator={navigator} />
       case 'CoursePage':
-        return <CoursePage />
+        return <CoursePage paramCourseId={route.paramCourseId} />
       case 'InstPage':
         return <InstPage />
       default:
@@ -42,11 +36,19 @@ class App extends React.Component {
   }
 
   render() {
+    const routes = [
+      {title: 'IndexPage', index: 0},
+      {title: 'CoursePage', index: 1},
+      {title: 'Third Scene', index: 2},
+    ];
     return (
-      <ScrollView style={styles.container}>
-        <Navbar changePage={this.changePage} />
-        { this.selectPage() }
-      </ScrollView>
+      <Navigator
+        initialRoute={routes[0]}
+        initialRouteStack={routes}
+        renderScene={(route, navigator) => this.selectPage(route, navigator)}
+        configureScene={(route, routeStack) => Navigator.SceneConfigs.FadeAndroid}
+        style={styles.container}
+      />
     );
   }
 }

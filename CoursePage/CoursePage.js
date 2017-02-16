@@ -4,11 +4,13 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TouchableOpacity
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
 
+import Navbar from '../Navbar/Navbar.js';
 import TopRow from './TopRow.js';
 
 class CoursePage extends React.Component {
@@ -16,7 +18,7 @@ class CoursePage extends React.Component {
     super(props);
     this.state = {
       courseInfo: {
-        id: 1224
+        id: this.props.paramCourseId
       },
       courseFeed: [],
       itemsForSale: [],
@@ -134,7 +136,8 @@ class CoursePage extends React.Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
+        <Navbar />
         <Text style={styles.header}>
           {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
         </Text>
@@ -189,7 +192,7 @@ class CoursePage extends React.Component {
           { this.renderItemsForSale() }
         </View>
 
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -10,12 +10,21 @@ import {
 class IndexRow extends React.Component {
   constructor(props) {
     super(props);
+    this.navigateToCourse = this.navigateToCourse.bind(this);
+  }
+
+  navigateToCourse() {
+    this.props.navigator.push({
+      title: 'CoursePage',
+      index: 1,
+      paramCourseId: this.props.course.id
+    });
   }
 
   render() {
     return (
       <View>
-        <TouchableOpacity onPress={() => {alert(`Opening course page ${this.props.course.prefix} ${this.props.course.suffix} - ID ${this.props.course.course_id}`)}}>
+        <TouchableOpacity onPress={this.navigateToCourse}>
           <Text style={styles.courseTitle}>
             {this.props.course.prefix} {this.props.course.suffix}
           </Text>
