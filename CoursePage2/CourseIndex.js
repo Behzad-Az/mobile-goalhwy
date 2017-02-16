@@ -17,7 +17,6 @@ export default class NavAllDay extends Component {
       initialRoute={routes[0]}
       initialRouteStack={routes}
       renderScene={(route, navigator) => {
-        console.log("i'm here route: ", route);
         switch (route.index) {
           case 0:
             return <TouchableHighlight onPress={this.props.navigator.push(routes[0])}><Text>balls</Text></TouchableHighlight>;

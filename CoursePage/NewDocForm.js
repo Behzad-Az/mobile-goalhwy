@@ -4,11 +4,12 @@ import {
   Modal,
   Text,
   View,
-  Image,
+  ScrollView,
   TextInput,
   Picker
 } from 'react-native';
 
+import { ImagePicker } from 'exponent';
 import { FontAwesome } from '@exponent/vector-icons';
 
 class NewDocForm extends Component {
@@ -24,6 +25,7 @@ class NewDocForm extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
     this.handleNewDocPost = this.handleNewDocPost.bind(this);
   }
 
@@ -42,6 +44,19 @@ class NewDocForm extends Component {
            this.state.rev_desc &&
            this.state.file_path &&
            this.state.type
+  }
+
+  selectPhotoTapped = async() => {
+
+    let pickerResult = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4,3]
+    });
+
+    // let pickerResult = await ImagePicker.launchImageLibraryAsync({
+    //   allowsEditing: true,
+    //   aspect: [4,3]
+    // });
   }
 
   handleNewDocPost() {
@@ -71,55 +86,77 @@ class NewDocForm extends Component {
           visible={this.state.modalVisible}
           onRequestClose={() => {alert("Modal has been closed.")}}
         >
-          <View style={styles.modalContainer}>
-
+          <ScrollView style={styles.modalContainer}>
             <Text style={styles.modalHeader}>New Document Form:</Text>
 
-            <View style={{marginTop: 20, borderWidth: .5, borderRadius: 5, paddingLeft: 10, paddingRight: 10}}>
+            <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>Document Title:</Text>
               <TextInput
-                style={{height: 40, paddingRight: 5, paddingLeft: 5}}
+                style={styles.textInput}
                 onChangeText={title => this.setState({title})}
                 value={this.state.title}
                 placeholder="Example: Lab 1 - Electromagnetism"
               />
             </View>
 
-            <View style={{marginTop: 20, borderWidth: .5, borderRadius: 5, paddingLeft: 10, paddingRight: 10}}>
+            <View style={styles.inputCotainer}>
+              <Text style={[styles.inputLabel, {marginBottom: 5}]}>Upload the Document:</Text>
+              <View style={styles.dividedRow}>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <Text style={styles.uploadBtn}>
+                    <FontAwesome name="files-o" size={40} color="black" />
+                    From Files
+                  </Text>
+                </View>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <Text style={styles.uploadBtn}>
+                    <FontAwesome name="camera" size={40} color="black" />
+                    From Camera
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>Revision Comment:</Text>
               <TextInput
-                style={{height: 40, paddingRight: 5, paddingLeft: 5}}
+                style={styles.textInput}
                 onChangeText={rev_desc => this.setState({rev_desc})}
                 value={this.state.rev_desc}
                 placeholder="Example: New Upload"
               />
             </View>
 
-
-            <View style={{marginTop: 20, borderWidth: .5, borderRadius: 5}}>
+            <View style={styles.selectContainer}>
               <Picker
                 selectedValue={this.state.type}
                 onValueChange={type => this.setState({type})}
                 style={{color: '#004E89'}}>
-                <Picker.Item label="Select Type of Document:" value="" />
+                <Picker.Item label="Document Type:" value="" />
                 <Picker.Item label="Assignment / Report" value="asg_report" />
                 <Picker.Item label="Lecture Note" value="lecture_note" />
                 <Picker.Item label="Sample Question" value="sample_question" />
               </Picker>
             </View>
 
-            <Text onPress={() => this.setModalVisible(!this.state.modalVisible)}>Go back</Text>
+            <View style={[styles.dividedRow, {marginTop: 10}]}>
+              <View style={{flex: 1}}>
+                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginRight: 5}]}>
+                  Submit
+                </Text>
+              </View>
+              <View style={{flex: 1}}>
+                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginLeft: 5}]}>
+                  Go Back
+                </Text>
+              </View>
+            </View>
 
-          </View>
-
-
-
+          </ScrollView>
         </Modal>
-
         <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(true)}>
           <FontAwesome name="upload" size={19} color="white" />
         </Text>
-
       </View>
     );
   }
@@ -130,7 +167,6 @@ export default NewDocForm;
 const styles = StyleSheet.create({
   modalContainer: {
     margin: 10,
-    borderRadius: 10,
     padding: 10
   },
   modalHeader: {
@@ -140,9 +176,29 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
+  inputCotainer: {
+    marginTop: 10,
+    padding: 5,
+    borderWidth: .5,
+    borderRadius: 5,
+    borderColor: '#aaa'
+  },
+  selectContainer: {
+    borderWidth: .5,
+    borderRadius: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginTop: 10,
+    borderColor: '#aaa'
+  },
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold'
+  },
+  dividedRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   primaryBtn: {
     color: 'white',
@@ -152,5 +208,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginRight: 5,
     marginLeft: 5
+  },
+  uploadBtn: {
+    maxWidth: 80,
+    maxHeight: 80,
+    padding: 5,
+    borderWidth: .5,
+    borderRadius: 5,
+    borderColor: '#bbb',
+    textAlign: 'center',
+    backgroundColor: '#eee'
+  },
+  textInput: {
+    height: 40,
+    paddingRight: 5,
+    paddingLeft: 5
+  },
+  actionBtn: {
+    alignItems: 'center',
+    backgroundColor: '#004E89',
+    textAlign: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
+    color: 'white',
+    fontWeight: 'bold'
   }
 });

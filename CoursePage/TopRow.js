@@ -66,7 +66,6 @@ class TopRow extends React.Component {
   }
 
   render() {
-    console.log("i'm here 4");
     return (
       <View style={styles.dividedRow}>
 
