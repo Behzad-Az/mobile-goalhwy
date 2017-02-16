@@ -21,20 +21,6 @@ class App extends React.Component {
     this.state = {
       page: 'CoursePage'
     };
-    this.selectPage = this.selectPage.bind(this);
-  }
-
-  selectPage(route, navigator) {
-    switch (route.title) {
-      case 'IndexPage':
-        return <IndexPage navigator={navigator} />
-      case 'CoursePage':
-        return <CoursePage navigator={navigator} paramCourseId={route.paramCourseId} />
-      case 'InstPage':
-        return <InstPage navigator={navigator} />
-      default:
-        return <IndexPage navigator={navigator} />
-    }
   }
 
   render() {
@@ -53,6 +39,12 @@ class App extends React.Component {
             key="CoursePage"
             component={CoursePage}
             title="CoursePage"
+          />
+
+          <Scene
+            key="InstPage"
+            component={InstPage}
+            title="InstPage"
           />
 
         </Scene>
