@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { Ionicons, FontAwesome } from '@exponent/vector-icons';
+import { FontAwesome } from '@exponent/vector-icons';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -17,12 +17,29 @@ class Navbar extends React.Component {
   render() {
     return (
       <View style={styles.dividedRow}>
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('coursePage')}>
-          <Text style={styles.navItem}>Courses</Text>
+
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('IndexPage')}>
+          <Text style={styles.navItem}><FontAwesome name="book" size={19} color="white" /></Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('instPage')}>
-          <Text style={styles.navItem}><FontAwesome name="graduation-cap" size={19} color="white" /></Text>
+
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('CoursePage')}>
+          <Text style={styles.navItem}>
+            <FontAwesome name="graduation-cap" size={19} color="white" />
+          </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('InstPage')}>
+          <Text style={styles.navItem}>
+            <FontAwesome name="institution" size={19} color="white" />
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('InstPage')}>
+          <Text style={styles.navItem}>
+            <FontAwesome name="user-circle-o" size={19} color="white" />
+          </Text>
+        </TouchableOpacity>
+
       </View>
     );
   }

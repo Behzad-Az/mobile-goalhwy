@@ -7,6 +7,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { FontAwesome } from '@exponent/vector-icons';
+
 class InstPage extends React.Component {
   constructor(props) {
     super(props);
@@ -18,11 +20,15 @@ class InstPage extends React.Component {
   render() {
     return (
       <View style={styles.dividedRow}>
-        <TouchableOpacity style={{flex: 4}}>
+        <TouchableOpacity style={{flex: 9}}>
           <Text style={styles.courseRow}>{this.props.course.displayName}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flex: 1}}>
-          <Text style={styles.courseRow}>{this.state.userAlreadySubscribed ? 'Sub.' : 'Unsub.'}</Text>
+          <Text>
+            { this.state.userAlreadySubscribed ?
+              <FontAwesome name="remove" size={25} color="black" /> :
+              <FontAwesome name="check-circle" size={25} color="black" /> }
+          </Text>
         </TouchableOpacity>
       </View>
     );

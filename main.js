@@ -12,11 +12,13 @@ import Navbar from './Navbar/Navbar.js';
 import CoursePage from './CoursePage/CoursePage.js';
 import InstPage from './InstPage/InstPage.js';
 
+import IndexPage from './IndexPage/IndexPage.js';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'coursePage'
+      page: 'IndexPage'
     };
     this.changePage = this.changePage.bind(this);
     this.selectPage = this.selectPage.bind(this);
@@ -28,12 +30,14 @@ class App extends React.Component {
 
   selectPage() {
     switch (this.state.page) {
-      case 'coursePage':
+      case 'IndexPage':
+        return <IndexPage />
+      case 'CoursePage':
         return <CoursePage />
-      case 'instPage':
+      case 'InstPage':
         return <InstPage />
       default:
-        return <CoursePage />
+        return <IndexPage />
     }
   }
 

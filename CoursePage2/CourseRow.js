@@ -7,6 +7,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { FontAwesome } from '@exponent/vector-icons';
+
 import DocRevisions from './DocRevisions.js';
 import NewDocForm from './NewDocForm.js';
 import NewAssistRequest from './NewAssistRequest.js';
@@ -36,8 +38,26 @@ class CourseRow extends React.Component {
 
           <View style={styles.dividedRow}>
             <View style={{ flex: 1 }}><NewDocForm /></View>
+
+            <TouchableOpacity style={{ flex: 1 }}>
+              <Text style={styles.primaryBtn}>
+                <FontAwesome name="star" size={19} color="white" />
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ flex: 1 }}>
+              <Text style={styles.primaryBtn}>
+                <FontAwesome name="check-circle" size={19} color="white" />
+              </Text>
+            </TouchableOpacity>
+
             <View style={{ flex: 1 }}><NewAssistRequest /></View>
-            <TouchableOpacity style={{ flex: 1 }}><Text style={styles.primaryBtn}>Unsub</Text></TouchableOpacity>
+
+            <TouchableOpacity style={{ flex: 1 }}>
+              <Text style={styles.primaryBtn}>
+                <FontAwesome name="slideshare" size={19} color="white" />
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.docTypeHeader}>Sample Questions:</Text>

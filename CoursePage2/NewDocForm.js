@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Modal, Text, TouchableHighlight, TouchableOpacity, View, Image, TextInput, Picker } from 'react-native';
 
+import { FontAwesome } from '@exponent/vector-icons';
+
 class NewDocForm extends Component {
   constructor(props) {
     super(props);
@@ -48,7 +50,7 @@ class NewDocForm extends Component {
         </Modal>
 
       <TouchableHighlight onPress={() => this.setModalVisible(true)}>
-        <Text style={styles.primaryBtn}>New Doc</Text>
+        <Text style={styles.primaryBtn}><FontAwesome name="upload" size={19} color="white" /></Text>
       </TouchableHighlight>
 
       </View>

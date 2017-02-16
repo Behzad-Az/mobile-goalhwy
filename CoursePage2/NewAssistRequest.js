@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Modal, Text, TouchableHighlight, TouchableOpacity, View, Image, TextInput, Picker } from 'react-native';
 
+import { FontAwesome } from '@exponent/vector-icons';
+
 class NewAssistRequest extends Component {
   constructor(props) {
     super(props);
@@ -48,7 +50,7 @@ class NewAssistRequest extends Component {
         </Modal>
 
       <TouchableHighlight onPress={() => this.setModalVisible(true)}>
-        <Text style={styles.primaryBtn}>Assistance</Text>
+        <Text style={styles.primaryBtn}><FontAwesome name="bell" size={19} color="white" /></Text>
       </TouchableHighlight>
 
       </View>
