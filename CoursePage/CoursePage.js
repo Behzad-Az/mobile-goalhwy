@@ -8,8 +8,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { Actions } from 'react-native-router-flux';
-
 import { FontAwesome } from '@exponent/vector-icons';
 
 import Navbar from '../Navbar/Navbar.js';

@@ -21,13 +21,11 @@ class InstPage extends React.Component {
     return (
       <View style={styles.dividedRow}>
         <TouchableOpacity style={{flex: 9}}>
-          <Text style={styles.courseRow}>{this.props.course.displayName}</Text>
+          <Text style={{padding: 5}}>{this.props.course.displayName}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flex: 1}}>
-          <Text>
-            { this.state.userAlreadySubscribed ?
-              <FontAwesome name="remove" size={25} color="black" /> :
-              <FontAwesome name="check-circle" size={25} color="black" /> }
+          <Text style={{padding: 5}}>
+            <FontAwesome name="check-circle" size={25} color={this.state.userAlreadySubscribed ? "green" : "black"} />
           </Text>
         </TouchableOpacity>
       </View>
@@ -38,17 +36,12 @@ class InstPage extends React.Component {
 export default InstPage;
 
 const styles = StyleSheet.create({
-  courseRow: {
-    padding: 5,
-    borderWidth: .5,
-    marginBottom: 5,
-    marginLeft: 5,
-    marginRight: 5
-  },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5
+    marginBottom: 5,
+    backgroundColor: '#eee',
+    borderWidth: .5
   }
 });
