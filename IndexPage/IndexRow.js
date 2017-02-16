@@ -7,8 +7,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { FontAwesome } from '@exponent/vector-icons';
-
 class IndexRow extends React.Component {
   constructor(props) {
     super(props);

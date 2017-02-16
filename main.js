@@ -18,7 +18,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'IndexPage'
+      page: 'CoursePage'
     };
     this.changePage = this.changePage.bind(this);
     this.selectPage = this.selectPage.bind(this);
