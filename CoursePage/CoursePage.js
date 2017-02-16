@@ -16,7 +16,7 @@ class CoursePage extends React.Component {
     super(props);
     this.state = {
       courseInfo: {
-        id: 618
+        id: 1224
       },
       courseFeed: [],
       itemsForSale: [],
