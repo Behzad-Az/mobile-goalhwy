@@ -9,16 +9,14 @@ import {
 
 import { FontAwesome } from '@exponent/vector-icons';
 
-import NewDocForm from './NewDocForm.js';
-import NewAssistRequest from './NewAssistRequest.js';
-
+import TopRow from './TopRow.js';
 
 class CoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       courseInfo: {
-        id: 1224
+        id: 618
       },
       courseFeed: [],
       itemsForSale: [],
@@ -141,29 +139,7 @@ class CoursePage extends React.Component {
           {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
         </Text>
 
-        <View style={styles.dividedRow}>
-          <View style={{ flex: 1 }}><NewDocForm /></View>
-
-          <TouchableOpacity style={{ flex: 1 }}>
-            <Text style={styles.primaryBtn}>
-              <FontAwesome name="star" size={19} color="white" />
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{ flex: 1 }}>
-            <Text style={styles.primaryBtn}>
-              <FontAwesome name="check-circle" size={19} color="white" />
-            </Text>
-          </TouchableOpacity>
-
-          <View style={{ flex: 1 }}><NewAssistRequest /></View>
-
-          <TouchableOpacity style={{ flex: 1 }}>
-            <Text style={styles.primaryBtn}>
-              <FontAwesome name="slideshare" size={19} color="white" />
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TopRow courseInfo={this.state.courseInfo} />
 
         <View style={{marginBottom: 10}}>
           <TouchableOpacity onPress={() => this.toggleDocView('showAsgReports')}>
