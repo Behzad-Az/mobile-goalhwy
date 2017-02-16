@@ -9,6 +9,8 @@ import {
   Navigator
 } from 'react-native';
 
+import { Router, Scene } from 'react-native-router-flux';
+
 import CoursePage from './CoursePage/CoursePage.js';
 import InstPage from './InstPage/InstPage.js';
 import IndexPage from './IndexPage/IndexPage.js';
@@ -36,18 +38,25 @@ class App extends React.Component {
   }
 
   render() {
-    const routes = [
-      {title: 'IndexPage'},
-      {title: 'InstPage'}
-    ];
     return (
-      <Navigator
-        initialRoute={routes[0]}
-        initialRouteStack={routes}
-        renderScene={(route, navigator) => this.selectPage(route, navigator)}
-        configureScene={(route, routeStack) => Navigator.SceneConfigs.FadeAndroid}
-        style={styles.container}
-      />
+      <Router hideNavBar={true} style={styles.container}>
+        <Scene key="root">
+
+          <Scene
+            key="IndexPage"
+            component={IndexPage}
+            title="IndexPage"
+            initial
+          />
+
+          <Scene
+            key="CoursePage"
+            component={CoursePage}
+            title="CoursePage"
+          />
+
+        </Scene>
+      </Router>
     );
   }
 }

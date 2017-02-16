@@ -7,6 +7,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
+
 class IndexRow extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +26,7 @@ class IndexRow extends React.Component {
   render() {
     return (
       <View>
-        <TouchableOpacity onPress={this.navigateToCourse}>
+        <TouchableOpacity onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
           <Text style={styles.courseTitle}>
             {this.props.course.prefix} {this.props.course.suffix}
           </Text>

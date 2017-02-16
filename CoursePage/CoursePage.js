@@ -8,6 +8,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
+
 import { FontAwesome } from '@exponent/vector-icons';
 
 import Navbar from '../Navbar/Navbar.js';
@@ -18,7 +20,7 @@ class CoursePage extends React.Component {
     super(props);
     this.state = {
       courseInfo: {
-        id: this.props.paramCourseId
+        id: this.props.courseId
       },
       courseFeed: [],
       itemsForSale: [],
