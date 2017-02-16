@@ -4,8 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
-  TouchableOpacity
+  ScrollView
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
@@ -77,13 +76,7 @@ class CoursePage extends React.Component {
     let docCount = this.state.asgReports.length;
     let lastUpdate = docCount ? this.state.asgReports[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showAsgReports ?
-      this.state.asgReports.map((doc, index) => {
-        return (
-          <TouchableOpacity key={index}>
-            <Text style={styles.docTypeHeader}>{doc.title}</Text>
-          </TouchableOpacity>
-        );
-      }) :
+      this.state.asgReports.map((doc, index) => <Text key={index} style={styles.docTypeHeader}>{doc.title}</Text>) :
       <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
@@ -91,13 +84,7 @@ class CoursePage extends React.Component {
     let docCount = this.state.sampleQuestions.length;
     let lastUpdate = docCount ? this.state.sampleQuestions[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showSampleQuestions ?
-      this.state.sampleQuestions.map((doc, index) => {
-        return (
-          <TouchableOpacity key={index}>
-            <Text style={styles.docTypeHeader}>{doc.title}</Text>
-          </TouchableOpacity>
-        );
-      }) :
+      this.state.sampleQuestions.map((doc, index) => <Text key={index} style={styles.docTypeHeader}>{doc.title}</Text>):
       <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
@@ -105,26 +92,14 @@ class CoursePage extends React.Component {
     let docCount = this.state.lectureNotes.length;
     let lastUpdate = docCount ? this.state.lectureNotes[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showLectureNotes ?
-      this.state.lectureNotes.map((doc, index) => {
-        return (
-          <TouchableOpacity key={index}>
-            <Text style={styles.docTypeHeader}>{doc.title}</Text>
-          </TouchableOpacity>
-        );
-      }) :
+      this.state.lectureNotes.map((doc, index) => <Text key={index} style={styles.docTypeHeader}>{doc.title}</Text>):
       <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
   renderItemsForSale() {
     let itemCount = this.state.itemsForSale.length;
     return this.state.showItemsForSale ?
-      this.state.itemsForSale.map((item, index) => {
-        return (
-          <TouchableOpacity key={index}>
-            <Text style={styles.docTypeHeader}>{item.title}</Text>
-          </TouchableOpacity>
-        );
-      }) :
+      this.state.itemsForSale.map((item, index) => <Text key={index} style={styles.docTypeHeader}>{item.title}</Text>) :
       <Text style={styles.docTypeHeader}>{itemCount} item(s) for sale...</Text>
   }
 
@@ -145,50 +120,42 @@ class CoursePage extends React.Component {
         <TopRow courseInfo={this.state.courseInfo} />
 
         <View style={{marginBottom: 10}}>
-          <TouchableOpacity onPress={() => this.toggleDocView('showAsgReports')}>
-            <Text style={styles.header}>
-              Assignment & Reports:
-            </Text>
-            <View style={{position: 'absolute', right: 10, top: 5}}>
-              { this.state.showAsgReports ? <FontAwesome name="chevron-up" size={19} color="white" /> : <FontAwesome name="chevron-down" size={19} color="white" /> }
-            </View>
-          </TouchableOpacity>
+          <Text style={styles.header} onPress={() => this.toggleDocView('showAsgReports')}>
+            Assignment & Reports:
+          </Text>
+          <View style={{position: 'absolute', right: 10, top: 5}}>
+            <FontAwesome name={this.state.showAsgReports ? "chevron-up" : "chevron-down"} size={19} color="white" />
+          </View>
           { this.renderAsgReports() }
         </View>
 
         <View style={{marginBottom: 10}}>
-          <TouchableOpacity onPress={() => this.toggleDocView('showSampleQuestions')}>
-            <Text style={styles.header}>
-              Sample Questions:
-            </Text>
-            <View style={{position: 'absolute', right: 10, top: 5}}>
-              { this.state.showSampleQuestions ? <FontAwesome name="chevron-up" size={19} color="white" /> : <FontAwesome name="chevron-down" size={19} color="white" /> }
-            </View>
-          </TouchableOpacity>
+          <Text style={styles.header} onPress={() => this.toggleDocView('showSampleQuestions')}>
+            Sample Questions:
+          </Text>
+          <View style={{position: 'absolute', right: 10, top: 5}}>
+            <FontAwesome name={this.state.showSampleQuestions ? "chevron-up" : "chevron-down"} size={19} color="white" />
+          </View>
           { this.renderSampleQuestions() }
         </View>
 
         <View style={{marginBottom: 10}}>
-          <TouchableOpacity onPress={() => this.toggleDocView('showLectureNotes')}>
-            <Text style={styles.header}>
-              Lecture Notes:
-            </Text>
-            <View style={{position: 'absolute', right: 10, top: 5}}>
-              { this.state.showLectureNotes ? <FontAwesome name="chevron-up" size={19} color="white" /> : <FontAwesome name="chevron-down" size={19} color="white" /> }
-            </View>
-          </TouchableOpacity>
+          <Text style={styles.header} onPress={() => this.toggleDocView('showLectureNotes')}>
+            Lecture Notes:
+          </Text>
+          <View style={{position: 'absolute', right: 10, top: 5}}>
+            <FontAwesome name={this.state.showLectureNotes ? "chevron-up" : "chevron-down"} size={19} color="white" />
+          </View>
           { this.renderLectureNotes() }
         </View>
 
         <View style={{marginBottom: 10}}>
-          <TouchableOpacity onPress={() => this.toggleDocView('showItemsForSale')}>
-            <Text style={styles.header}>
-              Items for Sale or Trade:
-            </Text>
-            <View style={{position: 'absolute', right: 10, top: 5}}>
-              { this.state.showItemsForSale ? <FontAwesome name="chevron-up" size={19} color="white" /> : <FontAwesome name="chevron-down" size={19} color="white" /> }
-            </View>
-          </TouchableOpacity>
+          <Text style={styles.header} onPress={() => this.toggleDocView('showItemsForSale')}>
+            Items for Sale or Trade:
+          </Text>
+          <View style={{position: 'absolute', right: 10, top: 5}}>
+            <FontAwesome name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"} size={19} color="white" />
+          </View>
           { this.renderItemsForSale() }
         </View>
 

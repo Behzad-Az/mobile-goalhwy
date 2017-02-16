@@ -2,9 +2,7 @@ import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
-  Text,
-  View,
-  TouchableOpacity
+  Text
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -25,13 +23,9 @@ class IndexRow extends React.Component {
 
   render() {
     return (
-      <View>
-        <TouchableOpacity onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
-          <Text style={styles.courseTitle}>
-            {this.props.course.prefix} {this.props.course.suffix}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.courseTitle} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
+        {this.props.course.prefix} {this.props.course.suffix}
+      </Text>
     );
   }
 }

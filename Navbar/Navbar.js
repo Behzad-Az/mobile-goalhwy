@@ -3,8 +3,7 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity
+  View
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -20,27 +19,29 @@ class Navbar extends React.Component {
     return (
       <View style={styles.dividedRow}>
 
-        <TouchableOpacity style={{flex: 1}} onPress={() => Actions.IndexPage()}>
-          <Text style={styles.navItem}><FontAwesome name="book" size={19} color="white" /></Text>
-        </TouchableOpacity>
+        <View style={{flex: 1}} >
+          <Text style={styles.navItem} onPress={() => Actions.IndexPage()}>
+            <FontAwesome name="book" size={19} color="white" />
+          </Text>
+        </View>
 
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('CoursePage')}>
-          <Text style={styles.navItem}>
+        <View style={{flex: 1}}>
+          <Text style={styles.navItem} onPress={() => Actions.IndexPage()}>
             <FontAwesome name="graduation-cap" size={19} color="white" />
           </Text>
-        </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={{flex: 1}} onPress={() => Actions.InstPage()}>
-          <Text style={styles.navItem}>
+        <View style={{flex: 1}}>
+          <Text style={styles.navItem} onPress={() => Actions.InstPage()}>
             <FontAwesome name="institution" size={19} color="white" />
           </Text>
-        </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('InstPage')}>
-          <Text style={styles.navItem}>
+        <View style={{flex: 1}}>
+          <Text style={styles.navItem} onPress={() => Actions.InstPage()}>
             <FontAwesome name="user-circle-o" size={19} color="white" />
           </Text>
-        </TouchableOpacity>
+        </View>
 
       </View>
     );

@@ -1,12 +1,7 @@
 import Exponent from 'exponent';
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Navigator
+  StyleSheet
 } from 'react-native';
 
 import { Router, Scene } from 'react-native-router-flux';

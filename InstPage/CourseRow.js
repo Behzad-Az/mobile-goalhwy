@@ -3,10 +3,10 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity
+  View
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@exponent/vector-icons';
 
 class InstPage extends React.Component {
@@ -20,14 +20,12 @@ class InstPage extends React.Component {
   render() {
     return (
       <View style={styles.dividedRow}>
-        <TouchableOpacity style={{flex: 9}}>
-          <Text style={{padding: 5}}>{this.props.course.displayName}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{flex: 1}}>
-          <Text style={{padding: 5}}>
-            <FontAwesome name="check-circle" size={25} color={this.state.userAlreadySubscribed ? "green" : "black"} />
-          </Text>
-        </TouchableOpacity>
+        <Text style={{flex: 9, padding: 5}} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
+          {this.props.course.displayName}
+        </Text>
+        <Text style={{flex: 1, padding: 5}}>
+          <FontAwesome name="check-circle" size={25} color={this.state.userAlreadySubscribed ? "green" : "black"} />
+        </Text>
       </View>
     );
   }

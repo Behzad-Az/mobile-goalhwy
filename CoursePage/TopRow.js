@@ -3,8 +3,7 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity
+  View
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
@@ -70,27 +69,29 @@ class TopRow extends React.Component {
     console.log("i'm here 4");
     return (
       <View style={styles.dividedRow}>
-        <View style={{ flex: 1 }}><NewDocForm /></View>
 
-        <TouchableOpacity style={{ flex: 1 }}>
+        <View style={{flex: 1}}><NewDocForm /></View>
+
+        <View style={{flex: 1}}>
           <Text style={styles.primaryBtn}>
             <FontAwesome name="star" size={19} color="white" />
           </Text>
-        </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={{ flex: 1 }} onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
-          <Text style={styles.primaryBtn}>
+        <View style={{flex: 1}}>
+          <Text style={styles.primaryBtn} onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
             <FontAwesome name="check-circle" size={19} color={this.state.subscriptionStatus ? "green" : "white"} />
           </Text>
-        </TouchableOpacity>
+        </View>
 
-        <View style={{ flex: 1 }}><NewAssistRequest /></View>
+        <View style={{flex: 1}}><NewAssistRequest /></View>
 
-        <TouchableOpacity style={{ flex: 1 }} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
-          <Text style={styles.primaryBtn}>
+        <View style={{flex: 1}}>
+          <Text style={styles.primaryBtn} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
             <FontAwesome name="slideshare" size={19} color={this.state.tutor_status ? "green" : "white"} />
           </Text>
-        </TouchableOpacity>
+        </View>
+
       </View>
     );
   }
