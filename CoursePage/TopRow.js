@@ -35,8 +35,8 @@ class TopRow extends React.Component {
     fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}`, {
       method: 'DELETE'
     })
-    .then(response => response.json(response))
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutor_status: false, assistReqOpen: false }) : console.error("Error in server - 0: ", response))
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutor_status: false, assistReqOpen: false }) : console.error("Error in server - 0: ", resJSON))
     .catch(err => console.log("Error here: ", err));
 
   }
@@ -46,13 +46,24 @@ class TopRow extends React.Component {
         method: 'POST',
         body: JSON.stringify({ course_id: this.props.courseInfo.id })
     })
-    .then(response => response.json(response))
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.error("Error in server - 0: ", response))
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.error("Error in server - 0: ", resJSON))
     .catch(err => console.log("Error here: ", err));
   }
 
   handleTutorStatus() {
-
+    let tutor_status = !this.state.tutor_status;
+    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutor`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tutor_status }),
+    })
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.setState({ tutor_status }) : console.error("Error in server - 0: ", resJSON))
+    .catch(err => console.log("Error here: ", err));
   }
 
   render() {
@@ -68,15 +79,15 @@ class TopRow extends React.Component {
 
         <TouchableOpacity style={{ flex: 1 }} onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
           <Text style={styles.primaryBtn}>
-            { this.state.subscriptionStatus ? <FontAwesome name="remove" size={19} color="white" /> : <FontAwesome name="check-circle" size={19} color="white" /> }
+            <FontAwesome name="check-circle" size={19} color={this.state.subscriptionStatus ? "green" : "white"} />
           </Text>
         </TouchableOpacity>
 
         <View style={{ flex: 1 }}><NewAssistRequest /></View>
 
-        <TouchableOpacity style={{ flex: 1 }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
           <Text style={styles.primaryBtn}>
-            <FontAwesome name="slideshare" size={19} color="white" />
+            <FontAwesome name="slideshare" size={19} color={this.state.tutor_status ? "green" : "white"} />
           </Text>
         </TouchableOpacity>
       </View>
