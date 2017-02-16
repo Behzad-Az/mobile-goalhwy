@@ -4,10 +4,12 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TouchableOpacity,
   TextInput
 } from 'react-native';
 
+import Navbar from '../Navbar/Navbar.js';
 import CourseRow from './CourseRow.js';
 
 class InstPage extends React.Component {
@@ -67,7 +69,8 @@ class InstPage extends React.Component {
   render() {
     let slicedArr = this.state.currInstCourses.slice(0, 19);
     return (
-      <View>
+      <ScrollView>
+        <Navbar navigator={this.props.navigator} />
         <Text style={styles.header}>{this.findInstName()}</Text>
         <TextInput
           style={styles.filterBox}
@@ -75,7 +78,7 @@ class InstPage extends React.Component {
           placeholder="Search courses here..."
         />
         { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
-      </View>
+      </ScrollView>
     );
   }
 }

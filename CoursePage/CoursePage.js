@@ -137,7 +137,7 @@ class CoursePage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <Navbar />
+        <Navbar navigator={this.props.navigator} />
         <Text style={styles.header}>
           {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
         </Text>

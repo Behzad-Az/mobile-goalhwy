@@ -7,18 +7,25 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+// import { Actions } from 'react-native-router-flux';
+
 import { FontAwesome } from '@exponent/vector-icons';
 
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
+    this.handleNavigate = this.handleNavigate.bind(this);
+  }
+
+  handleNavigate(route) {
+    this.props.navigator.push({ title: route });
   }
 
   render() {
     return (
       <View style={styles.dividedRow}>
 
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('IndexPage')}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.handleNavigate('IndexPage')}>
           <Text style={styles.navItem}><FontAwesome name="book" size={19} color="white" /></Text>
         </TouchableOpacity>
 
@@ -28,7 +35,7 @@ class Navbar extends React.Component {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.changePage('InstPage')}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.handleNavigate('InstPage')}>
           <Text style={styles.navItem}>
             <FontAwesome name="institution" size={19} color="white" />
           </Text>

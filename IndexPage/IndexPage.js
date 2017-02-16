@@ -42,7 +42,7 @@ class IndexPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <Navbar />
+        <Navbar navigator={this.props.navigator} />
         <Text style={styles.header}>My Courses:</Text>
         { this.state.courses.map((course, index) => <IndexRow key={index} course={course} navigator={this.props.navigator} />) }
       </ScrollView>

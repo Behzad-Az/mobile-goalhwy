@@ -27,19 +27,18 @@ class App extends React.Component {
       case 'IndexPage':
         return <IndexPage navigator={navigator} />
       case 'CoursePage':
-        return <CoursePage paramCourseId={route.paramCourseId} />
+        return <CoursePage navigator={navigator} paramCourseId={route.paramCourseId} />
       case 'InstPage':
-        return <InstPage />
+        return <InstPage navigator={navigator} />
       default:
-        return <IndexPage />
+        return <IndexPage navigator={navigator} />
     }
   }
 
   render() {
     const routes = [
-      {title: 'IndexPage', index: 0},
-      {title: 'CoursePage', index: 1},
-      {title: 'Third Scene', index: 2},
+      {title: 'IndexPage'},
+      {title: 'InstPage'}
     ];
     return (
       <Navigator
