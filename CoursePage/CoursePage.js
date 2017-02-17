@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -42,18 +41,7 @@ class CoursePage extends React.Component {
   }
 
   loadComponentData(course_id) {
-    fetch('http://127.0.0.1:19001/api/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: 'ben',
-        password: 'ben123'
-      })
-    })
-    .then(() => fetch(`http://127.0.0.1:19001/api/courses/${course_id}`))
+    fetch(`http://127.0.0.1:19001/api/courses/${course_id}`)
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => console.log("Error here: ", err));

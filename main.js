@@ -9,13 +9,11 @@ import { Router, Scene } from 'react-native-router-flux';
 import CoursePage from './CoursePage/CoursePage.js';
 import InstPage from './InstPage/InstPage.js';
 import IndexPage from './IndexPage/IndexPage.js';
+import CourseReviewPage from './CourseReviewPage/CourseReviewPage.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      page: 'CoursePage'
-    };
   }
 
   render() {
@@ -40,6 +38,12 @@ class App extends React.Component {
             key="InstPage"
             component={InstPage}
             title="InstPage"
+          />
+
+          <Scene
+            key="CourseReviewPage"
+            component={CourseReviewPage}
+            title="CourseReviewPage"
           />
 
         </Scene>

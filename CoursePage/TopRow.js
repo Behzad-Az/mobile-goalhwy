@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -8,6 +7,7 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import { Actions } from 'react-native-router-flux';
 
 import NewDocForm from './NewDocForm.js';
 import NewAssistForm from './NewAssistForm.js';
@@ -72,17 +72,17 @@ class TopRow extends React.Component {
 
         <View style={{flex: 1}}><NewDocForm /></View>
 
-        <View style={{flex: 1}}>
+        <TouchableHighlight style={{flex: 1}} onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
           <Text style={styles.primaryBtn}>
             <FontAwesome name="star" size={19} color="white" />
           </Text>
-        </View>
+        </TouchableHighlight>
 
-        <View style={{flex: 1}}>
-          <Text style={styles.primaryBtn} onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
+        <TouchableHighlight style={{flex: 1}} onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
+          <Text style={styles.primaryBtn}>
             <FontAwesome name="check-circle" size={19} color={this.state.subscriptionStatus ? "green" : "white"} />
           </Text>
-        </View>
+        </TouchableHighlight>
 
         <View style={{flex: 1}}>
           <NewAssistForm courseInfo={this.props.courseInfo} subscriptionStatus={this.state.subscriptionStatus} />
