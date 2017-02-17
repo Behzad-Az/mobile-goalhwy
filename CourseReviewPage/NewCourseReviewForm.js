@@ -6,13 +6,17 @@ import {
   View,
   ScrollView,
   TextInput,
-  DatePickerAndroid
+  DatePickerAndroid,
+  TouchableHighlight
 } from 'react-native';
 
 import RadioInput from '../Partials/RadioInput.js';
 import AndroidDatePicker from '../Partials/AndroidDatePicker';
+import AutoCompleteTextInput from '../Partials/AutoCompleteTextInput.js';
 
 import { FontAwesome } from '@exponent/vector-icons';
+
+const data = ["Hello", "Hellowwww", "Bye", "goodbye", "Behzad"];
 
 class NewCourseReviewForm extends React.Component {
   constructor(props) {
@@ -30,10 +34,12 @@ class NewCourseReviewForm extends React.Component {
       tempStars: '',
       overall_rating: '',
       review_desc: '',
-      prof_name: ''
+      prof_name: '',
+      descBoxHeight: 200
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
+    this.handleProfAutoSuggest = this.handleProfAutoSuggest.bind(this);
     this.handleNewReview = this.handleNewReview.bind(this);
   }
 
@@ -45,6 +51,10 @@ class NewCourseReviewForm extends React.Component {
     let obj = {};
     obj[type] = value;
     this.setState(obj)
+  }
+
+  handleProfAutoSuggest(prof_name) {
+    this.setState({ prof_name });
   }
 
   showPicker = async (stateKey, options) => {
@@ -79,6 +89,7 @@ class NewCourseReviewForm extends React.Component {
   }
 
   render() {
+    console.log("i'm here 2: ", this.state.prof_name);
     return (
       <View>
         <Modal
@@ -92,11 +103,13 @@ class NewCourseReviewForm extends React.Component {
             <Text style={styles.modalHeader}>New Course Review:</Text>
 
             <View style={styles.inputCotainer}>
-              <Text style={{position: 'absolute', right: 10, top: 10}}
+              <TouchableHighlight
+                hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}
+                style={{position: 'absolute', right: 10, top: 10}}
                 onPress={this.showPicker.bind(this, 'spinner', {date: new Date(), minDate: new Date(2007, 1, 1),
                 maxDate: new Date(), mode: 'spinner'})}>
-                <FontAwesome name="calendar" size={30} color="black" />
-              </Text>
+                <Text><FontAwesome name="calendar" size={30} color="black" /></Text>
+              </TouchableHighlight>
               <Text style={styles.inputLabel}>When did you start?</Text>
               <Text style={styles.textInput}>{this.state.start_month} {this.state.start_year}</Text>
             </View>
@@ -118,17 +131,39 @@ class NewCourseReviewForm extends React.Component {
               <RadioInput handleRadioChange={this.handleRadioChange} type="prof_rating" options={this.profOptions.slice(4, 5)} />
             </View>
 
+
+
+
+
+
+
+            <View style={[styles.inputCotainer, {minHeight: 150}]}>
+              <Text style={styles.inputLabel}>instructor Name (Optional):</Text>
+              <AutoCompleteTextInput
+                placeholder="instructor name (optional)"
+                data={data}
+                handleChange={this.handleProfAutoSuggest}
+              />
+            </View>
+
+
+
+
+
+
+
+
             <View style={[styles.inputCotainer, {minHeight: 200}]}>
               <Text style={styles.inputLabel}>Feel free to ellaborate (optional):</Text>
               <TextInput
-                style={[styles.textInput, {height: this.state.height}]}
+                style={[styles.textInput, {height: this.state.descBoxHeight}]}
                 multiline
                 onChangeText={review_desc => this.setState({review_desc})}
                 value={this.state.review_desc}
                 placeholder="Provide context for your review (optional)..."
                 underlineColorAndroid="rgba(0,0,0,0)"
-                onContentSizeChange={(event) => {
-                  this.setState({height: event.nativeEvent.contentSize.height});
+                onContentSizeChange={event => {
+                  this.setState({descBoxHeight: event.nativeEvent.contentSize.height});
                 }}
               />
             </View>
