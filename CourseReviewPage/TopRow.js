@@ -48,7 +48,7 @@ class TopRow extends React.Component {
       profRatingSum[review.name] = profRatingSum[review.name] ? profRatingSum[review.name] + review.prof_rating : review.prof_rating;
       profRatingCount[review.name] = profRatingCount[review.name] ? profRatingCount[review.name] + 1 : 1;
     });
-    return Object.keys(profRatingSum).map((profName, index) => <Text key={index}>{profName}: {this.decodeProf(Math.round(profRatingSum[profName] / profRatingCount[profName]))}</Text> );
+    return Object.keys(profRatingSum).map((profName, index) => <Text key={index} style={styles.textRow}>• {profName}: {this.decodeProf(Math.round(profRatingSum[profName] / profRatingCount[profName]))}</Text> );
   }
 
   decodeWorkload(value) {
@@ -106,23 +106,26 @@ class TopRow extends React.Component {
     return (
       <View>
 
+        <Text style={styles.header}>Summary:</Text>
         <View style={styles.dividedRow}>
-          <View style={{flex: 1}}>
-            <Text>Previous Instructors:</Text>
-            {profAvgs}
-          </View>
 
-          <View style={{flex: 1}}>
-            <Text>
+          <View style={{flex: 1, padding: 5}}>
+            <Text style={styles.topRowLabel}>Average Ratings:</Text>
+            <Text style={styles.textRow}>
               Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
               <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
               <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
               <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
               <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
             </Text>
-            <Text>Teaching: {this.decodeProf(overallAvgs.prof_rating)}</Text>
-            <Text>Evaluation: {this.decodeFairness(overallAvgs.fairness_rating)}</Text>
-            <Text>Workload: {this.decodeWorkload(overallAvgs.workload_rating)}</Text>
+            <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.prof_rating)}</Text>
+            <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairness_rating)}</Text>
+            <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workload_rating)}</Text>
+          </View>
+
+          <View style={{flex: 1, padding: 5}}>
+            <Text style={styles.topRowLabel}>Previous Instructors:</Text>
+            {profAvgs}
           </View>
 
         </View>
@@ -134,10 +137,28 @@ class TopRow extends React.Component {
 export default TopRow;
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#004E89',
+    padding: 5,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  topRowLabel: {
+    color: '#004E89',
+    fontWeight: 'bold',
+    borderBottomWidth: .5,
+    borderColor: '#004E89',
+    paddingBottom: 5
+  },
+  textRow: {
+    paddingTop: 5
+  },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   }
 });
 
