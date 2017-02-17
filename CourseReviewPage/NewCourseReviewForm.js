@@ -6,11 +6,11 @@ import {
   View,
   ScrollView,
   TextInput,
-  Picker,
-  TouchableHighlight
+  DatePickerAndroid
 } from 'react-native';
 
 import RadioInput from '../Partials/RadioInput.js';
+import AndroidDatePicker from '../Partials/AndroidDatePicker';
 
 import { FontAwesome } from '@exponent/vector-icons';
 
@@ -47,6 +47,19 @@ class NewCourseReviewForm extends React.Component {
     this.setState(obj)
   }
 
+  showPicker = async (stateKey, options) => {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    try {
+      var newState = {};
+      const {action, year, month, day} = await DatePickerAndroid.open(options);
+      if (action !== DatePickerAndroid.dismissedAction) {
+        this.setState({ start_year: year, start_month: months[month] });
+      }
+    } catch ({code, message}) {
+      console.warn(`Error in example '${stateKey}': `, message);
+    }
+  };
+
   handleNewReview() {
     // delete this.state.tempStars;
     // $.ajax({
@@ -66,7 +79,6 @@ class NewCourseReviewForm extends React.Component {
   }
 
   render() {
-    console.log("i'm here 4: ", this.state.fairness_rating);
     return (
       <View>
         <Modal
@@ -76,7 +88,18 @@ class NewCourseReviewForm extends React.Component {
           onRequestClose={() => {alert("Modal has been closed.")}}
         >
           <ScrollView style={styles.modalContainer}>
+
             <Text style={styles.modalHeader}>New Course Review:</Text>
+
+            <View style={styles.inputCotainer}>
+              <Text style={{position: 'absolute', right: 10, top: 10}}
+                onPress={this.showPicker.bind(this, 'spinner', {date: new Date(), minDate: new Date(2007, 1, 1),
+                maxDate: new Date(), mode: 'spinner'})}>
+                <FontAwesome name="calendar" size={30} color="black" />
+              </Text>
+              <Text style={styles.inputLabel}>When did you start?</Text>
+              <Text style={styles.textInput}>{this.state.start_month} {this.state.start_year}</Text>
+            </View>
 
             <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>How was the workload?</Text>
@@ -96,12 +119,13 @@ class NewCourseReviewForm extends React.Component {
             </View>
 
             <View style={[styles.inputCotainer, {minHeight: 200}]}>
+              <Text style={styles.inputLabel}>Feel free to ellaborate (optional):</Text>
               <TextInput
                 style={[styles.textInput, {height: this.state.height}]}
                 multiline
                 onChangeText={review_desc => this.setState({review_desc})}
                 value={this.state.review_desc}
-                placeholder="Feel free to ellaborate (optional)..."
+                placeholder="Provide context for your review (optional)..."
                 underlineColorAndroid="rgba(0,0,0,0)"
                 onContentSizeChange={(event) => {
                   this.setState({height: event.nativeEvent.contentSize.height});
