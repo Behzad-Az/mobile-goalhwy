@@ -21,7 +21,6 @@ class CourseReviewPage extends React.Component {
       profs: []
     };
     this.loadComponentData = this.loadComponentData.bind(this);
-    this.testing = this.testing.bind(this);
   }
 
   componentDidMount() {
@@ -33,22 +32,6 @@ class CourseReviewPage extends React.Component {
     .then(response => response.json())
     .then(resJSON => resJSON ? this.setState(resJSON) : console.error("server error - 0", resJSON))
     .catch(err => console.log("Error here: ", err));
-  }
-
-  testing = async() => {
-    try {
-      const {action, year, month, day} = await DatePickerAndroid.open({
-        // Use `new Date()` for current date.
-        // May 25 2020. Month 0 is January.
-        date: new Date(2020, 4, 25)
-      });
-      console.log("i'm here 0: ", {action, year, month, day});
-      if (action !== DatePickerAndroid.dismissedAction) {
-        // Selected year, month (0-11), day
-      }
-    } catch ({code, message}) {
-      console.warn('Cannot open date picker', message);
-    }
   }
 
   render() {
