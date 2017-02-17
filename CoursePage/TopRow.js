@@ -3,7 +3,8 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
@@ -84,14 +85,14 @@ class TopRow extends React.Component {
         </View>
 
         <View style={{flex: 1}}>
-          <NewAssistForm courseInfo={this.props.courseInfo} />
+          <NewAssistForm courseInfo={this.props.courseInfo} subscriptionStatus={this.state.subscriptionStatus} />
         </View>
 
-        <View style={{flex: 1}}>
-          <Text style={styles.primaryBtn} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
+        <TouchableHighlight style={{flex: 1}} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
+          <Text style={[styles.primaryBtn, {backgroundColor: this.state.subscriptionStatus ? "#004E89" : "#bbb"}]}>
             <FontAwesome name="slideshare" size={19} color={this.state.tutor_status ? "green" : "white"} />
           </Text>
-        </View>
+        </TouchableHighlight>
 
       </View>
     );

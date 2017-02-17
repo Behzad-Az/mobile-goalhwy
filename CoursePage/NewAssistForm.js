@@ -6,7 +6,8 @@ import {
   View,
   ScrollView,
   TextInput,
-  Picker
+  Picker,
+  TouchableHighlight
 } from 'react-native';
 
 import { ImagePicker } from 'exponent';
@@ -161,9 +162,11 @@ class NewAssistForm extends Component {
 
           </ScrollView>
         </Modal>
-        <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="bell" size={19} color={this.state.assistReqOpen ? "green" : "white"} />
-        </Text>
+        <TouchableHighlight onPress={() => this.setModalVisible(true)} disabled={!this.props.subscriptionStatus}>
+          <Text style={[styles.primaryBtn, {backgroundColor: this.props.subscriptionStatus ? "#004E89" : "#bbb"}]}>
+            <FontAwesome name="bell" size={19} color={this.state.assistReqOpen ? "green" : "white"} />
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }
