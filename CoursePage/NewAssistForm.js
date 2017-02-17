@@ -18,13 +18,20 @@ class NewAssistForm extends Component {
     this.state = {
       modalVisible: false,
       height: 0,
-      issue_desc: '',
-      assistReqOpen: false,
+      issue_desc: this.props.courseInfo.latestAssistRequest,
+      assistReqOpen: this.props.courseInfo.assistReqOpen,
       closureReason: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.formFooterOptions = this.formFooterOptions.bind(this);
+    this.handleNewRequestAssist = this.handleNewRequestAssist.bind(this);
+    this.handleUpdateRequestAssist = this.handleUpdateRequestAssist.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    nextProps.courseInfo.latestAssistRequest !== this.state.issue_desc ? this.setState({ issue_desc: nextProps.courseInfo.latestAssistRequest }) : '';
+    nextProps.courseInfo.assistReqOpen !== this.state.assistReqOpen ? this.setState({ assistReqOpen: nextProps.courseInfo.assistReqOpen }) : '';
   }
 
   setModalVisible(visible) {
@@ -54,7 +61,7 @@ class NewAssistForm extends Component {
           </View>
           <View style={[styles.dividedRow, {marginTop: 10}]}>
             <View style={{flex: 1}}>
-              <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginRight: 5}]}>
+              <Text onPress={this.handleUpdateRequestAssist} style={[styles.actionBtn, {marginRight: 5}]}>
                 Update
               </Text>
             </View>
@@ -70,7 +77,7 @@ class NewAssistForm extends Component {
       return (
         <View style={[styles.dividedRow, {marginTop: 10}]}>
           <View style={{flex: 1}}>
-            <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginRight: 5}]}>
+            <Text onPress={this.handleNewRequestAssist} style={[styles.actionBtn, {marginRight: 5}]}>
               Submit
             </Text>
           </View>
@@ -84,23 +91,44 @@ class NewAssistForm extends Component {
     }
   }
 
+  handleNewRequestAssist() {
+    let data = {...this.state};
+    delete data.height;
+    delete data.modalVisible;
+    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.setState({ assistReqOpen: true }) : console.error("Error in server - 0: ", resJSON))
+    .catch(err => console.log("Error here: ", err));
+    this.setModalVisible(false);
+  }
 
-  handleNewDocPost() {
-    console.log("i'm here 1: ", this.state);
-    // $.ajax({
-    //   method: 'POST',
-    //   url: `/api/courses/${this.props.courseId}`,
-    //   data: this.state,
-    //   success: response => {
-    //     if (response) {
-    //       this.reactAlert.showAlert("New document saved", "info");
-    //       HandleModal('new-doc-form');
-    //       this.props.reload(this.props.courseId);
-    //     } else {
-    //       this.reactAlert.showAlert("error in uploading document", "error");
-    //     }
-    //   }
-    // });
+  handleUpdateRequestAssist() {
+    let data = {
+      action: this.state.closureReason ? 'close' : 'update',
+      issue_desc: this.state.issue_desc,
+      closure_reason: this.state.closureReason
+    };
+    let newState = this.state.closureReason ? { assistReqOpen: false, issue_desc: '' } : { assistReqOpen: true };
+
+    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog/update`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.setState(newState) : console.error("Error in server - 0: ", resJSON))
+    .catch(err => console.log("Error here: ", err));
+    this.setModalVisible(false);
   }
 
   render() {
@@ -134,7 +162,7 @@ class NewAssistForm extends Component {
           </ScrollView>
         </Modal>
         <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="bell" size={19} color="white" />
+          <FontAwesome name="bell" size={19} color={this.state.assistReqOpen ? "green" : "white"} />
         </Text>
       </View>
     );

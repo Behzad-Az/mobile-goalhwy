@@ -83,7 +83,9 @@ class TopRow extends React.Component {
           </Text>
         </View>
 
-        <View style={{flex: 1}}><NewAssistForm /></View>
+        <View style={{flex: 1}}>
+          <NewAssistForm courseInfo={this.props.courseInfo} />
+        </View>
 
         <View style={{flex: 1}}>
           <Text style={styles.primaryBtn} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
