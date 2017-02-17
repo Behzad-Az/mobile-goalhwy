@@ -3,12 +3,14 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  DatePickerAndroid
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
 import TopRow from './TopRow.js';
 import CourseReviewRow from './CourseReviewRow.js';
+import NewCoureReviewForm from './NewCourseReviewForm.js';
 
 class CourseReviewPage extends React.Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class CourseReviewPage extends React.Component {
       profs: []
     };
     this.loadComponentData = this.loadComponentData.bind(this);
+    this.testing = this.testing.bind(this);
   }
 
   componentDidMount() {
@@ -32,12 +35,31 @@ class CourseReviewPage extends React.Component {
     .catch(err => console.log("Error here: ", err));
   }
 
+  testing = async() => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        // Use `new Date()` for current date.
+        // May 25 2020. Month 0 is January.
+        date: new Date(2020, 4, 25)
+      });
+      console.log("i'm here 0: ", {action, year, month, day});
+      if (action !== DatePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
+      }
+    } catch ({code, message}) {
+      console.warn('Cannot open date picker', message);
+    }
+  }
+
   render() {
     return (
       <ScrollView>
         <Navbar navigator={this.props.navigator} />
         <TopRow courseReviews={this.state.courseReviews} />
-        <Text style={styles.header}>Past Reviews:</Text>
+        <View>
+          <Text style={styles.header} onPress={this.testing}>Past Reviews:</Text>
+          <View style={{position: 'absolute', right: 5, top: 5}}><NewCoureReviewForm /></View>
+        </View>
         { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
       </ScrollView>
     );
