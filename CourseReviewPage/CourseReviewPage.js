@@ -8,6 +8,7 @@ import {
 
 import Navbar from '../Navbar/Navbar.js';
 import TopRow from './TopRow.js';
+import CourseReviewRow from './CourseReviewRow.js';
 
 class CourseReviewPage extends React.Component {
   constructor(props) {
@@ -36,9 +37,22 @@ class CourseReviewPage extends React.Component {
       <ScrollView>
         <Navbar navigator={this.props.navigator} />
         <TopRow courseReviews={this.state.courseReviews} />
+        <Text style={styles.header}>Past Reviews:</Text>
+        { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
       </ScrollView>
     );
   }
 }
 
 export default CourseReviewPage;
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#004E89',
+    padding: 5,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    color: 'white',
+    fontWeight: 'bold'
+  }
+});

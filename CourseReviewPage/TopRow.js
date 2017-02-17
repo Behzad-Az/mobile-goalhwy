@@ -15,6 +15,7 @@ class TopRow extends React.Component {
     this.decodeProf = this.decodeProf.bind(this);
     this.decodeWorkload = this.decodeWorkload.bind(this);
     this.decodeFairness = this.decodeFairness.bind(this);
+    this.getStarName = this.getStarName.bind(this);
   }
 
   getAverageValues() {
