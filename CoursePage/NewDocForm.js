@@ -23,7 +23,6 @@ class NewDocForm extends Component {
       file_path: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
     this.handleNewDocPost = this.handleNewDocPost.bind(this);
@@ -32,12 +31,6 @@ class NewDocForm extends Component {
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
-
-  handleChange(e) {
-    let state = {};
-    state[e.target.name] = e.target.value;
-    this.setState(state);
-  };
 
   validateForm() {
     return this.state.title &&
@@ -96,6 +89,7 @@ class NewDocForm extends Component {
                 onChangeText={title => this.setState({title})}
                 value={this.state.title}
                 placeholder="Example: Lab 1 - Electromagnetism"
+                underlineColorAndroid="#004E89"
               />
             </View>
 
@@ -124,6 +118,7 @@ class NewDocForm extends Component {
                 onChangeText={rev_desc => this.setState({rev_desc})}
                 value={this.state.rev_desc}
                 placeholder="Example: New Upload"
+                underlineColorAndroid="#004E89"
               />
             </View>
 

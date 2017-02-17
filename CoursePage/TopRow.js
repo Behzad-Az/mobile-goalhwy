@@ -9,7 +9,7 @@ import {
 import { FontAwesome } from '@exponent/vector-icons';
 
 import NewDocForm from './NewDocForm.js';
-import NewAssistRequest from './NewAssistRequest.js';
+import NewAssistForm from './NewAssistForm.js';
 
 class TopRow extends React.Component {
   constructor(props) {
@@ -83,7 +83,7 @@ class TopRow extends React.Component {
           </Text>
         </View>
 
-        <View style={{flex: 1}}><NewAssistRequest /></View>
+        <View style={{flex: 1}}><NewAssistForm /></View>
 
         <View style={{flex: 1}}>
           <Text style={styles.primaryBtn} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
