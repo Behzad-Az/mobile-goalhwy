@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
+import SortModal from '../Partials/ModalSelect.js';
 import TopRow from './TopRow.js';
 import CourseReviewRow from './CourseReviewRow.js';
 import NewCoureReviewForm from './NewCourseReviewForm.js';
-import SortSelect from './SortSelect.js';
 
 import { FontAwesome } from '@exponent/vector-icons';
 
@@ -90,7 +90,12 @@ class CourseReviewPage extends React.Component {
           <View style={{position: 'absolute', right: 5, top: 5}}>
             <View style={[styles.dividedRow, {width: 120}]}>
               <View style={{flex: 3}}>
-                <SortSelect handleSelect={this.sortReviews} options={this.sortOptions} />
+                <SortModal
+                  options={this.sortOptions}
+                  handleSelect={this.sortReviews}
+                  btnContent={{ type: 'icon', name: 'sort-amount-desc', size: 13, color: "#004E89"}}
+                  style={styles.sortBtn}
+                />
               </View>
               <View style={{flex: 3}}>
                 <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
@@ -129,6 +134,14 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     textAlign: 'center'
+  },
+  sortBtn: {
+    backgroundColor: 'white',
+    paddingBottom: 3,
+    paddingTop: 3,
+    borderRadius: 5,
+    textAlign: 'center',
+    width: 30
   },
   summaryInfo: {
     padding: 5,

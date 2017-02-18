@@ -10,13 +10,14 @@ import {
 
 import { FontAwesome } from '@exponent/vector-icons';
 
-class SortSelect extends Component {
+class ModalSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalVisible: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.determineBtnContent = this.determineBtnContent.bind(this);
     this.submitSelect = this.submitSelect.bind(this);
   }
 
@@ -24,9 +25,17 @@ class SortSelect extends Component {
     this.setState({ modalVisible });
   }
 
-  submitSelect(option) {
+  determineBtnContent() {
+    if (this.props.btnContent.type === 'icon') {
+      return <FontAwesome name={this.props.btnContent.name} size={this.props.btnContent.size} color={this.props.btnContent.color} /> ;
+    } else {
+      return this.props.btnContent.name;
+    }
+  }
+
+  submitSelect(value) {
     this.setModalVisible(false);
-    this.props.handleSelect(option);
+    this.props.handleSelect(value);
   }
 
   render() {
@@ -49,15 +58,15 @@ class SortSelect extends Component {
 
           </TouchableHighlight>
         </Modal>
-        <Text style={styles.headerBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="sort-amount-desc" size={13} color="#004E89" />
+        <Text style={this.props.style} onPress={() => this.setModalVisible(true)}>
+          { this.determineBtnContent() }
         </Text>
       </View>
     );
   }
 }
 
-export default SortSelect;
+export default ModalSelect;
 
 const vw = percentageWidth => Dimensions.get('window').width * (percentageWidth / 100);
 
@@ -78,13 +87,5 @@ const styles = StyleSheet.create({
   selectRow: {
     padding: 10,
     borderTopWidth: 1
-  },
-  headerBtn: {
-    backgroundColor: 'white',
-    paddingBottom: 3,
-    paddingTop: 3,
-    borderRadius: 5,
-    textAlign: 'center',
-    width: 30
   }
 });
