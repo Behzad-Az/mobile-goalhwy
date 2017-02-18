@@ -13,18 +13,27 @@ class RevisionRow extends React.Component {
   constructor(props) {
     super(props);
     this.flagOptions = [
-      { value: 'yo', label: 'yo' },
-      { value: 'date_old_to_new', label: 'Date - Old to New' },
-      { value: 'rating_high_to_low', label: 'Rating - High to Low' },
-      { value: 'rating_low_to_high', label: 'Rating - Low to High' },
-      { value: 'instructor_name', label: 'Instructor Name' }
+      { value: 'inappropriate content', label: 'Inappropriate content' },
+      { value: 'does not belong to this course', label: 'Does not belong to this course' },
+      { value: 'corrupted file or unreadable', label: 'Corrupted file or unreadable' },
+      { value: 'other', label: 'other' }
     ];
+    this.handleFlagSubmit = this.handleFlagSubmit.bind(this);
   }
 
-  handleFlag(flag) {
-    console.log("i'm here 3.1: ", flag);
+  handleFlagSubmit(flagReason) {
+    fetch(`http://127.0.0.1:19001/api/flags/revisions/${this.props.rev.id}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ flagReason }),
+    })
+    .then(response => response.json())
+    .then(resJSON => console.log("i'm here resJSON: ", resJSON))
+    .catch(err => console.log("Error here: ", err));
   }
-
 
   render() {
     return (
@@ -37,7 +46,7 @@ class RevisionRow extends React.Component {
           <View style={{ flex: 1 }}>
             <FlagModal
               options={this.flagOptions}
-              handleSelect={this.handleFlag}
+              handleSelect={this.handleFlagSubmit}
               btnContent={{ type: 'icon', name: 'flag', size: 19, color: "white"}}
               style={[{backgroundColor: '#9D0600'}, styles.lowerBtn]}
             />
