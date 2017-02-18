@@ -5,7 +5,8 @@ import {
   View,
   ScrollView,
   DatePickerAndroid,
-  Picker
+  Picker,
+  TouchableHighlight
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
@@ -27,6 +28,7 @@ class CourseReviewPage extends React.Component {
       { value: 'instructor_name', label: 'Instructor Name' }
     ];
     this.state = {
+      showReviews: false,
       courseInfo: {},
       courseReviews: [],
       sortedBy: '',
@@ -70,25 +72,38 @@ class CourseReviewPage extends React.Component {
     this.setState({ sortedBy });
   }
 
+  renderReviews() {
+    let reviewCount = this.state.courseReviews.length;
+    let lastUpdate = reviewCount ? this.state.courseReviews[0].review_created_at.slice(0, 10) : '';
+    return this.state.showReviews ?
+      this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) :
+      <Text style={styles.summaryInfo}>{reviewCount} review(s)... last update on {lastUpdate}</Text>
+  }
+
   render() {
     return (
       <ScrollView>
         <Navbar navigator={this.props.navigator} />
         <TopRow courseReviews={this.state.courseReviews} />
-        <View>
-          <Text style={styles.header} onPress={this.testing}>Reviews:</Text>
+        <View style={{marginTop: 10}}>
+          <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
           <View style={{position: 'absolute', right: 5, top: 5}}>
-            <View style={[styles.dividedRow, {width: 80}]}>
-              <View style={{flex: 1}}>
+            <View style={[styles.dividedRow, {width: 120}]}>
+              <View style={{flex: 3}}>
                 <SortSelect handleSelect={this.sortReviews} options={this.sortOptions} />
               </View>
-              <View style={{flex: 1}}>
+              <View style={{flex: 3}}>
                 <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
+              </View>
+              <View style={{flex: 2}}>
+                <Text style={[styles.headerBtn, {textAlign: 'right'}]} onPress={() => this.setState({showReviews: !this.state.showReviews})}>
+                  <FontAwesome name={this.state.showReviews ? "chevron-up" : "chevron-down"} size={19} color="white" />
+                </Text>
               </View>
             </View>
           </View>
         </View>
-        { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
+        { this.renderReviews() }
       </ScrollView>
     );
   }
@@ -111,15 +126,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   headerBtn: {
-    backgroundColor: 'white',
     paddingLeft: 5,
     paddingRight: 5,
-    paddingBottom: 3,
-    paddingTop: 3,
-    borderRadius: 5,
-    textAlign: 'center',
-    marginLeft: 5,
-    maxHeight: 20,
-    width: 30
+    textAlign: 'center'
+  },
+  summaryInfo: {
+    padding: 5,
+    backgroundColor: '#eee',
+    borderBottomWidth: .5,
+    borderLeftWidth: .5,
+    borderRightWidth: .5
   }
 });

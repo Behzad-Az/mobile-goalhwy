@@ -10,12 +10,16 @@ import { FontAwesome } from '@exponent/vector-icons';
 class TopRow extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showDetails: false
+    };
     this.getAverageValues = this.getAverageValues.bind(this);
     this.getProfAvgRatings = this.getProfAvgRatings.bind(this);
     this.decodeProf = this.decodeProf.bind(this);
     this.decodeWorkload = this.decodeWorkload.bind(this);
     this.decodeFairness = this.decodeFairness.bind(this);
     this.getStarName = this.getStarName.bind(this);
+    this.renderDetails = this.renderDetails.bind(this);
   }
 
   getAverageValues() {
@@ -101,35 +105,46 @@ class TopRow extends React.Component {
     else return "star-o";
   }
 
-  render() {
+  renderDetails() {
     let profAvgs = this.getProfAvgRatings();
     let overallAvgs = this.getAverageValues();
+    return this.state.showDetails ?
+      <View style={styles.dividedRow}>
+        <View style={{flex: 1, padding: 5}}>
+          <Text style={styles.topRowLabel}>Average Ratings:</Text>
+          <Text style={styles.textRow}>
+            Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
+            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
+            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
+            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
+            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
+          </Text>
+          <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.prof_rating)}</Text>
+          <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairness_rating)}</Text>
+          <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workload_rating)}</Text>
+        </View>
+        <View style={{flex: 1, padding: 5}}>
+          <Text style={styles.topRowLabel}>Previous Instructors:</Text>
+          {profAvgs}
+        </View>
+      </View> :
+      <Text style={styles.summaryInfo}>
+        Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
+        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
+        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
+        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
+        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
+      </Text>
+  }
+
+  render() {
     return (
       <View>
-
-        <Text style={styles.header}>Summary:</Text>
-        <View style={styles.dividedRow}>
-
-          <View style={{flex: 1, padding: 5}}>
-            <Text style={styles.topRowLabel}>Average Ratings:</Text>
-            <Text style={styles.textRow}>
-              Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
-            </Text>
-            <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.prof_rating)}</Text>
-            <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairness_rating)}</Text>
-            <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workload_rating)}</Text>
-          </View>
-
-          <View style={{flex: 1, padding: 5}}>
-            <Text style={styles.topRowLabel}>Previous Instructors:</Text>
-            {profAvgs}
-          </View>
-
-        </View>
+        <Text style={styles.header} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
+        <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showDetails: !this.state.showDetails})}>
+          <FontAwesome name={this.state.showDetails ? "chevron-up" : "chevron-down"} size={19} color="white" />
+        </Text>
+        { this.renderDetails() }
       </View>
     );
   }
@@ -160,6 +175,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  summaryInfo: {
+    padding: 5,
+    backgroundColor: '#eee',
+    borderBottomWidth: .5,
+    borderLeftWidth: .5,
+    borderRightWidth: .5
   }
 });
 

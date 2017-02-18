@@ -93,7 +93,7 @@ class NewCourseReviewForm extends React.Component {
           animationType={"slide"}
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
+          onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
 
@@ -184,7 +184,7 @@ class NewCourseReviewForm extends React.Component {
         </Modal>
 
         <Text style={styles.headerBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="plus" size={15} color="#004E89" />
+          <FontAwesome name="plus" size={13} color="#004E89" />
         </Text>
       </View>
 
@@ -209,14 +209,10 @@ const styles = StyleSheet.create({
   },
   headerBtn: {
     backgroundColor: 'white',
-    paddingLeft: 5,
-    paddingRight: 5,
     paddingBottom: 3,
     paddingTop: 3,
     borderRadius: 5,
     textAlign: 'center',
-    marginLeft: 5,
-    maxHeight: 20,
     width: 30
   },
   inputCotainer: {

@@ -141,9 +141,9 @@ class CoursePage extends React.Component {
           <Text style={styles.header} onPress={() => this.toggleDocView('showItemsForSale')}>
             Items for Sale or Trade:
           </Text>
-          <View style={{position: 'absolute', right: 10, top: 5}}>
+          <Text style={{position: 'absolute', right: 10, top: 5}}>
             <FontAwesome name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"} size={19} color="white" />
-          </View>
+          </Text>
           { this.renderItemsForSale() }
         </View>
 

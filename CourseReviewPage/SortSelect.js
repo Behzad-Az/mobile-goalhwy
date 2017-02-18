@@ -50,7 +50,7 @@ class SortSelect extends Component {
           </TouchableHighlight>
         </Modal>
         <Text style={styles.headerBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="sort-amount-desc" size={15} color="#004E89" />
+          <FontAwesome name="sort-amount-desc" size={13} color="#004E89" />
         </Text>
       </View>
     );
@@ -81,14 +81,10 @@ const styles = StyleSheet.create({
   },
   headerBtn: {
     backgroundColor: 'white',
-    paddingLeft: 5,
-    paddingRight: 5,
     paddingBottom: 3,
     paddingTop: 3,
     borderRadius: 5,
     textAlign: 'center',
-    marginLeft: 5,
-    maxHeight: 20,
     width: 30
   }
 });
