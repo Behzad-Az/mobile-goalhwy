@@ -40,8 +40,10 @@ class CourseReviewPage extends React.Component {
         <Navbar navigator={this.props.navigator} />
         <TopRow courseReviews={this.state.courseReviews} />
         <View>
-          <Text style={styles.header} onPress={this.testing}>Past Reviews:</Text>
-          <View style={{position: 'absolute', right: 5, top: 5}}><NewCoureReviewForm /></View>
+          <Text style={styles.header} onPress={this.testing}>Reviews:</Text>
+          <View style={{position: 'absolute', right: 5, top: 5}}>
+            <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
+          </View>
         </View>
         { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
       </ScrollView>

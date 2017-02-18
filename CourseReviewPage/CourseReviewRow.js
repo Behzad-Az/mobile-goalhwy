@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   },
   descText: {
     paddingTop: 5,
+    paddingBottom: 5,
     borderTopWidth: .5,
     borderColor: '#004E89',
     fontStyle: 'italic'

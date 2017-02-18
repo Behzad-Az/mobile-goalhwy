@@ -68,7 +68,6 @@ export default AutoCompleteTextInput;
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#F5FCFF',
     flex: 1
   },
   inputContainerStyle: {

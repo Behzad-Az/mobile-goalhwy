@@ -16,8 +16,6 @@ import AutoCompleteTextInput from '../Partials/AutoCompleteTextInput.js';
 
 import { FontAwesome } from '@exponent/vector-icons';
 
-const data = ["Hello", "Hellowwww", "Bye", "goodbye", "Behzad"];
-
 class NewCourseReviewForm extends React.Component {
   constructor(props) {
     super(props);
@@ -31,11 +29,10 @@ class NewCourseReviewForm extends React.Component {
       workload_rating: '',
       fairness_rating: '',
       prof_rating: '',
-      tempStars: '',
       overall_rating: '',
       review_desc: '',
       prof_name: '',
-      descBoxHeight: 200
+      descBoxHeight: 150
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -71,25 +68,25 @@ class NewCourseReviewForm extends React.Component {
   };
 
   handleNewReview() {
-    // delete this.state.tempStars;
-    // $.ajax({
-    //   method: 'POST',
-    //   url: `/api/courses/${this.props.courseId}/reviews`,
-    //   data: this.state,
-    //   success: response => {
-    //     if (response) {
-    //       this.reactAlert.showAlert("Successfully posted review", "info");
-    //       HandleModal('new-course-review-form');
-    //       this.props.reload();
-    //     } else {
-    //       this.reactAlert.showAlert("error in posting review", "error");
-    //     }
-    //   }
-    // });
+    let data = { ...this.state };
+    delete data.modalVisible;
+    delete data.descBoxHeight;
+
+    fetch(`http://127.0.0.1:19001/api/courses/${this.props.courseId}/reviews`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.props.reload() : console.error("Error in server - 0: ", resJSON))
+    .catch(err => console.log("Error here: ", err));
+    this.setModalVisible(false);
   }
 
   render() {
-    console.log("i'm here 2: ", this.state.prof_name);
     return (
       <View>
         <Modal
@@ -131,29 +128,30 @@ class NewCourseReviewForm extends React.Component {
               <RadioInput handleRadioChange={this.handleRadioChange} type="prof_rating" options={this.profOptions.slice(4, 5)} />
             </View>
 
-
-
-
-
-
+            <View style={styles.inputCotainer}>
+              <Text style={styles.inputLabel}>Overall satisfaction with the course?</Text>
+              <View style={styles.dividedRow}>
+                { [1, 2, 3, 4, 5].map(num =>
+                  <View key={num} style={{flex: 1}}>
+                    <Text style={{textAlign: 'center'}} onPress={() => this.setState({ overall_rating: num })}>
+                      <FontAwesome name={this.state.overall_rating >= num ? "star" : "star-o"} size={25} />
+                    </Text>
+                    <Text style={{textAlign: 'center'}}>{num}</Text>
+                  </View>
+                )}
+              </View>
+            </View>
 
             <View style={[styles.inputCotainer, {minHeight: 150}]}>
-              <Text style={styles.inputLabel}>instructor Name (Optional):</Text>
+              <Text style={styles.inputLabel}>Instructor's name (optional):</Text>
               <AutoCompleteTextInput
-                placeholder="instructor name (optional)"
-                data={data}
+                placeholder="We'll auto-suggest some results :)"
+                data={this.props.profs}
                 handleChange={this.handleProfAutoSuggest}
               />
             </View>
 
-
-
-
-
-
-
-
-            <View style={[styles.inputCotainer, {minHeight: 200}]}>
+            <View style={[styles.inputCotainer, {minHeight: 150}]}>
               <Text style={styles.inputLabel}>Feel free to ellaborate (optional):</Text>
               <TextInput
                 style={[styles.textInput, {height: this.state.descBoxHeight}]}
@@ -168,9 +166,19 @@ class NewCourseReviewForm extends React.Component {
               />
             </View>
 
-            <Text onPress={() => this.setModalVisible(false)} style={styles.actionBtn}>
-              Go Back
-            </Text>
+            <View style={[styles.dividedRow, {marginTop: 10, marginBottom: 10}]}>
+              <View style={{flex: 1}}>
+                <Text onPress={this.handleNewReview} style={[styles.actionBtn, {marginRight: 5}]}>
+                  Submit
+                </Text>
+              </View>
+              <View style={{flex: 1}}>
+                <Text onPress={() => this.setModalVisible(false)} style={[styles.actionBtn, {marginLeft: 5}]}>
+                  Go Back
+                </Text>
+              </View>
+            </View>
+
 
           </ScrollView>
         </Modal>

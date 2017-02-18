@@ -83,7 +83,7 @@ class NewAssistForm extends Component {
             </Text>
           </View>
           <View style={{flex: 1}}>
-            <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginLeft: 5}]}>
+            <Text onPress={() => this.setModalVisible(false)} style={[styles.actionBtn, {marginLeft: 5}]}>
               Go Back
             </Text>
           </View>
