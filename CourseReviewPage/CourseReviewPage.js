@@ -19,12 +19,21 @@ import { FontAwesome } from '@exponent/vector-icons';
 class CourseReviewPage extends React.Component {
   constructor(props) {
     super(props);
+    this.sortOptions = [
+      { value: 'date_new_to_old', label: 'Date - New to Old' },
+      { value: 'date_old_to_new', label: 'Date - Old to New' },
+      { value: 'rating_high_to_low', label: 'Rating - High to Low' },
+      { value: 'rating_low_to_high', label: 'Rating - Low to High' },
+      { value: 'instructor_name', label: 'Instructor Name' }
+    ];
     this.state = {
       courseInfo: {},
       courseReviews: [],
+      sortedBy: '',
       profs: []
     };
     this.loadComponentData = this.loadComponentData.bind(this);
+    this.sortReviews = this.sortReviews.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +47,29 @@ class CourseReviewPage extends React.Component {
     .catch(err => console.log("Error here: ", err));
   }
 
+  sortReviews(sortedBy) {
+    switch(sortedBy) {
+      case "date_new_to_old":
+        this.state.courseReviews.sort((a, b) => a.review_created_at < b.review_created_at ? 1 : -1);
+        break;
+      case "date_old_to_new":
+        this.state.courseReviews.sort((a, b) => a.review_created_at > b.review_created_at ? 1 : -1);
+        break;
+      case "rating_high_to_low":
+        this.state.courseReviews.sort((a, b) => a.overall_rating < b.overall_rating ? 1 : -1);
+        break;
+      case "rating_low_to_high":
+        this.state.courseReviews.sort((a, b) => a.overall_rating > b.overall_rating ? 1 : -1);
+        break;
+      case "instructor_name":
+        this.state.courseReviews.sort((a, b) => a.name > b.name ? 1 : -1);
+        break;
+      default:
+        break;
+    };
+    this.setState({ sortedBy });
+  }
+
   render() {
     return (
       <ScrollView>
@@ -46,23 +78,14 @@ class CourseReviewPage extends React.Component {
         <View>
           <Text style={styles.header} onPress={this.testing}>Reviews:</Text>
           <View style={{position: 'absolute', right: 5, top: 5}}>
-
             <View style={[styles.dividedRow, {width: 80}]}>
-
               <View style={{flex: 1}}>
-
-                <SortSelect />
-
+                <SortSelect handleSelect={this.sortReviews} options={this.sortOptions} />
               </View>
-
               <View style={{flex: 1}}>
                 <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
               </View>
-
-
-
             </View>
-
           </View>
         </View>
         { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }

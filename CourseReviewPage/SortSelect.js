@@ -17,10 +17,16 @@ class SortSelect extends Component {
       modalVisible: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.submitSelect = this.submitSelect.bind(this);
   }
 
   setModalVisible(modalVisible) {
     this.setState({ modalVisible });
+  }
+
+  submitSelect(option) {
+    this.setModalVisible(false);
+    this.props.handleSelect(option);
   }
 
   render() {
@@ -34,11 +40,11 @@ class SortSelect extends Component {
         >
           <TouchableHighlight style={styles.modalContainer} onPress={() => this.setModalVisible(false)}>
             <View style={styles.selectionBox}>
-              <Text onPress={() => console.log("i'm here 2")}>Balls</Text>
-              <Text onPress={() => console.log("i'm here 2")}>Balls</Text>
-              <Text onPress={() => console.log("i'm here 2")}>Balls</Text>
-              <Text onPress={() => console.log("i'm here 2")}>Balls</Text>
-              <Text onPress={() => console.log("i'm here 2")}>Balls</Text>
+              { this.props.options.map((option, index) =>
+                <Text key={index} style={styles.selectRow} onPress={() => this.submitSelect(option.value)}>
+                  {option.label}
+                </Text>
+              )}
             </View>
 
           </TouchableHighlight>
@@ -64,9 +70,14 @@ const styles = StyleSheet.create({
   },
   selectionBox: {
     backgroundColor: 'white',
-    paddingLeft: 5,
-    paddingRight: 5,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
     width: vw(80)
+  },
+  selectRow: {
+    padding: 10,
+    borderTopWidth: 1
   },
   headerBtn: {
     backgroundColor: 'white',
