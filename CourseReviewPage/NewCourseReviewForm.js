@@ -183,9 +183,9 @@ class NewCourseReviewForm extends React.Component {
           </ScrollView>
         </Modal>
 
-          <Text style={styles.modalBtn} onPress={() => this.setModalVisible(true)}>
-            <FontAwesome name="plus" size={15} color="#004E89" />
-          </Text>
+        <Text style={styles.headerBtn} onPress={() => this.setModalVisible(true)}>
+          <FontAwesome name="plus" size={15} color="#004E89" />
+        </Text>
       </View>
 
     );
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  modalBtn: {
+  headerBtn: {
     backgroundColor: 'white',
     paddingLeft: 5,
     paddingRight: 5,
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginLeft: 5,
     maxHeight: 20,
-    minWidth: 30
+    width: 30
   },
   inputCotainer: {
     marginTop: 10,

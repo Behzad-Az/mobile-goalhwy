@@ -11,6 +11,8 @@ import InstPage from './InstPage/InstPage.js';
 import IndexPage from './IndexPage/IndexPage.js';
 import CourseReviewPage from './CourseReviewPage/CourseReviewPage.js';
 
+import DropDownModal from './Partials/DropDownModal.js';
+
 class App extends React.Component {
   constructor(props) {
     super(props);

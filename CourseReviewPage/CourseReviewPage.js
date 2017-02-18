@@ -4,13 +4,17 @@ import {
   Text,
   View,
   ScrollView,
-  DatePickerAndroid
+  DatePickerAndroid,
+  Picker
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
 import TopRow from './TopRow.js';
 import CourseReviewRow from './CourseReviewRow.js';
 import NewCoureReviewForm from './NewCourseReviewForm.js';
+import SortSelect from './SortSelect.js';
+
+import { FontAwesome } from '@exponent/vector-icons';
 
 class CourseReviewPage extends React.Component {
   constructor(props) {
@@ -42,7 +46,23 @@ class CourseReviewPage extends React.Component {
         <View>
           <Text style={styles.header} onPress={this.testing}>Reviews:</Text>
           <View style={{position: 'absolute', right: 5, top: 5}}>
-            <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
+
+            <View style={[styles.dividedRow, {width: 80}]}>
+
+              <View style={{flex: 1}}>
+
+                <SortSelect />
+
+              </View>
+
+              <View style={{flex: 1}}>
+                <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
+              </View>
+
+
+
+            </View>
+
           </View>
         </View>
         { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
@@ -61,5 +81,22 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     color: 'white',
     fontWeight: 'bold'
+  },
+  dividedRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  headerBtn: {
+    backgroundColor: 'white',
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 3,
+    paddingTop: 3,
+    borderRadius: 5,
+    textAlign: 'center',
+    marginLeft: 5,
+    maxHeight: 20,
+    width: 30
   }
 });
