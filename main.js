@@ -10,6 +10,7 @@ import CoursePage from './CoursePage/CoursePage.js';
 import InstPage from './InstPage/InstPage.js';
 import IndexPage from './IndexPage/IndexPage.js';
 import CourseReviewPage from './CourseReviewPage/CourseReviewPage.js';
+import DocPage from './DocPage/DocPage.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -44,6 +45,12 @@ class App extends React.Component {
             key="CourseReviewPage"
             component={CourseReviewPage}
             title="CourseReviewPage"
+          />
+
+          <Scene
+            key="DocPage"
+            component={DocPage}
+            title="DocPage"
           />
 
         </Scene>

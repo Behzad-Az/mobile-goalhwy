@@ -10,6 +10,7 @@ import { FontAwesome } from '@exponent/vector-icons';
 
 import Navbar from '../Navbar/Navbar.js';
 import TopRow from './TopRow.js';
+import DocRow from './DocRow.js';
 
 class CoursePage extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class CoursePage extends React.Component {
     let docCount = this.state.asgReports.length;
     let lastUpdate = docCount ? this.state.asgReports[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showAsgReports ?
-      this.state.asgReports.map((doc, index) => <Text key={index} style={styles.docTypeHeader}>{doc.title}</Text>) :
+      this.state.asgReports.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
       <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
@@ -72,7 +73,7 @@ class CoursePage extends React.Component {
     let docCount = this.state.sampleQuestions.length;
     let lastUpdate = docCount ? this.state.sampleQuestions[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showSampleQuestions ?
-      this.state.sampleQuestions.map((doc, index) => <Text key={index} style={styles.docTypeHeader}>{doc.title}</Text>):
+      this.state.sampleQuestions.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />):
       <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
@@ -80,7 +81,7 @@ class CoursePage extends React.Component {
     let docCount = this.state.lectureNotes.length;
     let lastUpdate = docCount ? this.state.lectureNotes[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showLectureNotes ?
-      this.state.lectureNotes.map((doc, index) => <Text key={index} style={styles.docTypeHeader}>{doc.title}</Text>):
+      this.state.lectureNotes.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
       <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
@@ -100,7 +101,7 @@ class CoursePage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <Navbar navigator={this.props.navigator} />
+        <Navbar />
         <Text style={styles.header}>
           {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
         </Text>
@@ -187,4 +188,3 @@ const styles = StyleSheet.create({
     marginLeft: 5
   }
 });
-
