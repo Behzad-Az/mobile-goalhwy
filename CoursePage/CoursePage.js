@@ -109,59 +109,68 @@ class CoursePage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <SearchBar handleSearch={this.handleSearch}/>
-        <Navbar />
+        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+          <SearchBar handleSearch={this.handleSearch} />
+          <Navbar />
 
-        <View style={styles.resultContainer}>
-          { this.state.searchResults }
-        </View>
-
-        <Text style={styles.header}>
-          {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
-        </Text>
-
-        <TopRow courseInfo={this.state.courseInfo} />
-
-        <View style={{marginBottom: 10}}>
-          <Text style={styles.header} onPress={() => this.toggleDocView('showAsgReports')}>
-            Assignment & Reports:
-          </Text>
-          <View style={{position: 'absolute', right: 10, top: 5}}>
-            <FontAwesome name={this.state.showAsgReports ? "chevron-up" : "chevron-down"} size={19} color="white" />
+          <View style={styles.resultContainer}>
+            { this.state.searchResults }
           </View>
-          { this.renderAsgReports() }
-        </View>
 
-        <View style={{marginBottom: 10}}>
-          <Text style={styles.header} onPress={() => this.toggleDocView('showSampleQuestions')}>
-            Sample Questions:
+          <Text style={styles.header}>
+            {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
           </Text>
-          <View style={{position: 'absolute', right: 10, top: 5}}>
-            <FontAwesome name={this.state.showSampleQuestions ? "chevron-up" : "chevron-down"} size={19} color="white" />
+
+          <TopRow courseInfo={this.state.courseInfo} />
+
+          <View style={{marginBottom: 10}}>
+            <Text style={styles.header} onPress={() => this.toggleDocView('showAsgReports')}>
+              Assignment & Reports:
+            </Text>
+            <View style={{position: 'absolute', right: 10, top: 5}}>
+              <FontAwesome name={this.state.showAsgReports ? "chevron-up" : "chevron-down"} size={19} color="white" />
+            </View>
+            <View style={{backgroundColor: 'white'}}>
+              { this.renderAsgReports() }
+            </View>
           </View>
-          { this.renderSampleQuestions() }
-        </View>
 
-        <View style={{marginBottom: 10}}>
-          <Text style={styles.header} onPress={() => this.toggleDocView('showLectureNotes')}>
-            Lecture Notes:
-          </Text>
-          <View style={{position: 'absolute', right: 10, top: 5}}>
-            <FontAwesome name={this.state.showLectureNotes ? "chevron-up" : "chevron-down"} size={19} color="white" />
+          <View style={{marginBottom: 10}}>
+            <Text style={styles.header} onPress={() => this.toggleDocView('showSampleQuestions')}>
+              Sample Questions:
+            </Text>
+            <View style={{position: 'absolute', right: 10, top: 5}}>
+              <FontAwesome name={this.state.showSampleQuestions ? "chevron-up" : "chevron-down"} size={19} color="white" />
+            </View>
+            <View style={{backgroundColor: 'white'}}>
+              { this.renderSampleQuestions() }
+            </View>
           </View>
-          { this.renderLectureNotes() }
-        </View>
 
-        <View style={{marginBottom: 10}}>
-          <Text style={styles.header} onPress={() => this.toggleDocView('showItemsForSale')}>
-            Items for Sale or Trade:
-          </Text>
-          <Text style={{position: 'absolute', right: 10, top: 5}}>
-            <FontAwesome name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"} size={19} color="white" />
-          </Text>
-          { this.renderItemsForSale() }
-        </View>
+          <View style={{marginBottom: 10}}>
+            <Text style={styles.header} onPress={() => this.toggleDocView('showLectureNotes')}>
+              Lecture Notes:
+            </Text>
+            <View style={{position: 'absolute', right: 10, top: 5}}>
+              <FontAwesome name={this.state.showLectureNotes ? "chevron-up" : "chevron-down"} size={19} color="white" />
+            </View>
+            <View style={{backgroundColor: 'white'}}>
+              { this.renderLectureNotes() }
+            </View>
+          </View>
 
+          <View style={{marginBottom: 10}}>
+            <Text style={styles.header} onPress={() => this.toggleDocView('showItemsForSale')}>
+              Items for Sale or Trade:
+            </Text>
+            <Text style={{position: 'absolute', right: 10, top: 5}}>
+              <FontAwesome name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"} size={19} color="white" />
+            </Text>
+            <View style={{backgroundColor: 'white'}}>
+              { this.renderItemsForSale() }
+            </View>
+          </View>
+        </View>
       </ScrollView>
     );
   }

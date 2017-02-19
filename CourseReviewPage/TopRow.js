@@ -139,7 +139,7 @@ class TopRow extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{backgroundColor: 'white'}}>
         <Text style={styles.header} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
         <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showDetails: !this.state.showDetails})}>
           <FontAwesome name={this.state.showDetails ? "chevron-up" : "chevron-down"} size={19} color="white" />

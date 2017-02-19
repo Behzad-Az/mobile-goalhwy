@@ -4,12 +4,11 @@ import {
   Text,
   View,
   ScrollView,
-  DatePickerAndroid,
-  Picker,
-  TouchableHighlight
+  Dimensions
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
+import SearchBar from '../Partials/SearchBar.js';
 import SortModal from '../Partials/ModalSelect.js';
 import TopRow from './TopRow.js';
 import CourseReviewRow from './CourseReviewRow.js';
@@ -32,9 +31,11 @@ class CourseReviewPage extends React.Component {
       courseInfo: {},
       courseReviews: [],
       sortedBy: '',
-      profs: []
+      profs: [],
+      searchResults: []
     };
     this.loadComponentData = this.loadComponentData.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.sortReviews = this.sortReviews.bind(this);
   }
 
@@ -47,6 +48,10 @@ class CourseReviewPage extends React.Component {
     .then(response => response.json())
     .then(resJSON => resJSON ? this.setState(resJSON) : console.error("server error - 0", resJSON))
     .catch(err => console.log("Error here: ", err));
+  }
+
+  handleSearch(searchResults) {
+    this.setState({ searchResults });
   }
 
   sortReviews(sortedBy) {
@@ -83,32 +88,40 @@ class CourseReviewPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <Navbar navigator={this.props.navigator} />
-        <TopRow courseReviews={this.state.courseReviews} />
-        <View style={{marginTop: 10}}>
-          <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
-          <View style={{position: 'absolute', right: 5, top: 5}}>
-            <View style={[styles.dividedRow, {width: 120}]}>
-              <View style={{flex: 3}}>
-                <SortModal
-                  options={this.sortOptions}
-                  handleSelect={this.sortReviews}
-                  btnContent={{ type: 'icon', name: 'sort-amount-desc', size: 13, color: "#004E89"}}
-                  style={styles.sortBtn}
-                />
-              </View>
-              <View style={{flex: 3}}>
-                <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
-              </View>
-              <View style={{flex: 2}}>
-                <Text style={[styles.headerBtn, {textAlign: 'right'}]} onPress={() => this.setState({showReviews: !this.state.showReviews})}>
-                  <FontAwesome name={this.state.showReviews ? "chevron-up" : "chevron-down"} size={19} color="white" />
-                </Text>
+        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+          <SearchBar handleSearch={this.handleSearch} />
+          <Navbar />
+          <View style={styles.resultContainer}>
+            { this.state.searchResults }
+          </View>
+          <TopRow courseReviews={this.state.courseReviews} />
+          <View style={{marginTop: 10}}>
+            <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
+            <View style={{position: 'absolute', right: 5, top: 5}}>
+              <View style={[styles.dividedRow, {width: 120}]}>
+                <View style={{flex: 3}}>
+                  <SortModal
+                    options={this.sortOptions}
+                    handleSelect={this.sortReviews}
+                    btnContent={{ type: 'icon', name: 'sort-amount-desc', size: 13, color: "#004E89"}}
+                    style={styles.sortBtn}
+                  />
+                </View>
+                <View style={{flex: 3}}>
+                  <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
+                </View>
+                <View style={{flex: 2}}>
+                  <Text style={[styles.headerBtn, {textAlign: 'right'}]} onPress={() => this.setState({showReviews: !this.state.showReviews})}>
+                    <FontAwesome name={this.state.showReviews ? "chevron-up" : "chevron-down"} size={19} color="white" />
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
+          <View style={{backgroundColor: 'white'}}>
+            { this.renderReviews() }
+          </View>
         </View>
-        { this.renderReviews() }
       </ScrollView>
     );
   }
@@ -149,5 +162,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: .5,
     borderLeftWidth: .5,
     borderRightWidth: .5
+  },
+  resultContainer: {
+    position: 'absolute',
+    top: 30,
+    left: 10,
+    zIndex: 1,
+    backgroundColor: 'white',
+    borderWidth: .5,
+    width: Dimensions.get('window').width - 40.5
   }
 });

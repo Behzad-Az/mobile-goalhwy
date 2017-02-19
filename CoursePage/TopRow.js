@@ -68,7 +68,7 @@ class TopRow extends React.Component {
 
   render() {
     return (
-      <View style={styles.dividedRow}>
+      <View style={[styles.dividedRow, {maxHeight: 50}]}>
 
         <View style={{flex: 1}}><NewDocForm /></View>
 
