@@ -15,7 +15,6 @@ class InstPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      instId: 1,
       userId: '',
       instList: [],
       currInstCourses: [],
@@ -27,18 +26,7 @@ class InstPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://127.0.0.1:19001/api/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: 'ben',
-        password: 'ben123'
-      })
-    })
-    .then(() => fetch(`http://127.0.0.1:19001/api/institutions/${this.state.instId}`))
+    fetch(`http://127.0.0.1:19001/api/institutions/${this.props.instId}`)
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => console.log("Error here: ", err));
@@ -55,7 +43,7 @@ class InstPage extends React.Component {
   }
 
   findInstName() {
-    let inst = this.state.instList.find(inst => inst.id == this.state.instId);
+    let inst = this.state.instList.find(inst => inst.id == this.props.instId);
     return inst ? inst.displayName : '';
   }
 

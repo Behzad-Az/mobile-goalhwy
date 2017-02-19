@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
-
 import { FontAwesome } from '@exponent/vector-icons';
 
 class Navbar extends React.Component {
@@ -17,32 +16,34 @@ class Navbar extends React.Component {
 
   render() {
     return (
-      <View style={styles.dividedRow}>
+      <View>
+        <View style={styles.dividedRow}>
 
-        <View style={{flex: 1}} >
-          <Text style={styles.navItem} onPress={() => Actions.IndexPage()}>
-            <FontAwesome name="book" size={19} color="white" />
-          </Text>
+          <View style={{flex: 1}} >
+            <Text style={styles.navItem} onPress={() => Actions.IndexPage()}>
+              <FontAwesome name="book" size={19} color="white" />
+            </Text>
+          </View>
+
+          <View style={{flex: 1}}>
+            <Text style={styles.navItem} onPress={() => Actions.InstPage({ instId: 1 })}>
+              <FontAwesome name="graduation-cap" size={19} color="white" />
+            </Text>
+          </View>
+
+          <View style={{flex: 1}}>
+            <Text style={styles.navItem} onPress={() => Actions.CareerPage()}>
+              <FontAwesome name="briefcase" size={19} color="white" />
+            </Text>
+          </View>
+
+          <View style={{flex: 1}}>
+            <Text style={styles.navItem} onPress={() => Actions.InstPage()}>
+              <FontAwesome name="user-circle-o" size={19} color="white" />
+            </Text>
+          </View>
+
         </View>
-
-        <View style={{flex: 1}}>
-          <Text style={styles.navItem} onPress={() => Actions.InstPage()}>
-            <FontAwesome name="graduation-cap" size={19} color="white" />
-          </Text>
-        </View>
-
-        <View style={{flex: 1}}>
-          <Text style={styles.navItem} onPress={() => Actions.CareerPage()}>
-            <FontAwesome name="briefcase" size={19} color="white" />
-          </Text>
-        </View>
-
-        <View style={{flex: 1}}>
-          <Text style={styles.navItem} onPress={() => Actions.InstPage()}>
-            <FontAwesome name="user-circle-o" size={19} color="white" />
-          </Text>
-        </View>
-
       </View>
     );
   }

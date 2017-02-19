@@ -146,7 +146,7 @@ class JobSearchForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.error("Error in server - 0: ", resJSON))
+    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server - 0: ", resJSON))
     .catch(err => console.log("Error here: ", err));
     this.setModalVisible(false);
   }
@@ -240,7 +240,7 @@ class JobSearchForm extends Component {
               </View>
             </View>
 
-            <View style={[styles.dividedRow, {marginTop: 10}]}>
+            <View style={[styles.dividedRow, {marginTop: 10, marginBottom: 10}]}>
               <View style={{flex: 1}}>
                 <Text onPress={this.updateSearch} style={[styles.primaryBtn, {marginRight: 5}]}>
                   Update

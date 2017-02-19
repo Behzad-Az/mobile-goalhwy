@@ -3,10 +3,12 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  ScrollView
+  ScrollView,
+  View
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
+import SearchBar from '../Partials/SearchBar.js';
 import IndexRow from './IndexRow.js';
 
 class IndexPage extends React.Component {
@@ -15,8 +17,10 @@ class IndexPage extends React.Component {
     this.state = {
       courses: [],
       updates: '',
-      instId: ''
+      instId: '',
+      searchResults: []
     };
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -37,10 +41,18 @@ class IndexPage extends React.Component {
     .catch(err => console.log("Error here: ", err));
   }
 
+  handleSearch(searchResults) {
+    this.setState({ searchResults });
+  }
+
   render() {
     return (
       <ScrollView>
+        <SearchBar handleSearch={this.handleSearch}/>
         <Navbar />
+        <View style={styles.resultContainer}>
+          { this.state.searchResults }
+        </View>
         <Text style={styles.header}>My Courses:</Text>
         { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
       </ScrollView>
@@ -58,5 +70,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     color: 'white',
     fontWeight: 'bold'
+  },
+  resultContainer: {
+    position: 'absolute',
+    top: 40,
+    left: 10,
+    zIndex: 1,
+    backgroundColor: 'white',
+    borderWidth: .5
   }
 });

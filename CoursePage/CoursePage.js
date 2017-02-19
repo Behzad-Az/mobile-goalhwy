@@ -9,6 +9,7 @@ import {
 import { FontAwesome } from '@exponent/vector-icons';
 
 import Navbar from '../Navbar/Navbar.js';
+import SearchBar from '../Partials/SearchBar.js';
 import TopRow from './TopRow.js';
 import DocRow from './DocRow.js';
 
@@ -31,6 +32,7 @@ class CoursePage extends React.Component {
     };
     this.conditionData = this.conditionData.bind(this);
     this.loadComponentData = this.loadComponentData.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.renderSampleQuestions = this.renderSampleQuestions.bind(this);
     this.renderLectureNotes = this.renderLectureNotes.bind(this);
     this.renderItemsForSale = this.renderItemsForSale.bind(this);
@@ -59,6 +61,10 @@ class CoursePage extends React.Component {
       lectureNotes: filterDocs(response.docs, 'lecture_note')
     };
     this.setState(newState);
+  }
+
+  handleSearch(searchResults) {
+    this.setState({ searchResults });
   }
 
   renderAsgReports() {
@@ -101,6 +107,7 @@ class CoursePage extends React.Component {
   render() {
     return (
       <ScrollView>
+        <SearchBar handleSearch={this.handleSearch}/>
         <Navbar />
         <Text style={styles.header}>
           {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
