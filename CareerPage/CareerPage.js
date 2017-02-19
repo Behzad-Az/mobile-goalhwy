@@ -10,6 +10,7 @@ import { FontAwesome } from '@exponent/vector-icons';
 
 import Navbar from '../Navbar/Navbar.js';
 import JobRow from './JobRow.js';
+import JobSearchForm from './JobSearchForm.js';
 
 class CareerPage extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class CareerPage extends React.Component {
   componentDidMount() {
     fetch(`http://127.0.0.1:19001/api/users/${this.userId}/jobs`)
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.conditionData(resJSON) : console.error("server error - 0", response))
+    .then(resJSON => resJSON ? this.conditionData(resJSON) : console.error("server error - 0", resJSON))
     .catch(err => console.log("Error here: ", err));
   }
 
@@ -42,6 +43,7 @@ class CareerPage extends React.Component {
     return (
       <ScrollView>
         <Navbar />
+        <JobSearchForm />
         <Text style={styles.header}>Open Positions:</Text>
         { this.state.jobs.map((job, index) => <JobRow key={index} job={job} />) }
       </ScrollView>
