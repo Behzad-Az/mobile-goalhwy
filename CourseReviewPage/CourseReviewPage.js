@@ -88,7 +88,7 @@ class CourseReviewPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+        <View style={{minHeight: Dimensions.get('window').height - 40}}>
           <SearchBar handleSearch={this.handleSearch} />
           <Navbar />
           <View style={styles.resultContainer}>

@@ -112,7 +112,6 @@ class CoursePage extends React.Component {
         <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
           <SearchBar handleSearch={this.handleSearch} />
           <Navbar />
-
           <View style={styles.resultContainer}>
             { this.state.searchResults }
           </View>

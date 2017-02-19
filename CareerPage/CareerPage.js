@@ -3,12 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 
-import { FontAwesome } from '@exponent/vector-icons';
-
 import Navbar from '../Navbar/Navbar.js';
+import SearchBar from '../Partials/SearchBar.js';
 import JobRow from './JobRow.js';
 import JobSearchForm from './JobSearchForm.js';
 
@@ -17,10 +17,12 @@ class CareerPage extends React.Component {
     super(props);
     this.userId = this.props.userId || 1;
     this.state = {
-      jobs: []
+      jobs: [],
+      searchResults: []
     };
     this.conditionData = this.conditionData.bind(this);
     this.loadComponentData = this.loadComponentData.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -44,14 +46,26 @@ class CareerPage extends React.Component {
     this.setState({ jobs });
   }
 
+  handleSearch(searchResults) {
+    this.setState({ searchResults });
+  }
+
   render() {
     return (
       <ScrollView>
-        <Navbar />
-        <JobSearchForm reload={this.loadComponentData} />
-        <Text style={styles.header}>Open Positions:</Text>
-        { this.state.jobs.map((job, index) => <JobRow key={index} job={job} />) }
-        { !this.state.jobs[0] && <Text style={{paddingLeft: 5}}>No jobs matching your search...</Text> }
+        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+          <SearchBar handleSearch={this.handleSearch} />
+          <Navbar />
+          <View style={styles.resultContainer}>
+            { this.state.searchResults }
+          </View>
+          <JobSearchForm reload={this.loadComponentData} />
+          <Text style={styles.header}>Open Positions:</Text>
+          <View style={{backgroundColor: 'white'}}>
+            { this.state.jobs.map((job, index) => <JobRow key={index} job={job} />) }
+            { !this.state.jobs[0] && <Text style={{paddingLeft: 5}}>No jobs matching your search...</Text> }
+          </View>
+        </View>
       </ScrollView>
     );
   }
@@ -68,27 +82,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  docTypeHeader: {
-    padding: 5,
-    backgroundColor: '#eee',
-    borderBottomWidth: .5,
-    borderLeftWidth: .5,
-    borderRightWidth: .5
-  },
-  dividedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    marginTop: 10
-  },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
-    marginRight: 5,
-    marginLeft: 5
+  resultContainer: {
+    position: 'absolute',
+    top: 30,
+    left: 10,
+    zIndex: 1,
+    backgroundColor: 'white',
+    borderWidth: .5,
+    width: Dimensions.get('window').width - 40.5
   }
 });
