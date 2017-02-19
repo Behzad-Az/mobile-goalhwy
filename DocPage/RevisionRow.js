@@ -96,8 +96,6 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     textAlign: 'center',
-    margin: 5,
-    // fontSize: 19
-    lineHeight: 19
+    margin: 5
   }
 });

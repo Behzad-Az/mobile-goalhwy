@@ -40,27 +40,34 @@ class RevisionRow extends React.Component {
 
   render() {
     return (
-      <View style={[styles.container, styles.dividedRow]}>
+      <View style={styles.container}>
 
-        <View style={{flex: 1}}>
-          <Image
-            source={require('../public/images/pdf-logo.png')}
-            fadeDuration={0}
-            style={{ width: 50, height: 50 }}
+        <View style={{position: 'absolute', right: 5, zIndex: 1}}>
+          <Text style={styles.applyBtn}>Apply</Text>
+          <FlagModal
+            options={this.flagOptions}
+            handleSelect={this.handleFlagSubmit}
+            btnContent={{ type: 'icon', name: 'flag', size: 13, color: "white"}}
+            style={styles.flagBtn}
           />
         </View>
 
-        <View style={{flex: 4}}>
-          <Text>{this.props.job.title}</Text>
-          <Text>@ {this.props.job.company}</Text>
-          <Text>Job Level: {this.props.job.kind}</Text>
-
-          <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
-            { this.props.job.tags.map((tag, index) => <Text key={index} style={styles.tag}>{tag}</Text> )}
+        <View style={styles.dividedRow}>
+          <View style={{flex: 1}}>
+            <Image
+              source={require('../public/images/pdf-logo.png')}
+              fadeDuration={0}
+              style={{ width: 50, height: 50 }} />
           </View>
-
+          <View style={{flex: 4}}>
+            <Text style={{fontWeight: 'bold'}}>{this.props.job.title}</Text>
+            <Text>@ {this.props.job.company}</Text>
+            <Text style={{fontSize: 13}}>Job Level: {this.props.job.kind}</Text>
+            <View style={styles.tagContainer}>
+              { this.props.job.tags.map((tag, index) => <Text key={index} style={styles.tag}>{tag}</Text> )}
+            </View>
+          </View>
         </View>
-
 
       </View>
     );
@@ -77,29 +84,49 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 5
   },
-  revTitle: {
-    fontWeight: 'bold'
-  },
-  revDesc: {
-    fontStyle: 'italic'
-  },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  lowerBtn: {
+  applyBtn: {
     color: 'white',
-    padding: 5,
+    backgroundColor: '#004E89',
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingTop: 2,
+    paddingBottom: 5,
     borderRadius: 5,
     textAlign: 'center',
-    margin: 5,
-    lineHeight: 19
+    marginTop: 5,
+    fontSize: 13,
+  },
+  flagBtn: {
+    color: 'white',
+    backgroundColor: '#9D0600',
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingTop: 3,
+    paddingBottom: 3,
+    borderRadius: 5,
+    textAlign: 'center',
+    marginTop: 5
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap'
   },
   tag: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#82ABCA',
+    color: 'white',
+    fontWeight: 'bold',
     margin: 3,
-    padding: 3,
-    borderRadius: 3
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingTop: 2,
+    paddingBottom: 2,
+    borderRadius: 10,
+    fontSize: 10
   }
 });
