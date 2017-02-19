@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  View
+  View,
+  Dimensions
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
@@ -73,10 +74,11 @@ const styles = StyleSheet.create({
   },
   resultContainer: {
     position: 'absolute',
-    top: 40,
+    top: 30,
     left: 10,
     zIndex: 1,
     backgroundColor: 'white',
-    borderWidth: .5
+    borderWidth: .5,
+    width: Dimensions.get('window').width - 40.5
   }
 });

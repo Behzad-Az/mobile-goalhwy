@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
@@ -28,7 +29,8 @@ class CoursePage extends React.Component {
       showAsgReports: false,
       showSampleQuestions: false,
       showLectureNotes: false,
-      showItemsForSale: false
+      showItemsForSale: false,
+      searchResults: []
     };
     this.conditionData = this.conditionData.bind(this);
     this.loadComponentData = this.loadComponentData.bind(this);
@@ -109,6 +111,11 @@ class CoursePage extends React.Component {
       <ScrollView>
         <SearchBar handleSearch={this.handleSearch}/>
         <Navbar />
+
+        <View style={styles.resultContainer}>
+          { this.state.searchResults }
+        </View>
+
         <Text style={styles.header}>
           {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
         </Text>
@@ -193,5 +200,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginRight: 5,
     marginLeft: 5
+  },
+  resultContainer: {
+    position: 'absolute',
+    top: 30,
+    left: 10,
+    zIndex: 1,
+    backgroundColor: 'white',
+    borderWidth: .5,
+    width: Dimensions.get('window').width - 40.5
   }
 });

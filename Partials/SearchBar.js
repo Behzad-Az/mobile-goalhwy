@@ -3,10 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   TextInput,
-  TouchableHighlight,
-  Dimensions
+  TouchableHighlight
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -15,8 +13,12 @@ import { FontAwesome } from '@exponent/vector-icons';
 class SearhBar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      query: ""
+    };
     this.handleSearch = this.handleSearch.bind(this);
     this.conditionData = this.conditionData.bind(this);
+    this.redirect = this.redirect.bind(this);
   }
 
   handleSearch(query) {
@@ -35,6 +37,13 @@ class SearhBar extends React.Component {
     } else {
       this.props.handleSearch([]);
     }
+    this.setState({ query });
+  }
+
+  redirect(page, props) {
+    this.props.handleSearch([]);
+    this.setState({ query: "" });
+    Actions[page](props);
   }
 
   conditionData(resJSON) {
@@ -44,7 +53,7 @@ class SearhBar extends React.Component {
         switch (result._type) {
           case "document":
             searchResults.push(
-              <TouchableHighlight key={index} onPress={() => Actions.DocPage({ courseId: result._source.course_id, docId: result._source.id })}>
+              <TouchableHighlight key={index} onPress={() => this.redirect('DocPage', { courseId: result._source.course_id, docId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
                   <Text style={styles.searchRow}><FontAwesome name="file-text" size={19} color="#004E89" /></Text>
                   <Text style={styles.searchRow}>{result._source.course_name}</Text>
@@ -56,7 +65,7 @@ class SearhBar extends React.Component {
             break;
           case "course":
             searchResults.push(
-              <TouchableHighlight key={index} onPress={() => Actions.CoursePage({ courseId: result._source.id })}>
+              <TouchableHighlight key={index} onPress={() => this.redirect('CoursePage', { courseId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
                   <Text style={styles.searchRow}><FontAwesome name="users" size={19} color="#004E89" /></Text>
                   <Text style={styles.searchRow}>{result._source.title}</Text>
@@ -65,7 +74,7 @@ class SearhBar extends React.Component {
             break;
           case "institution":
             searchResults.push(
-              <TouchableHighlight key={index} onPress={() => Actions.InstPage({ instId: result._source.id })}>
+              <TouchableHighlight key={index} onPress={() => this.redirect('InstPage', { instId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
                   <Text style={styles.searchRow}><FontAwesome name="graduation-cap" size={19} color="#004E89" /></Text>
                   <Text style={styles.searchRow}>{result._source.inst_name}</Text>
@@ -74,7 +83,7 @@ class SearhBar extends React.Component {
             break;
           case "company":
             searchResults.push(
-              <TouchableHighlight key={index} onPress={() => Actions.InstPage({ instId: 1 })}>
+              <TouchableHighlight key={index} onPress={() => this.redirect('InstPage', { instId: 1 })}>
                 <View style={styles.searchRowContainer}>
                   <Text style={styles.searchRow}><FontAwesome name="briefcase" size={19} color="#004E89" /></Text>
                   <Text style={styles.searchRow}>{result._source.company_name}</Text>
@@ -95,6 +104,7 @@ class SearhBar extends React.Component {
         <TextInput
           style={styles.textInput}
           onChangeText={query => this.handleSearch(query)}
+          value={this.state.query}
           placeholder="search the app"
           underlineColorAndroid="rgba(0,0,0,0)"
         />
@@ -105,15 +115,18 @@ class SearhBar extends React.Component {
 
 export default SearhBar;
 
-const vw = percentageWidth => Dimensions.get('window').width * (percentageWidth / 100);
-
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    borderWidth: .5,
+    borderColor: 'white',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     backgroundColor: '#004E89'
   },
   textInput: {
-    height: 30,
+    height: 25,
     backgroundColor: 'white',
     paddingRight: 5,
     paddingLeft: 5,
@@ -123,8 +136,7 @@ const styles = StyleSheet.create({
   searchRowContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 5,
-    width: Dimensions.get('window').width - 40
+    padding: 5
   },
   searchRow: {
     paddingRight: 5,
