@@ -5,10 +5,12 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput
+  TextInput,
+  Dimensions
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
+import SearchBar from '../Partials/SearchBar.js';
 import CourseRow from './CourseRow.js';
 
 class InstPage extends React.Component {
@@ -18,9 +20,11 @@ class InstPage extends React.Component {
       userId: '',
       instList: [],
       currInstCourses: [],
-      currUserCourseIds: []
+      currUserCourseIds: [],
+      searchResults: []
     };
     this.conditionData = this.conditionData.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.findInstName = this.findInstName.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
   }
@@ -42,6 +46,10 @@ class InstPage extends React.Component {
     this.setState(response);
   }
 
+  handleSearch(searchResults) {
+    this.setState({ searchResults });
+  }
+
   findInstName() {
     let inst = this.state.instList.find(inst => inst.id == this.props.instId);
     return inst ? inst.displayName : '';
@@ -57,14 +65,24 @@ class InstPage extends React.Component {
     let slicedArr = this.state.currInstCourses.slice(0, 19);
     return (
       <ScrollView>
-        <Navbar navigator={this.props.navigator} />
-        <Text style={styles.header}>{this.findInstName()}</Text>
-        <TextInput
-          style={styles.filterBox}
-          onChangeText={text => this.handleFilter(text)}
-          placeholder="Search courses here..."
-        />
-        { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
+        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+          <SearchBar handleSearch={this.handleSearch} />
+          <Navbar navigator={this.props.navigator} />
+          <View style={styles.resultContainer}>
+            { this.state.searchResults }
+          </View>
+
+          <Text style={styles.header}>{this.findInstName()}</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => this.handleFilter(text)}
+            placeholder="Search courses here..."
+          />
+          <View style={{backgroundColor: 'white'}}>
+            { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
+            { !slicedArr[0] && <Text style={{padding: 5}}>No matching course was found...</Text> }
+          </View>
+        </View>
       </ScrollView>
     );
   }
@@ -81,11 +99,24 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  filterBox: {
-    marginTop: 5,
+  textInput: {
     marginBottom: 5,
-    height: 45,
-    paddingLeft: 10,
-    paddingRight: 10
+    marginTop: 5,
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingTop: 2,
+    paddingBottom: 2,
+    borderWidth: .5,
+    borderColor: '#aaa',
+    borderRadius: 5
+  },
+  resultContainer: {
+    position: 'absolute',
+    top: 30,
+    left: 10,
+    zIndex: 1,
+    backgroundColor: 'white',
+    borderWidth: .5,
+    width: Dimensions.get('window').width - 40.5
   }
 });
