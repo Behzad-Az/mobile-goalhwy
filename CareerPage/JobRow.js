@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   TouchableOpacity
 } from 'react-native';
 
@@ -13,9 +14,8 @@ class RevisionRow extends React.Component {
   constructor(props) {
     super(props);
     this.flagOptions = [
-      { value: 'inappropriate content', label: 'Inappropriate content' },
-      { value: 'does not belong to this course', label: 'Does not belong to this course' },
-      { value: 'corrupted file or unreadable', label: 'Corrupted file or unreadable' },
+      { value: 'expired link', label: 'Expired link' },
+      { value: 'poor categorization', label: 'Poor categorization' },
       { value: 'other', label: 'Other' }
     ];
     this.state = {
@@ -25,7 +25,7 @@ class RevisionRow extends React.Component {
   }
 
   handleFlagSubmit(flagReason) {
-    fetch(`http://127.0.0.1:19001/api/flags/revisions/${this.props.rev.id}`, {
+    fetch(`http://127.0.0.1:19001/api/flags/jobs/${this.props.job.id}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -40,26 +40,27 @@ class RevisionRow extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, styles.dividedRow]}>
 
-        <View style={styles.dividedRow}>
-          <TouchableOpacity style={{ flex: 4 }}>
-            <Text style={[{backgroundColor: '#004E89'}, styles.lowerBtn]}>Download</Text>
-          </TouchableOpacity>
-          <View style={{ flex: 1 }}>
-            <FlagModal
-              options={this.flagOptions}
-              handleSelect={this.handleFlagSubmit}
-              btnContent={{ type: 'icon', name: 'flag', size: 19, color: "white"}}
-              style={[{backgroundColor: '#9D0600'}, styles.lowerBtn]}
-            />
+        <View style={{flex: 1}}>
+          <Image
+            source={require('../public/images/pdf-logo.png')}
+            fadeDuration={0}
+            style={{ width: 50, height: 50 }}
+          />
+        </View>
+
+        <View style={{flex: 4}}>
+          <Text>{this.props.job.title}</Text>
+          <Text>@ {this.props.job.company}</Text>
+          <Text>Job Level: {this.props.job.kind}</Text>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+            { this.props.job.tags.map((tag, index) => <Text key={index} style={styles.tag}>{tag}</Text> )}
           </View>
+
         </View>
 
-        <View style={{marginBottom: 35}}>
-          <Text style={styles.revTitle}>{this.props.rev.title}</Text>
-          <Text style={styles.revDesc}>"{this.props.rev.rev_desc}"</Text>
-        </View>
 
       </View>
     );
@@ -86,10 +87,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
-    position: 'absolute',
-    bottom: 5,
-    left: 5
   },
   lowerBtn: {
     color: 'white',
@@ -97,7 +94,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     textAlign: 'center',
     margin: 5,
-    // fontSize: 19
     lineHeight: 19
+  },
+  tag: {
+    backgroundColor: '#ccc',
+    margin: 3,
+    padding: 3,
+    borderRadius: 3
   }
 });

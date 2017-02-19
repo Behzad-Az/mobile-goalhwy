@@ -32,7 +32,7 @@ class Navbar extends React.Component {
         </View>
 
         <View style={{flex: 1}}>
-          <Text style={styles.navItem} onPress={() => Actions.InstPage()}>
+          <Text style={styles.navItem} onPress={() => Actions.CareerPage()}>
             <FontAwesome name="institution" size={19} color="white" />
           </Text>
         </View>

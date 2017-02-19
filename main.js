@@ -11,6 +11,7 @@ import InstPage from './InstPage/InstPage.js';
 import IndexPage from './IndexPage/IndexPage.js';
 import CourseReviewPage from './CourseReviewPage/CourseReviewPage.js';
 import DocPage from './DocPage/DocPage.js';
+import CareerPage from './CareerPage/CareerPage.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -51,6 +52,12 @@ class App extends React.Component {
             key="DocPage"
             component={DocPage}
             title="DocPage"
+          />
+
+          <Scene
+            key="CareerPage"
+            component={CareerPage}
+            title="CareerPage"
           />
 
         </Scene>
