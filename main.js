@@ -13,6 +13,8 @@ import CourseReviewPage from './CourseReviewPage/CourseReviewPage.js';
 import DocPage from './DocPage/DocPage.js';
 import CareerPage from './CareerPage/CareerPage.js';
 
+import MapTest from './Partials/MapTest.js';
+
 class App extends React.Component {
   constructor(props) {
     super(props);

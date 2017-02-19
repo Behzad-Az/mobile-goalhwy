@@ -10,6 +10,7 @@ import {
 
 import { FontAwesome } from '@exponent/vector-icons';
 import CheckBox from 'react-native-check-box';
+import DistanceModal from '../Partials/ModalSelect.js';
 
 class JobSearchForm extends Component {
   constructor(props) {
@@ -26,7 +27,6 @@ class JobSearchForm extends Component {
     ];
     this.state = {
       modalVisible: false,
-      username: '',
       postal_code: '',
       job_distance: '',
       job_kind: [],
@@ -35,10 +35,13 @@ class JobSearchForm extends Component {
     };
     this.conditionData = this.conditionData.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.determineDistanceText = this.determineDistanceText.bind(this);
+    this.handleDistanceSelect = this.handleDistanceSelect.bind(this);
     this.handleJobKind = this.handleJobKind.bind(this);
     this.moveUpTag = this.moveUpTag.bind(this);
     this.moveDownTag = this.moveDownTag.bind(this);
     this.filterPreferenceTags = this.filterPreferenceTags.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   componentDidMount() {
@@ -67,7 +70,6 @@ class JobSearchForm extends Component {
     }
 
     this.setState({
-      username: resJSON.userInfo.username,
       postal_code: resJSON.userInfo.postal_code ? resJSON.userInfo.postal_code.toUpperCase() : '',
       job_distance: resJSON.userInfo.job_distance ? resJSON.userInfo.job_distance : '',
       job_kind: job_kind,
@@ -75,8 +77,20 @@ class JobSearchForm extends Component {
     });
   }
 
+  determineDistanceText() {
+    if (this.state.job_distance) {
+      return (this.state.job_distance === 9000) ? "All" : `${this.state.job_distance} km`;
+    } else {
+      return "select search area";
+    }
+  }
+
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  handleDistanceSelect(job_distance) {
+    this.setState({ job_distance });
   }
 
   handleJobKind(value) {
@@ -115,6 +129,28 @@ class JobSearchForm extends Component {
       <Text style={{paddingLeft: 5}}>No matching tags found...</Text>;
   }
 
+  updateSearch() {
+    let data = {
+      type: "job",
+      postal_code: this.state.postal_code,
+      job_distance: parseInt(this.state.job_distance),
+      job_kind: this.state.job_kind.join(' '),
+      job_query: this.state.job_query.join(' ')
+    };
+    fetch(`http://127.0.0.1:19001/api/users/${this.state.user_id}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.props.reload() : console.error("Error in server - 0: ", resJSON))
+    .catch(err => console.log("Error here: ", err));
+    this.setModalVisible(false);
+  }
+
   render() {
     return (
       <View>
@@ -140,10 +176,12 @@ class JobSearchForm extends Component {
                   />
                 </View>
                 <View style={{flex: 1, marginLeft: 5}}>
-                  <View style={[styles.dividedRow, styles.selectContainer]}>
-                    <Text style={{flex: 7}}>{ this.state.job_distance ? `${this.state.job_distance} km` : "select search area" }</Text>
-                    <Text style={{flex: 1}}><FontAwesome name="chevron-down" size={15} color="black" /></Text>
-                  </View>
+                  <DistanceModal
+                    options={this.distanceOptions}
+                    handleSelect={this.handleDistanceSelect}
+                    btnContent={{ type: 'text', name: this.determineDistanceText() }}
+                    style={styles.selectContainer}
+                  />
                 </View>
               </View>
             </View>
@@ -204,7 +242,7 @@ class JobSearchForm extends Component {
 
             <View style={[styles.dividedRow, {marginTop: 10}]}>
               <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginRight: 5}]}>
+                <Text onPress={this.updateSearch} style={[styles.primaryBtn, {marginRight: 5}]}>
                   Update
                 </Text>
               </View>
@@ -250,8 +288,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     borderWidth: .5,
     borderRadius: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
+    padding: 4.5,
     borderColor: '#aaa',
     alignItems: 'center'
   },

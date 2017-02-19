@@ -20,9 +20,14 @@ class CareerPage extends React.Component {
       jobs: []
     };
     this.conditionData = this.conditionData.bind(this);
+    this.loadComponentData = this.loadComponentData.bind(this);
   }
 
   componentDidMount() {
+    this.loadComponentData();
+  }
+
+  loadComponentData() {
     fetch(`http://127.0.0.1:19001/api/users/${this.userId}/jobs`)
     .then(response => response.json())
     .then(resJSON => resJSON ? this.conditionData(resJSON) : console.error("server error - 0", resJSON))
@@ -43,9 +48,10 @@ class CareerPage extends React.Component {
     return (
       <ScrollView>
         <Navbar />
-        <JobSearchForm />
+        <JobSearchForm reload={this.loadComponentData} />
         <Text style={styles.header}>Open Positions:</Text>
         { this.state.jobs.map((job, index) => <JobRow key={index} job={job} />) }
+        { !this.state.jobs[0] && <Text style={{paddingLeft: 5}}>No jobs matching your search...</Text> }
       </ScrollView>
     );
   }
