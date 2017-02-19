@@ -5,13 +5,11 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput,
-  Picker,
-  TouchableHighlight
+  TextInput
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
-import CheckBox from 'react-native-check-box'
+import CheckBox from 'react-native-check-box';
 
 class JobSearchForm extends Component {
   constructor(props) {
@@ -38,6 +36,9 @@ class JobSearchForm extends Component {
     this.conditionData = this.conditionData.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
     this.handleJobKind = this.handleJobKind.bind(this);
+    this.moveUpTag = this.moveUpTag.bind(this);
+    this.moveDownTag = this.moveDownTag.bind(this);
+    this.filterPreferenceTags = this.filterPreferenceTags.bind(this);
   }
 
   componentDidMount() {
@@ -89,8 +90,32 @@ class JobSearchForm extends Component {
     this.setState({ job_kind });
   }
 
+  moveUpTag(selectedTag) {
+    let job_query = this.state.job_query;
+    job_query.push(selectedTag);
+    let index = this.preferenceTags.findIndex(tag => tag === selectedTag);
+    this.preferenceTags.splice(index, 1);
+    let tagFilterPhrase = '';
+    this.setState({ job_query, tagFilterPhrase });
+  }
+
+  moveDownTag(selectedTag) {
+    let job_query = this.state.job_query;
+    let index = job_query.find(tag => tag === selectedTag);
+    job_query.splice(index, 1);
+    this.preferenceTags.push(selectedTag);
+    this.preferenceTags.sort((a,b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
+    this.setState({ job_query });
+  }
+
+  filterPreferenceTags() {
+    let tempArr = this.state.tagFilterPhrase ? this.preferenceTags.filter(tag => tag.includes(this.state.tagFilterPhrase)) : this.preferenceTags;
+    return tempArr[0] ?
+      tempArr.map((tag, index) => <Text key={index} style={styles.tag} onPress={() => this.moveUpTag(tag)}>{tag}</Text>) :
+      <Text style={{paddingLeft: 5}}>No matching tags found...</Text>;
+  }
+
   render() {
-    console.log("i'm here 0: ", this.state.job_kind);
     return (
       <View>
         <Modal
@@ -105,7 +130,7 @@ class JobSearchForm extends Component {
             <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>Search Area:</Text>
               <View style={styles.dividedRow}>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, marginRight: 5}}>
                   <TextInput
                     style={styles.textInput}
                     onChangeText={postal_code => this.setState({postal_code})}
@@ -114,10 +139,10 @@ class JobSearchForm extends Component {
                     underlineColorAndroid="rgba(0,0,0,0)"
                   />
                 </View>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, marginLeft: 5}}>
                   <View style={[styles.dividedRow, styles.selectContainer]}>
-                    <Text style={{flex: 10}}>{ this.state.job_distance ? `${this.state.job_distance} km` : "select search area" }</Text>
-                    <Text style={{flex: 1}}><FontAwesome name="chevron-down" side={19} color="black" /></Text>
+                    <Text style={{flex: 7}}>{ this.state.job_distance ? `${this.state.job_distance} km` : "select search area" }</Text>
+                    <Text style={{flex: 1}}><FontAwesome name="chevron-down" size={15} color="black" /></Text>
                   </View>
                 </View>
               </View>
@@ -126,7 +151,7 @@ class JobSearchForm extends Component {
             <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>Categories:</Text>
               <View style={styles.dividedRow}>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, paddingRight: 5}}>
                   <CheckBox
                     style={styles.checkbox}
                     onClick={() => this.handleJobKind("summer")}
@@ -140,8 +165,7 @@ class JobSearchForm extends Component {
                     leftText="Junior"
                   />
                 </View>
-
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, paddingLeft: 5}}>
                   <CheckBox
                     style={styles.checkbox}
                     onClick={() => this.handleJobKind("internship")}
@@ -155,6 +179,39 @@ class JobSearchForm extends Component {
                     leftText="Senior"
                   />
                 </View>
+              </View>
+            </View>
+
+            <View style={styles.inputCotainer}>
+              <Text style={styles.inputLabel}>My Preferenence Tages:</Text>
+              <View style={[styles.tagContainer, {borderBottomWidth: 1, borderColor: '#004E89'}]}>
+                { this.state.job_query.map((tag, index) =>
+                  <Text key={index} style={styles.tag} onPress={() => this.moveDownTag(tag)}>{tag}</Text>
+                )}
+                { !this.state.job_query[0] && <Text>Select tags from the list below...</Text> }
+              </View>
+              <TextInput
+                style={[styles.textInput, {marginTop: 10}]}
+                onChangeText={tagFilterPhrase => this.setState({tagFilterPhrase})}
+                value={this.state.tagFilterPhrase}
+                placeholder="search for tags"
+                underlineColorAndroid="rgba(0,0,0,0)"
+              />
+              <View style={styles.tagContainer}>
+                { this.filterPreferenceTags() }
+              </View>
+            </View>
+
+            <View style={[styles.dividedRow, {marginTop: 10}]}>
+              <View style={{flex: 1}}>
+                <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginRight: 5}]}>
+                  Update
+                </Text>
+              </View>
+              <View style={{flex: 1}}>
+                <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginLeft: 5}]}>
+                  Go Back
+                </Text>
               </View>
             </View>
 
@@ -190,9 +247,11 @@ const styles = StyleSheet.create({
     borderColor: '#aaa'
   },
   selectContainer: {
+    marginBottom: 5,
     borderWidth: .5,
     borderRadius: 5,
-    padding: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
     borderColor: '#aaa',
     alignItems: 'center'
   },
@@ -216,13 +275,35 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   textInput: {
+    marginBottom: 5,
     paddingRight: 5,
-    paddingLeft: 5
+    paddingLeft: 5,
+    borderWidth: .5,
+    borderColor: '#aaa',
+    borderRadius: 5
   },
   checkbox: {
     paddingBottom: 5,
     paddingRight: 5,
     paddingLeft: 5,
     flex: 1
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    paddingBottom: 5
+  },
+  tag: {
+    backgroundColor: '#82ABCA',
+    color: 'white',
+    fontWeight: 'bold',
+    margin: 3,
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingTop: 2,
+    paddingBottom: 2,
+    borderRadius: 10,
+    fontSize: 10
   }
 });
