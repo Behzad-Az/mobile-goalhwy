@@ -9,15 +9,34 @@ import { FontAwesome } from '@exponent/vector-icons';
 
 import AnswerRow from './AnswerRow.js';
 import NewAnswerForm from './NewAnswerForm.js';
+import FlagModal from '../Partials/ModalSelect.js';
 
 class QaRow extends React.Component {
   constructor(props) {
     super(props);
+    this.flagOptions = [
+      { value: 'inappropriate content', label: 'Unrelated' },
+      { value: 'other', label: 'Other' }
+    ];
     this.state = {
-      flagRequest: false,
       flagReason: '',
       showAnswers: false
     };
+    this.handleFlagSelect = this.handleFlagSelect.bind(this);
+  }
+
+  handleFlagSelect(flagReason) {
+    fetch(`http://127.0.0.1:19001/api/flags/interview_questions/${this.props.qa.id}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ flagReason }),
+    })
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.setState({ flagReason }) : console.log("Error in server - 0: ", resJSON))
+    .catch(err => console.log("Error here QaRow.js, handleFlagSubmit: ", err));
   }
 
   render() {
@@ -31,8 +50,13 @@ class QaRow extends React.Component {
 
           <NewAnswerForm question={this.props.qa} reload={this.props.reload} companyId={this.props.companyId} />
 
+          <FlagModal
+            options={this.flagOptions}
+            handleSelect={this.handleFlagSelect}
+            btnContent={{ type: 'icon', name: 'flag'}}
+            style={[styles.textBtn, {color: 'black'}]}
+          />
 
-          <FontAwesome name="flag" style={[styles.textBtn, {color: 'black'}]} />
         </View>
         { this.state.showAnswers && this.props.qa.answers.map((ans, index) => <AnswerRow key={index} ans={ans} index={index + 1} /> )}
         { this.state.showAnswers && !this.props.qa.answers[0] && <Text style={{paddingLeft: 2.5}}>No answers posted yet...</Text> }
@@ -73,4 +97,3 @@ const styles = StyleSheet.create({
     color: '#004E89'
   }
 });
-

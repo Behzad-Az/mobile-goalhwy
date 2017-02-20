@@ -21,10 +21,10 @@ class RevisionRow extends React.Component {
     this.state = {
       flagReason: ''
     };
-    this.handleFlagSubmit = this.handleFlagSubmit.bind(this);
+    this.handleFlagSelect = this.handleFlagSelect.bind(this);
   }
 
-  handleFlagSubmit(flagReason) {
+  handleFlagSelect(flagReason) {
     fetch(`http://127.0.0.1:19001/api/flags/revisions/${this.props.rev.id}`, {
       method: 'POST',
       headers: {
@@ -34,7 +34,7 @@ class RevisionRow extends React.Component {
       body: JSON.stringify({ flagReason }),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ flagReason }) : console.error("Error in server - 0: ", resJSON))
+    .then(resJSON => resJSON ? this.setState({ flagReason }) : console.log("Error in server - 0: ", resJSON))
     .catch(err => console.log("Error here: ", err));
   }
 
@@ -49,7 +49,7 @@ class RevisionRow extends React.Component {
           <View style={{ flex: 1 }}>
             <FlagModal
               options={this.flagOptions}
-              handleSelect={this.handleFlagSubmit}
+              handleSelect={this.handleFlagSelect}
               btnContent={{ type: 'icon', name: 'flag', size: 19, color: "white"}}
               style={[{backgroundColor: '#9D0600'}, styles.lowerBtn]}
             />
