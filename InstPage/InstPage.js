@@ -72,16 +72,16 @@ class InstPage extends React.Component {
             { this.state.searchResults }
           </View>
 
-          <Text style={styles.header}>{this.findInstName()}</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={text => this.handleFilter(text)}
-            placeholder="Search courses here..."
-          />
-          <View style={{backgroundColor: 'white'}}>
+          <View style={styles.componentContainer}>
+            <Text style={styles.header}>{this.findInstName()}</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={text => this.handleFilter(text)}
+              placeholder="Search courses here..." />
             { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
             { !slicedArr[0] && <Text style={{padding: 5}}>No matching course was found...</Text> }
           </View>
+
         </View>
       </ScrollView>
     );
@@ -118,5 +118,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: Dimensions.get('window').width - 40.5
+  },
+  componentContainer: {
+    marginBottom: 10,
+    backgroundColor: 'white'
   }
 });

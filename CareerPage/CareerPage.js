@@ -60,11 +60,13 @@ class CareerPage extends React.Component {
             { this.state.searchResults }
           </View>
           <JobSearchForm reload={this.loadComponentData} />
-          <Text style={styles.header}>Open Positions:</Text>
-          <View style={{backgroundColor: 'white'}}>
+
+          <View style={styles.componentContainer}>
+            <Text style={styles.header}>Open Positions:</Text>
             { this.state.jobs.map((job, index) => <JobRow key={index} job={job} />) }
             { !this.state.jobs[0] && <Text style={{paddingLeft: 5}}>No jobs matching your search...</Text> }
           </View>
+
         </View>
       </ScrollView>
     );
@@ -90,5 +92,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: Dimensions.get('window').width - 40.5
+  },
+  componentContainer: {
+    marginBottom: 10,
+    backgroundColor: 'white'
   }
 });

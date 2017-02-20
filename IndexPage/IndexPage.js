@@ -54,8 +54,13 @@ class IndexPage extends React.Component {
         <View style={styles.resultContainer}>
           { this.state.searchResults }
         </View>
-        <Text style={styles.header}>My Courses:</Text>
-        { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
+
+        <View style={styles.componentContainer}>
+          <Text style={styles.header}>My Courses:</Text>
+          { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
+          { !this.state.courses[0] && <Text style={{padding: 5}}>To get updates, please subscribe to at least one course...</Text> }
+        </View>
+
       </ScrollView>
     );
   }
@@ -80,5 +85,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: Dimensions.get('window').width - 40.5
+  },
+  componentContainer: {
+    marginBottom: 10,
+    backgroundColor: 'white'
   }
 });

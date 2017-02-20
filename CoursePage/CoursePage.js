@@ -74,7 +74,7 @@ class CoursePage extends React.Component {
     let lastUpdate = docCount ? this.state.asgReports[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showAsgReports ?
       this.state.asgReports.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
-      <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
+      <Text style={styles.summaryInfo}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
   renderSampleQuestions() {
@@ -82,7 +82,7 @@ class CoursePage extends React.Component {
     let lastUpdate = docCount ? this.state.sampleQuestions[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showSampleQuestions ?
       this.state.sampleQuestions.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />):
-      <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
+      <Text style={styles.summaryInfo}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
   renderLectureNotes() {
@@ -90,14 +90,14 @@ class CoursePage extends React.Component {
     let lastUpdate = docCount ? this.state.lectureNotes[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showLectureNotes ?
       this.state.lectureNotes.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
-      <Text style={styles.docTypeHeader}>{docCount} document(s)... last update on {lastUpdate}</Text>
+      <Text style={styles.summaryInfo}>{docCount} document(s)... last update on {lastUpdate}</Text>
   }
 
   renderItemsForSale() {
     let itemCount = this.state.itemsForSale.length;
     return this.state.showItemsForSale ?
-      this.state.itemsForSale.map((item, index) => <Text key={index} style={styles.docTypeHeader}>{item.title}</Text>) :
-      <Text style={styles.docTypeHeader}>{itemCount} item(s) for sale...</Text>
+      this.state.itemsForSale.map((item, index) => <Text key={index} style={styles.summaryInfo}>{item.title}</Text>) :
+      <Text style={styles.summaryInfo}>{itemCount} item(s) for sale...</Text>
   }
 
   toggleDocView(stateBool) {
@@ -110,65 +110,60 @@ class CoursePage extends React.Component {
     return (
       <ScrollView>
         <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+
           <SearchBar handleSearch={this.handleSearch} />
           <Navbar />
           <View style={styles.resultContainer}>
             { this.state.searchResults }
           </View>
 
-          <Text style={styles.header}>
-            {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
-          </Text>
+          <View style={styles.componentContainer}>
+            <Text style={styles.header}>
+              {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
+            </Text>
+            <TopRow courseInfo={this.state.courseInfo} />
+          </View>
 
-          <TopRow courseInfo={this.state.courseInfo} />
-
-          <View style={{marginBottom: 10}}>
+          <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.toggleDocView('showAsgReports')}>
               Assignment & Reports:
             </Text>
             <View style={{position: 'absolute', right: 10, top: 5}}>
               <FontAwesome name={this.state.showAsgReports ? "chevron-up" : "chevron-down"} size={19} color="white" />
             </View>
-            <View style={{backgroundColor: 'white'}}>
-              { this.renderAsgReports() }
-            </View>
+            { this.renderAsgReports() }
           </View>
 
-          <View style={{marginBottom: 10}}>
+          <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.toggleDocView('showSampleQuestions')}>
               Sample Questions:
             </Text>
             <View style={{position: 'absolute', right: 10, top: 5}}>
               <FontAwesome name={this.state.showSampleQuestions ? "chevron-up" : "chevron-down"} size={19} color="white" />
             </View>
-            <View style={{backgroundColor: 'white'}}>
-              { this.renderSampleQuestions() }
-            </View>
+            { this.renderSampleQuestions() }
           </View>
 
-          <View style={{marginBottom: 10}}>
+          <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.toggleDocView('showLectureNotes')}>
               Lecture Notes:
             </Text>
             <View style={{position: 'absolute', right: 10, top: 5}}>
               <FontAwesome name={this.state.showLectureNotes ? "chevron-up" : "chevron-down"} size={19} color="white" />
             </View>
-            <View style={{backgroundColor: 'white'}}>
-              { this.renderLectureNotes() }
-            </View>
+            { this.renderLectureNotes() }
           </View>
 
-          <View style={{marginBottom: 10}}>
+          <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.toggleDocView('showItemsForSale')}>
               Items for Sale or Trade:
             </Text>
             <Text style={{position: 'absolute', right: 10, top: 5}}>
               <FontAwesome name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"} size={19} color="white" />
             </Text>
-            <View style={{backgroundColor: 'white'}}>
-              { this.renderItemsForSale() }
-            </View>
+            { this.renderItemsForSale() }
           </View>
+
         </View>
       </ScrollView>
     );
@@ -186,28 +181,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  docTypeHeader: {
+  summaryInfo: {
     padding: 5,
     backgroundColor: '#eee',
     borderBottomWidth: .5,
     borderLeftWidth: .5,
     borderRightWidth: .5
-  },
-  dividedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    marginTop: 10
-  },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
-    marginRight: 5,
-    marginLeft: 5
   },
   resultContainer: {
     position: 'absolute',
@@ -217,5 +196,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: Dimensions.get('window').width - 40.5
+  },
+  componentContainer: {
+    marginBottom: 10,
+    backgroundColor: 'white'
   }
 });

@@ -75,16 +75,13 @@ class CompanyPage extends React.Component {
             { this.state.searchResults }
           </View>
 
-          <View style={{backgroundColor: 'white'}}>
+          <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showJobs: !this.state.showJobs})}>Current Job Openings:</Text>
             <Text style={{position: 'absolute', right: 10, top: 5}}>
               <FontAwesome name={this.state.showJobs ? "chevron-up" : "chevron-down"} size={19} color="white" />
             </Text>
             { this.renderJobs() }
           </View>
-
-
-
 
         </View>
       </ScrollView>
@@ -136,5 +133,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: Dimensions.get('window').width - 40.5
+  },
+  componentContainer: {
+    marginBottom: 10,
+    backgroundColor: 'white'
   }
 });

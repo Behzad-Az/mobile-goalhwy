@@ -56,14 +56,13 @@ class DocPage extends React.Component {
             { this.state.searchResults }
           </View>
 
-          <Text style={styles.header}>{this.state.doc.title}</Text>
+          <View style={styles.componentContainer}>
+            <Text style={styles.header}>{this.state.doc.title}</Text>
+            <TopRow courseInfo={this.state.courseInfo} />
+          </View>
 
-          <TopRow courseInfo={this.state.courseInfo} />
-
-          <Text style={styles.header}>
-            Revisions
-          </Text>
-          <View style={{backgroundColor: 'white'}}>
+          <View style={styles.componentContainer}>
+            <Text style={styles.header}>Revisions:</Text>
             { this.state.doc.revisions.map((rev, index) => <RevisionRow key={index} rev={rev} />) }
             { !this.state.doc.revisions[0] && <Text style={{padding: 5}}>No revision could be found...</Text> }
           </View>
@@ -92,5 +91,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: Dimensions.get('window').width - 40.5
+  },
+  componentContainer: {
+    marginBottom: 10,
+    backgroundColor: 'white'
   }
 });

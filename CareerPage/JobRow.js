@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: .5,
     borderRadius: 5,
-    backgroundColor: 'white',
     marginTop: 5
   },
   dividedRow: {

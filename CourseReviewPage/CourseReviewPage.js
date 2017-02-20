@@ -89,13 +89,16 @@ class CourseReviewPage extends React.Component {
     return (
       <ScrollView>
         <View style={{minHeight: Dimensions.get('window').height - 40}}>
+
           <SearchBar handleSearch={this.handleSearch} />
           <Navbar />
           <View style={styles.resultContainer}>
             { this.state.searchResults }
           </View>
+
           <TopRow courseReviews={this.state.courseReviews} />
-          <View style={{marginTop: 10}}>
+
+          <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
             <View style={{position: 'absolute', right: 5, top: 5}}>
               <View style={[styles.dividedRow, {width: 120}]}>
@@ -117,10 +120,9 @@ class CourseReviewPage extends React.Component {
                 </View>
               </View>
             </View>
-          </View>
-          <View style={{backgroundColor: 'white'}}>
             { this.renderReviews() }
           </View>
+
         </View>
       </ScrollView>
     );
@@ -171,5 +173,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: Dimensions.get('window').width - 40.5
+  },
+  componentContainer: {
+    marginBottom: 10,
+    backgroundColor: 'white'
   }
 });
