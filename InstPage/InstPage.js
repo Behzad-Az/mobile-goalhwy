@@ -12,6 +12,8 @@ import {
 import Navbar from '../Navbar/Navbar.js';
 import SearchBar from '../Partials/SearchBar.js';
 import CourseRow from './CourseRow.js';
+import ChangeInstForm from './ChangeInstForm.js';
+import NewInstForm from './NewInstForm.js';
 
 class InstPage extends React.Component {
   constructor(props) {
@@ -21,7 +23,8 @@ class InstPage extends React.Component {
       instList: [],
       currInstCourses: [],
       currUserCourseIds: [],
-      searchResults: []
+      searchResults: [],
+      filterPhrase: ''
     };
     this.conditionData = this.conditionData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -41,8 +44,6 @@ class InstPage extends React.Component {
     response.instList.forEach(inst => {
       inst.displayName = inst.inst_short_name ? inst.inst_long_name + ` (${inst.inst_short_name})` : inst.inst_long_name;
     });
-    this.fixedCurrInstCourses = response.currInstCourses;
-    this.dataLoaded = true;
     this.setState(response);
   }
 
@@ -56,13 +57,12 @@ class InstPage extends React.Component {
   }
 
   handleFilter(text) {
-    let phrase = new RegExp(text.toLowerCase());
-    let currInstCourses = this.fixedCurrInstCourses.filter(course => course.displayName.toLowerCase().match(phrase));
-    this.setState({ currInstCourses });
+    let phrase = new RegExp(this.state.filterPhrase.toLowerCase());
+    return this.state.currInstCourses.filter(course => course.displayName.toLowerCase().match(phrase)).slice(0, 19);
   }
 
   render() {
-    let slicedArr = this.state.currInstCourses.slice(0, 19);
+    let slicedArr = this.handleFilter();
     return (
       <ScrollView>
         <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
@@ -74,9 +74,13 @@ class InstPage extends React.Component {
 
           <View style={styles.componentContainer}>
             <Text style={styles.header}>{this.findInstName()}</Text>
+            <View style={styles.headerBtnContainer}>
+              <ChangeInstForm instList={this.state.instList} />
+              <NewInstForm />
+            </View>
             <TextInput
               style={styles.textInput}
-              onChangeText={text => this.handleFilter(text)}
+              onChangeText={filterPhrase => this.setState({ filterPhrase })}
               placeholder="Search courses here..." />
             { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
             { !slicedArr[0] && <Text style={{padding: 5}}>No matching course was found...</Text> }
@@ -122,5 +126,14 @@ const styles = StyleSheet.create({
   componentContainer: {
     marginBottom: 10,
     backgroundColor: 'white'
+  },
+  headerBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    paddingBottom: 5,
+    position: 'absolute',
+    right: 10,
+    top: 5
   }
 });

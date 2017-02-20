@@ -53,7 +53,7 @@ class InstPage extends React.Component {
   render() {
     return (
       <View style={styles.dividedRow}>
-        <Text style={{flex: 9, padding: 5}} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
+        <Text style={{flex: 9}} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
           {this.props.course.displayName}
         </Text>
         <FontAwesome
@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 5,
     backgroundColor: '#eee',
-    borderWidth: .5
+    borderWidth: .5,
+    padding: 5
   },
   subBtn: {
     flex: 1,
-    padding: 5,
     fontSize: 25
   }
 });
