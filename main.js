@@ -12,6 +12,7 @@ import IndexPage from './IndexPage/IndexPage.js';
 import CourseReviewPage from './CourseReviewPage/CourseReviewPage.js';
 import DocPage from './DocPage/DocPage.js';
 import CareerPage from './CareerPage/CareerPage.js';
+import CompanyPage from './CompanyPage/CompanyPage.js';
 
 import MapTest from './Partials/MapTest.js';
 
@@ -60,6 +61,12 @@ class App extends React.Component {
             key="CareerPage"
             component={CareerPage}
             title="CareerPage"
+          />
+
+          <Scene
+            key="CompanyPage"
+            component={CompanyPage}
+            title="CompanyPage"
           />
 
         </Scene>

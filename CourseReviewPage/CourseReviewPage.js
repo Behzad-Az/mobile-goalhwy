@@ -46,7 +46,7 @@ class CourseReviewPage extends React.Component {
   loadComponentData() {
     fetch(`http://127.0.0.1:19001/api/courses/${this.props.courseId}/reviews`)
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState(resJSON) : console.error("server error - 0", resJSON))
+    .then(resJSON => resJSON ? this.setState(resJSON) : console.log("server error - 0", resJSON))
     .catch(err => console.log("Error here: ", err));
   }
 
