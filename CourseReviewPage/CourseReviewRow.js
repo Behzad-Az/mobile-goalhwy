@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#004E89',
     borderRadius: 5,
-    marginTop: 15
+    marginTop: 10
   },
   dividedRow: {
     flex: 1,

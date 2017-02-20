@@ -10,6 +10,7 @@ import {
 import Navbar from '../Navbar/Navbar.js';
 import SearchBar from '../Partials/SearchBar.js';
 import JobRow from '../CareerPage/JobRow.js';
+import QaRow from './QaRow.js';
 
 import { FontAwesome } from '@exponent/vector-icons';
 
@@ -21,12 +22,14 @@ class CompanyPage extends React.Component {
       questions: [],
       jobs: [],
       showJobs: false,
+      showQas: false,
       searchResults: []
     };
     this.loadComponentData = this.loadComponentData.bind(this);
     this.conditionData = this.conditionData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.renderJobs = this.renderJobs.bind(this);
+    this.renderQas = this.renderQas.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +68,13 @@ class CompanyPage extends React.Component {
       <Text style={styles.summaryInfo}>{jobCount} open positions...</Text>
   }
 
+  renderQas() {
+    let qaCount = this.state.questions.length;
+    return this.state.showQas ?
+      this.state.questions.map((qa, index) => <QaRow key={index} qa={qa} reload={this.loadComponentData} companyId={this.props.companyId} /> ):
+      <Text style={styles.summaryInfo}>{qaCount} interview questions...</Text>
+  }
+
   render() {
     return (
       <ScrollView>
@@ -77,11 +87,20 @@ class CompanyPage extends React.Component {
 
           <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showJobs: !this.state.showJobs})}>Current Job Openings:</Text>
-            <Text style={{position: 'absolute', right: 10, top: 5}}>
+            <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showJobs: !this.state.showJobs})}>
               <FontAwesome name={this.state.showJobs ? "chevron-up" : "chevron-down"} size={19} color="white" />
             </Text>
             { this.renderJobs() }
           </View>
+
+          <View style={styles.componentContainer}>
+            <Text style={styles.header} onPress={() => this.setState({showQas: !this.state.showQas})}>Interview Questions / Answers:</Text>
+            <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showQas: !this.state.showQas})}>
+              <FontAwesome name={this.state.showQas ? "chevron-up" : "chevron-down"} size={19} color="white" />
+            </Text>
+            { this.renderQas() }
+          </View>
+
 
         </View>
       </ScrollView>
