@@ -52,8 +52,8 @@ class NewQuestionForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server - 0: ", resJSON))
-    .catch(err => console.log("Error here NewQuestionForm: ", err));
+    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server, NewQuestionForm.js: ", resJSON))
+    .catch(err => console.log("Error here in NewQuestionForm.js: ", err));
     this.setModalVisible(false);
   }
 
@@ -78,6 +78,7 @@ class NewQuestionForm extends Component {
               <TextInput
                 style={[styles.textInput, {height: this.state.questionBoxHeight}]}
                 multiline
+                autoCapitalize="sentences"
                 onChangeText={question => this.setState({question})}
                 value={this.state.question}
                 placeholder="Example: What are your strengths?"
@@ -108,19 +109,19 @@ class NewQuestionForm extends Component {
                 options={this.outcomeOptions}
                 handleSelect={this.handleOutcomeSelect}
                 btnContent={{ type: 'text', name: this.state.outcome || 'What was the outcome? (optional)' }}
-                style={styles.selectContainer}
+                style={[styles.selectContainer, {color: this.state.outcome ? 'black' : '#004E89', fontWeight: this.state.outcome ? 'normal' : 'bold'}]}
               />
               <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
             </View>
 
-            <View style={[styles.dividedRow, {marginTop: 10, marginBottom: 10}]}>
+            <View style={styles.dividedRow}>
               <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]}>
+                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleNewInterviewQuestion}>
                   Submit
                 </Text>
               </View>
               <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginLeft: 5}]}>
+                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
                   Go Back
                 </Text>
               </View>
@@ -169,39 +170,19 @@ const styles = StyleSheet.create({
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 10
   },
   primaryBtn: {
     color: 'white',
     backgroundColor: '#004E89',
     padding: 5,
     borderRadius: 5,
-    textAlign: 'center',
-    marginRight: 5,
-    marginLeft: 5
-  },
-  uploadBtn: {
-    maxWidth: 80,
-    maxHeight: 80,
-    padding: 5,
-    borderWidth: .5,
-    borderRadius: 5,
-    borderColor: '#bbb',
-    textAlign: 'center',
-    backgroundColor: '#eee'
+    textAlign: 'center'
   },
   textInput: {
     paddingRight: 5,
     paddingLeft: 5
-  },
-  actionBtn: {
-    alignItems: 'center',
-    backgroundColor: '#004E89',
-    textAlign: 'center',
-    paddingTop: 5,
-    paddingBottom: 5,
-    color: 'white',
-    fontWeight: 'bold'
   },
   headerBtn: {
     paddingLeft: 5,
@@ -211,7 +192,7 @@ const styles = StyleSheet.create({
     fontSize: 19
   },
   selectContainer: {
-    marginBottom: 5,
+    marginBottom: 10,
     borderWidth: .5,
     borderRadius: 5,
     paddingLeft: 10,
@@ -219,8 +200,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingRight: 5,
     borderColor: '#aaa',
-    alignItems: 'center',
-    color: '#004E89',
-    fontWeight: 'bold'
+    alignItems: 'center'
   }
 });

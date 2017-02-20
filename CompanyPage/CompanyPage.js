@@ -95,17 +95,13 @@ class CompanyPage extends React.Component {
           </View>
 
           <View style={styles.componentContainer}>
-
             <Text style={styles.header} onPress={() => this.setState({showQas: !this.state.showQas})}>Interview Questions / Answers:</Text>
-
             <View style={styles.headerBtnContainer}>
-              <NewQuestionForm companyId={this.props.companyId} />
+              <NewQuestionForm companyId={this.props.companyId} reload={this.loadComponentData} />
               <FontAwesome name={this.state.showQas ? "chevron-up" : "chevron-down"} style={styles.headerBtn} onPress={() => this.setState({ showQas: !this.state.showQas })} />
             </View>
-
             { this.renderQas() }
           </View>
-
 
         </View>
       </ScrollView>

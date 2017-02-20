@@ -83,7 +83,7 @@ class SearhBar extends React.Component {
             break;
           case "company":
             searchResults.push(
-              <TouchableHighlight key={index} onPress={() => this.redirect('InstPage', { instId: 1 })}>
+              <TouchableHighlight key={index} onPress={() => this.redirect('CompanyPage', { companyId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
                   <Text style={styles.searchRow}><FontAwesome name="briefcase" size={19} color="#004E89" /></Text>
                   <Text style={styles.searchRow}>{result._source.company_name}</Text>

@@ -30,9 +30,8 @@ class QaRow extends React.Component {
           <Text style={styles.textBtn}>Post New Answer</Text>
           <FontAwesome name="flag" style={[styles.textBtn, {color: 'black'}]} />
         </View>
-
         { this.state.showAnswers && this.props.qa.answers.map((ans, index) => <AnswerRow key={index} ans={ans} index={index + 1} /> )}
-
+        { this.state.showAnswers && !this.props.qa.answers[0] && <Text style={{paddingLeft: 2.5}}>No answers posted yet...</Text> }
       </View>
     );
   }
