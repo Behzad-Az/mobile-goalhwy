@@ -49,7 +49,7 @@ class ChangeInstForm extends Component {
           <ScrollView style={styles.modalContainer}>
             <Text style={styles.modalHeader}>Select Institution:</Text>
             <TextInput
-              style={styles.textInput}
+              style={styles.searchInput}
               onChangeText={filterPhrase => this.setState({ filterPhrase })}
               placeholder="Search institutions here..." />
 
@@ -97,21 +97,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  // inputCotainer: {
-  //   marginBottom: 10,
-  //   padding: 5,
-  //   borderWidth: .5,
-  //   borderRadius: 5,
-  //   borderColor: '#aaa'
-  // },
-  // inputLabel: {
-  //   color: '#004E89',
-  //   fontWeight: 'bold',
-  //   paddingTop: 2.5,
-  //   paddingRight: 5,
-  //   paddingLeft: 5,
-  //   paddingBottom: 5
-  // },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
@@ -132,24 +117,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 19
   },
-  // selectContainer: {
-  //   marginBottom: 10,
-  //   borderWidth: .5,
-  //   borderRadius: 5,
-  //   paddingLeft: 10,
-  //   paddingTop: 5,
-  //   paddingBottom: 5,
-  //   paddingRight: 5,
-  //   borderColor: '#aaa',
-  //   alignItems: 'center'
-  // },
   instRowText: {
     marginBottom: 5,
     backgroundColor: '#eee',
     borderWidth: .5,
     padding: 5
   },
-  textInput: {
+  searchInput: {
     marginBottom: 5,
     paddingRight: 5,
     paddingLeft: 5,
@@ -158,5 +132,5 @@ const styles = StyleSheet.create({
     borderWidth: .5,
     borderColor: '#aaa',
     borderRadius: 5
-  },
+  }
 });

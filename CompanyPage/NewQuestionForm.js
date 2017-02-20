@@ -94,6 +94,7 @@ class NewQuestionForm extends Component {
               <TextInput
                 style={[styles.textInput, {height: this.state.answerBoxHeight}]}
                 multiline
+                autoCapitalize="sentences"
                 onChangeText={answer => this.setState({answer})}
                 value={this.state.answer}
                 placeholder="Summarize your answer here (optional)"
