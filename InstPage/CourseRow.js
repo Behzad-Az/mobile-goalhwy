@@ -15,6 +15,39 @@ class InstPage extends React.Component {
     this.state = {
       userAlreadySubscribed: this.props.currUserCourseIds.includes(this.props.course.id)
     };
+    this.handleSubscription = this.handleSubscription.bind(this);
+  }
+
+  handleSubscription() {
+    let subStatus = !this.state.userAlreadySubscribed;
+    let userId = 1;
+    let course_id = this.props.course.id;
+
+    if (subStatus) {
+      fetch(`http://127.0.0.1:19001/api/users/${userId}/courses/${course_id}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ course_id }),
+      })
+      .then(response => response.json())
+      .then(resJSON => resJSON ? this.setState({ userAlreadySubscribed: subStatus }) : console.log("Error in server - 0: ", resJSON))
+      .catch(err => console.log("Error here: CourseRow.js: ", err));
+
+    } else {
+      fetch(`http://127.0.0.1:19001/api/users/${userId}/courses/${course_id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(resJSON => resJSON ? this.setState({ userAlreadySubscribed: subStatus }) : console.log("Error in server - 0: ", resJSON))
+      .catch(err => console.log("Error here: CourseRow.js: ", err));
+    }
   }
 
   render() {
@@ -23,9 +56,10 @@ class InstPage extends React.Component {
         <Text style={{flex: 9, padding: 5}} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
           {this.props.course.displayName}
         </Text>
-        <Text style={{flex: 1, padding: 5}}>
-          <FontAwesome name="check-circle" size={25} color={this.state.userAlreadySubscribed ? "green" : "black"} />
-        </Text>
+        <FontAwesome
+          name="check-circle"
+          style={[styles.subBtn, {color: this.state.userAlreadySubscribed ? "green" : "black"}]}
+          onPress={this.handleSubscription} />
       </View>
     );
   }
@@ -41,5 +75,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     backgroundColor: '#eee',
     borderWidth: .5
+  },
+  subBtn: {
+    flex: 1,
+    padding: 5,
+    fontSize: 25
   }
 });
