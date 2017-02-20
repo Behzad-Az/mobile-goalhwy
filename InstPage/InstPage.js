@@ -19,6 +19,7 @@ class InstPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currInstId: '',
       userId: '',
       instList: [],
       currInstCourses: [],
@@ -26,6 +27,7 @@ class InstPage extends React.Component {
       searchResults: [],
       filterPhrase: ''
     };
+    this.loadComponentData = this.loadComponentData.bind(this);
     this.conditionData = this.conditionData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.findInstName = this.findInstName.bind(this);
@@ -33,18 +35,29 @@ class InstPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://127.0.0.1:19001/api/institutions/${this.props.instId}`)
-    .then(response => response.json())
-    .then(resJSON => this.conditionData(resJSON))
-    .catch(err => console.log("Error here: ", err));
+    this.loadComponentData(this.props.instId);
   }
 
-  conditionData(response) {
-    response.currInstCourses.forEach(course => course.displayName = `${course.prefix} ${course.suffix} - ${course.course_desc}`);
-    response.instList.forEach(inst => {
+  componentWillReceiveProps(nextProps) {
+    this.loadComponentData(nextProps.instId);
+  }
+
+  loadComponentData(instId) {
+    if (this.state.currInstId !== instId) {
+      fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
+      .then(response => response.json())
+      .then(resJSON => this.conditionData(resJSON, instId))
+      .catch(err => console.log("Error here: ", err));
+    }
+  }
+
+  conditionData(resJSON, instId) {
+    resJSON.currInstId = instId;
+    resJSON.currInstCourses.forEach(course => course.displayName = `${course.prefix} ${course.suffix} - ${course.course_desc}`);
+    resJSON.instList.forEach(inst => {
       inst.displayName = inst.inst_short_name ? inst.inst_long_name + ` (${inst.inst_short_name})` : inst.inst_long_name;
     });
-    this.setState(response);
+    this.setState(resJSON);
   }
 
   handleSearch(searchResults) {
@@ -52,7 +65,7 @@ class InstPage extends React.Component {
   }
 
   findInstName() {
-    let inst = this.state.instList.find(inst => inst.id == this.props.instId);
+    let inst = this.state.instList.find(inst => inst.id == this.state.currInstId);
     return inst ? inst.displayName : '';
   }
 
@@ -75,7 +88,7 @@ class InstPage extends React.Component {
           <View style={styles.componentContainer}>
             <Text style={styles.header}>{this.findInstName()}</Text>
             <View style={styles.headerBtnContainer}>
-              <ChangeInstForm instList={this.state.instList} />
+              <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} />
               <NewInstForm />
             </View>
             <TextInput

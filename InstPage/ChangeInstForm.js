@@ -19,6 +19,7 @@ class ChangeInstForm extends Component {
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.filterInstList = this.filterInstList.bind(this);
+    this.handleInstSelect = this.handleInstSelect.bind(this);
   }
 
   setModalVisible(visible) {
@@ -28,6 +29,11 @@ class ChangeInstForm extends Component {
   filterInstList() {
     let phrase = new RegExp(this.state.filterPhrase.toLowerCase());
     return this.props.instList.filter(inst => inst.displayName.toLowerCase().match(phrase));
+  }
+
+  handleInstSelect(instId) {
+    this.props.reload(instId);
+    this.setModalVisible(false);
   }
 
   render() {
@@ -48,7 +54,9 @@ class ChangeInstForm extends Component {
               placeholder="Search institutions here..." />
 
             { currInstList.map((inst, index) =>
-              <Text key={index} style={styles.instRowText}>{inst.displayName}</Text>
+              <Text key={index} style={styles.instRowText} onPress={() => this.handleInstSelect(inst.id)}>
+                {inst.displayName}
+              </Text>
             )}
 
             <View style={styles.dividedRow}>
