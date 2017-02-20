@@ -10,7 +10,6 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import { ImagePicker } from 'exponent';
 import { FontAwesome } from '@exponent/vector-icons';
 
 class NewAssistForm extends Component {
@@ -105,7 +104,7 @@ class NewAssistForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ assistReqOpen: true }) : console.error("Error in server - 0: ", resJSON))
+    .then(resJSON => resJSON ? this.setState({ assistReqOpen: true }) : console.log("Error in server - 0: ", resJSON))
     .catch(err => console.log("Error here: ", err));
     this.setModalVisible(false);
   }
@@ -127,7 +126,7 @@ class NewAssistForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState(newState) : console.error("Error in server - 0: ", resJSON))
+    .then(resJSON => resJSON ? this.setState(newState) : console.log("Error in server - 0: ", resJSON))
     .catch(err => console.log("Error here: ", err));
     this.setModalVisible(false);
   }

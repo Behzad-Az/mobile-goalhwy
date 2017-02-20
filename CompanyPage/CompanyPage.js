@@ -11,6 +11,7 @@ import Navbar from '../Navbar/Navbar.js';
 import SearchBar from '../Partials/SearchBar.js';
 import JobRow from '../CareerPage/JobRow.js';
 import QaRow from './QaRow.js';
+import NewQuestionForm from './NewQuestionForm.js';
 
 import { FontAwesome } from '@exponent/vector-icons';
 
@@ -94,10 +95,14 @@ class CompanyPage extends React.Component {
           </View>
 
           <View style={styles.componentContainer}>
+
             <Text style={styles.header} onPress={() => this.setState({showQas: !this.state.showQas})}>Interview Questions / Answers:</Text>
-            <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showQas: !this.state.showQas})}>
-              <FontAwesome name={this.state.showQas ? "chevron-up" : "chevron-down"} size={19} color="white" />
-            </Text>
+
+            <View style={styles.headerBtnContainer}>
+              <NewQuestionForm companyId={this.props.companyId} />
+              <FontAwesome name={this.state.showQas ? "chevron-up" : "chevron-down"} style={styles.headerBtn} onPress={() => this.setState({ showQas: !this.state.showQas })} />
+            </View>
+
             { this.renderQas() }
           </View>
 
@@ -119,23 +124,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  dividedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
   headerBtn: {
     paddingLeft: 5,
     paddingRight: 5,
-    textAlign: 'center'
-  },
-  sortBtn: {
-    backgroundColor: 'white',
-    paddingBottom: 3,
-    paddingTop: 3,
-    borderRadius: 5,
     textAlign: 'center',
-    width: 30
+    color: 'white',
+    fontSize: 19
   },
   summaryInfo: {
     padding: 5,
@@ -156,5 +150,14 @@ const styles = StyleSheet.create({
   componentContainer: {
     marginBottom: 10,
     backgroundColor: 'white'
+  },
+  headerBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    paddingBottom: 5,
+    position: 'absolute',
+    right: 10,
+    top: 5
   }
 });
