@@ -8,6 +8,7 @@ import {
 import { FontAwesome } from '@exponent/vector-icons';
 
 import AnswerRow from './AnswerRow.js';
+import NewAnswerForm from './NewAnswerForm.js';
 
 class QaRow extends React.Component {
   constructor(props) {
@@ -27,7 +28,10 @@ class QaRow extends React.Component {
         <Text style={styles.metaInfo}>Like Count: {this.props.qa.like_count}</Text>
         <View style={styles.btnContainer}>
           <Text style={styles.textBtn} onPress={() => this.setState({ showAnswers: !this.state.showAnswers })}>{this.state.showAnswers ? "Hide Answers" : "Show Answers"}</Text>
-          <Text style={styles.textBtn}>Post New Answer</Text>
+
+          <NewAnswerForm question={this.props.qa} reload={this.props.reload} companyId={this.props.companyId} />
+
+
           <FontAwesome name="flag" style={[styles.textBtn, {color: 'black'}]} />
         </View>
         { this.state.showAnswers && this.props.qa.answers.map((ans, index) => <AnswerRow key={index} ans={ans} index={index + 1} /> )}
