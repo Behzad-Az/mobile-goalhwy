@@ -168,13 +168,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     paddingLeft: 5
   },
-  headerBtn: {
-    paddingLeft: 5,
-    paddingRight: 5,
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 19
-  },
   selectContainer: {
     marginBottom: 10,
     borderWidth: .5,
