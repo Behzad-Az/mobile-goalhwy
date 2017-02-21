@@ -75,7 +75,7 @@ class ChangeInstForm extends Component {
           </ScrollView>
         </Modal>
 
-        <FontAwesome name="list" style={styles.headerBtn} onPress={() => this.setModalVisible(true)} />
+        <FontAwesome name="list" style={this.props.style} onPress={() => this.setModalVisible(true)} />
 
       </View>
     );
@@ -109,13 +109,6 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     textAlign: 'center'
-  },
-  headerBtn: {
-    paddingLeft: 5,
-    paddingRight: 5,
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 19
   },
   instRowText: {
     marginBottom: 5,

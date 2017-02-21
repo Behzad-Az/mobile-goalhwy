@@ -106,8 +106,8 @@ class InstPage extends React.Component {
         <View style={styles.componentContainer}>
           <Text style={styles.header}>{this.findInstName()}</Text>
           <View style={styles.headerBtnContainer}>
-            <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} />
-            <NewInstForm reload={this.loadComponentData} />
+            <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} style={styles.headerBtn} />
+            <NewInstForm reload={this.loadComponentData} style={styles.headerBtn} />
           </View>
           <TextInput
             style={styles.textInput}
@@ -188,9 +188,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
-    paddingBottom: 5,
     position: 'absolute',
-    right: 10,
+    right: 5,
     top: 5
+  },
+  headerBtn: {
+    paddingLeft: 7,
+    paddingRight: 7,
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 19
   }
 });

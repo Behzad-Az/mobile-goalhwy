@@ -141,9 +141,7 @@ class TopRow extends React.Component {
     return (
       <View style={styles.componentContainer}>
         <Text style={styles.header} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
-        <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showDetails: !this.state.showDetails})}>
-          <FontAwesome name={this.state.showDetails ? "chevron-up" : "chevron-down"} size={19} color="white" />
-        </Text>
+        <FontAwesome name={this.state.showDetails ? "chevron-up" : "chevron-down"} style={styles.headerStanAloneChevron} onPress={() => this.setState({showDetails: !this.state.showDetails})} />
         { this.renderDetails() }
       </View>
     );
@@ -160,6 +158,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     color: 'white',
     fontWeight: 'bold'
+  },
+  headerStanAloneChevron: {
+    textAlign: 'center',
+    fontSize: 19,
+    color: 'white',
+    textAlign: 'right',
+    position: 'absolute',
+    top: 5,
+    right: 12
   },
   topRowLabel: {
     color: '#004E89',

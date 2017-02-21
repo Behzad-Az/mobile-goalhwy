@@ -168,12 +168,12 @@ class NewCourseReviewForm extends React.Component {
 
             <View style={[styles.dividedRow, {marginTop: 10, marginBottom: 10}]}>
               <View style={{flex: 1}}>
-                <Text onPress={this.handleNewReview} style={[styles.actionBtn, {marginRight: 5}]}>
+                <Text onPress={this.handleNewReview} style={[styles.primaryBtn, {marginRight: 5}]}>
                   Submit
                 </Text>
               </View>
               <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(false)} style={[styles.actionBtn, {marginLeft: 5}]}>
+                <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginLeft: 5}]}>
                   Go Back
                 </Text>
               </View>
@@ -183,9 +183,8 @@ class NewCourseReviewForm extends React.Component {
           </ScrollView>
         </Modal>
 
-        <Text style={styles.headerBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="plus" size={13} color="#004E89" />
-        </Text>
+        <FontAwesome name="plus" style={this.props.style} onPress={() => this.setModalVisible(true)} />
+
       </View>
 
     );
@@ -206,14 +205,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
-  },
-  headerBtn: {
-    backgroundColor: 'white',
-    paddingBottom: 3,
-    paddingTop: 3,
-    borderRadius: 5,
-    textAlign: 'center',
-    width: 30
   },
   inputCotainer: {
     marginTop: 10,
@@ -245,32 +236,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#004E89',
     padding: 5,
     borderRadius: 5,
-    textAlign: 'center',
-    marginRight: 5,
-    marginLeft: 5
-  },
-  uploadBtn: {
-    maxWidth: 80,
-    maxHeight: 80,
-    padding: 5,
-    borderWidth: .5,
-    borderRadius: 5,
-    borderColor: '#bbb',
-    textAlign: 'center',
-    backgroundColor: '#eee'
+    textAlign: 'center'
   },
   textInput: {
     paddingRight: 5,
     paddingLeft: 5
-  },
-  actionBtn: {
-    alignItems: 'center',
-    backgroundColor: '#004E89',
-    textAlign: 'center',
-    paddingTop: 5,
-    paddingBottom: 5,
-    color: 'white',
-    fontWeight: 'bold'
   }
 });
 

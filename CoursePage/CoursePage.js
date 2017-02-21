@@ -142,9 +142,11 @@ class CoursePage extends React.Component {
             <Text style={styles.header} onPress={() => this.toggleDocView('showAsgReports')}>
               Assignment & Reports:
             </Text>
-            <View style={{position: 'absolute', right: 10, top: 5}}>
-              <FontAwesome name={this.state.showAsgReports ? "chevron-up" : "chevron-down"} size={19} color="white" />
-            </View>
+            <FontAwesome
+              name={this.state.showAsgReports ? "chevron-up" : "chevron-down"}
+              style={styles.headerStanAloneChevron}
+              onPress={() => this.toggleDocView('showAsgReports')}
+            />
             { this.renderAsgReports() }
           </View>
 
@@ -152,9 +154,11 @@ class CoursePage extends React.Component {
             <Text style={styles.header} onPress={() => this.toggleDocView('showSampleQuestions')}>
               Sample Questions:
             </Text>
-            <View style={{position: 'absolute', right: 10, top: 5}}>
-              <FontAwesome name={this.state.showSampleQuestions ? "chevron-up" : "chevron-down"} size={19} color="white" />
-            </View>
+            <FontAwesome
+              name={this.state.showSampleQuestions ? "chevron-up" : "chevron-down"}
+              style={styles.headerStanAloneChevron}
+              onPress={() => this.toggleDocView('showSampleQuestions')}
+            />
             { this.renderSampleQuestions() }
           </View>
 
@@ -162,9 +166,11 @@ class CoursePage extends React.Component {
             <Text style={styles.header} onPress={() => this.toggleDocView('showLectureNotes')}>
               Lecture Notes:
             </Text>
-            <View style={{position: 'absolute', right: 10, top: 5}}>
-              <FontAwesome name={this.state.showLectureNotes ? "chevron-up" : "chevron-down"} size={19} color="white" />
-            </View>
+            <FontAwesome
+              name={this.state.showLectureNotes ? "chevron-up" : "chevron-down"}
+              style={styles.headerStanAloneChevron}
+              onPress={() => this.toggleDocView('showLectureNotes')}
+            />
             { this.renderLectureNotes() }
           </View>
 
@@ -172,9 +178,11 @@ class CoursePage extends React.Component {
             <Text style={styles.header} onPress={() => this.toggleDocView('showItemsForSale')}>
               Items for Sale or Trade:
             </Text>
-            <Text style={{position: 'absolute', right: 10, top: 5}}>
-              <FontAwesome name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"} size={19} color="white" />
-            </Text>
+            <FontAwesome
+              name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"}
+              style={styles.headerStanAloneChevron}
+              onPress={() => this.toggleDocView('showItemsForSale')}
+            />
             { this.renderItemsForSale() }
           </View>
         </View>
@@ -241,5 +249,14 @@ const styles = StyleSheet.create({
   componentContainer: {
     marginBottom: 10,
     backgroundColor: 'white'
+  },
+  headerStanAloneChevron: {
+    textAlign: 'center',
+    fontSize: 19,
+    color: 'white',
+    textAlign: 'right',
+    position: 'absolute',
+    top: 5,
+    right: 12
   }
 });

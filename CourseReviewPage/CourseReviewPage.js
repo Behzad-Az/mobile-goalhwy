@@ -115,25 +115,20 @@ class CourseReviewPage extends React.Component {
           <TopRow courseReviews={this.state.courseReviews} />
           <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
-            <View style={{position: 'absolute', right: 5, top: 5}}>
-              <View style={[styles.dividedRow, {width: 120}]}>
-                <View style={{flex: 3}}>
-                  <SortModal
-                    options={this.sortOptions}
-                    handleSelect={this.sortReviews}
-                    btnContent={{ type: 'icon', name: 'sort-amount-desc', size: 13, color: "#004E89"}}
-                    style={styles.sortBtn}
-                  />
-                </View>
-                <View style={{flex: 3}}>
-                  <NewCoureReviewForm profs={this.state.profs.map(prof => prof.name)} courseId={this.state.courseInfo.id} reload={this.loadComponentData} />
-                </View>
-                <View style={{flex: 2}}>
-                  <Text style={[styles.headerBtn, {textAlign: 'right'}]} onPress={() => this.setState({showReviews: !this.state.showReviews})}>
-                    <FontAwesome name={this.state.showReviews ? "chevron-up" : "chevron-down"} size={19} color="white" />
-                  </Text>
-                </View>
-              </View>
+            <View style={styles.headerBtnContainer}>
+              <SortModal
+                options={this.sortOptions}
+                handleSelect={this.sortReviews}
+                btnContent={{ type: 'icon', name: 'sort-amount-desc'}}
+                style={styles.headerBtn}
+              />
+              <NewCoureReviewForm
+                profs={this.state.profs.map(prof => prof.name)}
+                courseId={this.state.courseInfo.id}
+                reload={this.loadComponentData}
+                style={styles.headerBtn}
+              />
+              <FontAwesome name={this.state.showReviews ? "chevron-up" : "chevron-down"} style={styles.headerChevron} onPress={() => this.setState({showReviews: !this.state.showReviews})} />
             </View>
             { this.renderReviews() }
           </View>
@@ -182,23 +177,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  dividedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  headerBtn: {
-    paddingLeft: 5,
-    paddingRight: 5,
-    textAlign: 'center'
-  },
-  sortBtn: {
-    backgroundColor: 'white',
-    paddingBottom: 3,
-    paddingTop: 3,
-    borderRadius: 5,
+  headerChevron: {
+    paddingLeft: 7,
+    paddingRight: 7,
     textAlign: 'center',
-    width: 30
+    fontSize: 19,
+    color: 'white',
+    textAlign: 'right'
   },
   summaryInfo: {
     padding: 5,
@@ -219,5 +204,20 @@ const styles = StyleSheet.create({
   componentContainer: {
     marginBottom: 10,
     backgroundColor: 'white'
-  }
+  },
+  headerBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    position: 'absolute',
+    right: 5,
+    top: 5
+  },
+  headerBtn: {
+    paddingLeft: 7,
+    paddingRight: 7,
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 19
+  },
 });
