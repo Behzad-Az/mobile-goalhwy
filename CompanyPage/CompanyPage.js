@@ -144,7 +144,7 @@ class CompanyPage extends React.Component {
       <ScrollView>
         <View style={{minHeight: Dimensions.get('window').height - 40}}>
           <SearchBar handleSearch={this.handleSearch} />
-          <Navbar />
+          <Navbar pageName="CompanyPage" />
           <View style={styles.resultContainer}>
             { this.state.searchResults }
           </View>

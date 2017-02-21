@@ -117,8 +117,6 @@ export default SearhBar;
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: .5,
-    borderColor: 'white',
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 5,

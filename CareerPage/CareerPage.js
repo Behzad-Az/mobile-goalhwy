@@ -96,12 +96,11 @@ class CareerPage extends React.Component {
   }
 
   render() {
-    console.log("i'm here 1: ", this.state);
     return (
       <ScrollView>
         <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
           <SearchBar handleSearch={this.handleSearch} />
-          <Navbar />
+          <Navbar pageName="CareerPage" />
           <View style={styles.resultContainer}>
             { this.state.searchResults }
           </View>

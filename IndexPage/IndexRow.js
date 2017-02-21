@@ -10,15 +10,6 @@ import { Actions } from 'react-native-router-flux';
 class IndexRow extends React.Component {
   constructor(props) {
     super(props);
-    this.navigateToCourse = this.navigateToCourse.bind(this);
-  }
-
-  navigateToCourse() {
-    this.props.navigator.push({
-      title: 'CoursePage',
-      index: 1,
-      paramCourseId: this.props.course.id
-    });
   }
 
   render() {
