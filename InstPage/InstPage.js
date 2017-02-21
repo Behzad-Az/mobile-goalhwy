@@ -44,6 +44,7 @@ class InstPage extends React.Component {
 
   loadComponentData(instId) {
     if (this.state.currInstId !== instId) {
+      instId = instId || this.state.currInstId;
       fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
       .then(response => response.json())
       .then(resJSON => this.conditionData(resJSON, instId))
@@ -89,7 +90,7 @@ class InstPage extends React.Component {
             <Text style={styles.header}>{this.findInstName()}</Text>
             <View style={styles.headerBtnContainer}>
               <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} />
-              <NewInstForm />
+              <NewInstForm reload={this.loadComponentData} />
             </View>
             <TextInput
               style={styles.textInput}

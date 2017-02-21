@@ -50,6 +50,7 @@ class ChangeInstForm extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
     this.handleCountrySelect = this.handleCountrySelect.bind(this);
     this.handleProvinceSelect = this.handleProvinceSelect.bind(this);
+    this.handleNewInstPost = this.handleNewInstPost.bind(this);
   }
 
   setModalVisible(visible) {
@@ -62,6 +63,32 @@ class ChangeInstForm extends Component {
 
   handleProvinceSelect(province) {
     this.setState({ province });
+  }
+
+  handleNewInstPost() {
+    // $.ajax({
+    //   method: 'POST',
+    //   url: '/api/institutions',
+    //   data: this.state,
+    //   success: response => {
+    //     response ? this.reactAlert.showAlert("New institude added.", "info") : this.reactAlert.showAlert("could not add new institude", "error");
+    //   }
+    // }).always(() => HandleModal('new-inst-form'));
+
+    let data = { ...this.state };
+    delete data.modalVisible;
+    fetch('http://127.0.0.1:19001/api/institutions', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server, NewInstForm.js: ", resJSON))
+    .catch(err => console.log("Error here in NewInstForm.js: ", err));
+    this.setModalVisible(false);
   }
 
   render() {
@@ -123,7 +150,7 @@ class ChangeInstForm extends Component {
 
             <View style={styles.dividedRow}>
               <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]}>
+                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleNewInstPost}>
                   Submit
                 </Text>
               </View>
