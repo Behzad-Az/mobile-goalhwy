@@ -105,7 +105,7 @@ class SearhBar extends React.Component {
           style={styles.textInput}
           onChangeText={query => this.handleSearch(query)}
           value={this.state.query}
-          placeholder="search the app"
+          placeholder="search courses, documents and employers here"
           underlineColorAndroid="rgba(0,0,0,0)"
         />
       </View>
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingRight: 5,
     paddingLeft: 5,
-    borderWidth: .5,
-    borderColor: '#aaa'
+    borderRadius: 5,
+    fontSize: 13
   },
   searchRowContainer: {
     flexDirection: 'row',

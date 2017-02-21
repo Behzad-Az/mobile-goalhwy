@@ -73,19 +73,19 @@ class Navbar extends React.Component {
           <View style={styles.dividedRow}>
             <FontAwesome
               name="book"
-              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'IndexPage' ? 2 : .5 }]}
+              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'IndexPage' ? 3 : 0 }]}
               onPress={() => Actions.IndexPage()} />
             <FontAwesome
               name="graduation-cap"
-              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'InstPage' ? 2 : .5 }]}
+              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'InstPage' ? 3 : 0 }]}
               onPress={() => Actions.InstPage({ instId: this.state.userInfo.inst_id })} />
             <FontAwesome
               name="briefcase"
-              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'CareerPage' ? 2 : .5 }]}
+              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'CareerPage' ? 3 : 0 }]}
               onPress={() => Actions.CareerPage()} />
             <FontAwesome
               name="user-circle-o"
-              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'CompanyPage' ? 2 : .5 }]}
+              style={[styles.navItem, {borderBottomWidth: this.props.pageName === 'CompanyPage' ? 3 : 0 }]}
               onPress={() => Actions.CompanyPage({ companyId: 2 })} />
           </View>
         </View>
