@@ -81,8 +81,8 @@ class NewCourseReviewForm extends React.Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.error("Error in server - 0: ", resJSON))
-    .catch(err => console.log("Error here: ", err));
+    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server - 0: NewCourseReviewForm.js: ", resJSON))
+    .catch(err => console.log("Error here: NewCourseReviewForm.js: ", err));
     this.setModalVisible(false);
   }
 

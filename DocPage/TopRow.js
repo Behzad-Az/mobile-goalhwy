@@ -36,8 +36,8 @@ class TopRow extends React.Component {
       method: 'DELETE'
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutor_status: false, assistReqOpen: false }) : console.error("Error in server - 0: ", resJSON))
-    .catch(err => console.log("Error here: ", err));
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutor_status: false, assistReqOpen: false }) : console.log("Error in server - 0: TopRow.js: ", resJSON))
+    .catch(err => console.log("Error here: TopRow.js: ", err));
 
   }
 
@@ -47,7 +47,7 @@ class TopRow extends React.Component {
         body: JSON.stringify({ course_id: this.props.courseInfo.id })
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.error("Error in server - 0: ", resJSON))
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.log("Error in server - 0: TopRow.js: ", resJSON))
     .catch(err => console.log("Error here: ", err));
   }
 
@@ -62,8 +62,8 @@ class TopRow extends React.Component {
       body: JSON.stringify({ tutor_status }),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ tutor_status }) : console.error("Error in server - 0: ", resJSON))
-    .catch(err => console.log("Error here: ", err));
+    .then(resJSON => resJSON ? this.setState({ tutor_status }) : console.log("Error in server - 0: TopRow.js: ", resJSON))
+    .catch(err => console.log("Error here: TopRow.js: ", err));
   }
 
   render() {

@@ -47,8 +47,8 @@ class JobSearchForm extends Component {
   componentDidMount() {
     fetch(`http://127.0.0.1:19001/api/users/${this.userId}`)
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.conditionData(resJSON) : console.error("server error - 0", resJSON))
-    .catch(err => console.log("Error here balls: ", err));
+    .then(resJSON => resJSON ? this.conditionData(resJSON) : console.log("server error, jobsSearchForm.js - 0", resJSON))
+    .catch(err => console.log("Error here jobsSearchForm.js: ", err));
   }
 
   conditionData(resJSON) {
