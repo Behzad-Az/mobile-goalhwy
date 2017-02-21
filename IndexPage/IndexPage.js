@@ -5,10 +5,12 @@ import {
   Text,
   ScrollView,
   View,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
+import { FontAwesome } from '@exponent/vector-icons';
 
 import Navbar from '../Navbar/Navbar.js';
 import SearchBar from '../Partials/SearchBar.js';
@@ -18,12 +20,15 @@ class IndexPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataLoaded: false,
+      pageError: false,
       courses: [],
       updates: '',
       instId: '',
       searchResults: []
     };
     this.handleSearch = this.handleSearch.bind(this);
+    this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
@@ -40,12 +45,48 @@ class IndexPage extends React.Component {
     })
     .then(() => fetch('http://127.0.0.1:19001/api/home'))
     .then(response => response.json())
-    .then(resJSON => this.setState(resJSON))
-    .catch(err => console.log("Error here: ", err));
+    .then(resJSON => {
+      resJSON.dataLoaded = true;
+      this.setState(resJSON)
+    })
+    .catch(err => {
+      console.log("Error here: IndexPage.js: ", err);
+      this.setState({ dataLoaded: true, pageError: false });
+    });
   }
 
   handleSearch(searchResults) {
     this.setState({ searchResults });
+  }
+
+  renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) {
+      return (
+        <Text style={{padding: 5, textAlign: 'center'}}>
+          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+        </Text>
+      );
+    } else if (this.state.dataLoaded) {
+      return (
+        <View style={styles.componentContainer}>
+          <Text style={styles.header}>My Courses:</Text>
+          { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
+          { !this.state.courses[0] &&
+          <Text style={styles.textBtn} onPress={() => Actions.InstPage({ instId: 1 })}>
+            To get updates, please click here to select and subscribe to at least one course.
+          </Text> }
+        </View>
+      );
+    } else {
+      return (
+        <ActivityIndicator
+          animating={true}
+          style={{height: 80}}
+          size={60}
+          color="#004E89"
+        />
+      );
+    }
   }
 
   render() {
@@ -57,14 +98,7 @@ class IndexPage extends React.Component {
           { this.state.searchResults }
         </View>
 
-        <View style={styles.componentContainer}>
-          <Text style={styles.header}>My Courses:</Text>
-          { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
-          { !this.state.courses[0] &&
-          <Text style={styles.textBtn} onPress={() => Actions.InstPage({ instId: 1 })}>
-            To get updates, please click here to select and subscribe to at least one course.
-          </Text> }
-        </View>
+        { this.renderPageAfterData() }
 
       </ScrollView>
     );
