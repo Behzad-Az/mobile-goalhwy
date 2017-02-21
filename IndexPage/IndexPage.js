@@ -51,7 +51,7 @@ class IndexPage extends React.Component {
         this.setState(resJSON)
       } else {
         console.log("Error here: IndexPage.js: ", err);
-        this.setState({ dataLoaded: true, pageError: true });
+        this.setState({ dataLoaded: false, pageError: true });
       }
     })
     .catch(err => {

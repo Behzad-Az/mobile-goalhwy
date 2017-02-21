@@ -103,7 +103,7 @@ class NewDocForm extends Component {
                   </Text>
                 </View>
                 <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text style={styles.uploadBtn}>
+                  <Text style={styles.uploadBtn} onPress={this.selectPhotoTapped}>
                     <FontAwesome name="camera" size={40} color="black" />
                     From Camera
                   </Text>

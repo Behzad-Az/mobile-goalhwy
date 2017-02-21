@@ -18,6 +18,10 @@ class InstPage extends React.Component {
     this.handleSubscription = this.handleSubscription.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ userAlreadySubscribed: nextProps.currUserCourseIds.includes(nextProps.course.id) });
+  }
+
   handleSubscription() {
     let subStatus = !this.state.userAlreadySubscribed;
     let userId = 1;
