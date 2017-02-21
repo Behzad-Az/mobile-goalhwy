@@ -6,8 +6,11 @@ import {
   View,
   ScrollView,
   TextInput,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
+
+import { FontAwesome } from '@exponent/vector-icons';
 
 import Navbar from '../Navbar/Navbar.js';
 import SearchBar from '../Partials/SearchBar.js';
@@ -20,6 +23,8 @@ class InstPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataLoaded: false,
+      pageError: false,
       currInstId: '',
       userId: '',
       instList: [],
@@ -33,6 +38,7 @@ class InstPage extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.findInstName = this.findInstName.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
+    this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +55,10 @@ class InstPage extends React.Component {
       fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
       .then(response => response.json())
       .then(resJSON => this.conditionData(resJSON, instId))
-      .catch(err => console.log("Error here: ", err));
+      .catch(err => {
+        console.log("Error here: InstPage.js: ", err);
+        this.setState({ dataLoaded: true, pageError: false });
+      });
     }
   }
 
@@ -59,6 +68,7 @@ class InstPage extends React.Component {
     resJSON.instList.forEach(inst => {
       inst.displayName = inst.inst_short_name ? inst.inst_long_name + ` (${inst.inst_short_name})` : inst.inst_long_name;
     });
+    resJSON.dataLoaded = true;
     this.setState(resJSON);
   }
 
@@ -76,8 +86,47 @@ class InstPage extends React.Component {
     return this.state.currInstCourses.filter(course => course.displayName.toLowerCase().match(phrase)).slice(0, 19);
   }
 
+  renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) {
+      return (
+        <View style={styles.componentContainer}>
+          <Text style={{padding: 5, textAlign: 'center'}}>
+            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+          </Text>
+        </View>
+      );
+    } else if (this.state.dataLoaded) {
+      let slicedArr = this.handleFilter();
+      return (
+        <View style={styles.componentContainer}>
+          <Text style={styles.header}>{this.findInstName()}</Text>
+          <View style={styles.headerBtnContainer}>
+            <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} />
+            <NewInstForm reload={this.loadComponentData} />
+          </View>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={filterPhrase => this.setState({ filterPhrase })}
+            placeholder="Search courses here..." />
+          { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
+          { !slicedArr[0] && <NewCourseForm instId={this.state.currInstId} reload={this.loadComponentData} /> }
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.componentContainer}>
+          <ActivityIndicator
+            animating={true}
+            style={{height: 80}}
+            size={60}
+            color="#004E89"
+          />
+        </View>
+      );
+    }
+  }
+
   render() {
-    let slicedArr = this.handleFilter();
     return (
       <ScrollView>
         <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
@@ -87,19 +136,7 @@ class InstPage extends React.Component {
             { this.state.searchResults }
           </View>
 
-          <View style={styles.componentContainer}>
-            <Text style={styles.header}>{this.findInstName()}</Text>
-            <View style={styles.headerBtnContainer}>
-              <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} />
-              <NewInstForm reload={this.loadComponentData} />
-            </View>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={filterPhrase => this.setState({ filterPhrase })}
-              placeholder="Search courses here..." />
-            { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
-            { !slicedArr[0] && <NewCourseForm instId={this.state.currInstId} reload={this.loadComponentData} /> }
-          </View>
+          { this.renderPageAfterData() }
 
         </View>
       </ScrollView>

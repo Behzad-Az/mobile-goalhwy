@@ -54,7 +54,7 @@ class CoursePage extends React.Component {
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {
-      console.log("Error here: IndexPage.js: ", err);
+      console.log("Error here: CoursePage.js: ", err);
       this.setState({ dataLoaded: true, pageError: false });
     });
   }
