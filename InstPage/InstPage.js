@@ -14,6 +14,7 @@ import SearchBar from '../Partials/SearchBar.js';
 import CourseRow from './CourseRow.js';
 import ChangeInstForm from './ChangeInstForm.js';
 import NewInstForm from './NewInstForm.js';
+import NewCourseForm from './NewCourseForm.js';
 
 class InstPage extends React.Component {
   constructor(props) {
@@ -97,7 +98,7 @@ class InstPage extends React.Component {
               onChangeText={filterPhrase => this.setState({ filterPhrase })}
               placeholder="Search courses here..." />
             { slicedArr.map((course, index) => <CourseRow key={index} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
-            { !slicedArr[0] && <Text style={{padding: 5}}>No matching course was found...</Text> }
+            { !slicedArr[0] && <NewCourseForm instId={this.state.currInstId} reload={this.loadComponentData} /> }
           </View>
 
         </View>
