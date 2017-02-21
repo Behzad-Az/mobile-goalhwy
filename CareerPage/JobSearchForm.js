@@ -256,9 +256,12 @@ class JobSearchForm extends Component {
 
           </ScrollView>
         </Modal>
-        <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="search" size={19} color="white" /> Job Search Criteria
-        </Text>
+
+        <View style={{alignItems: 'center'}}>
+          <Text style={[styles.primaryBtn, {width: 200}]} onPress={() => this.setModalVisible(true)}>
+            <FontAwesome name="search" size={19} color="white" /> Job Search Criteria
+          </Text>
+        </View>
       </View>
     );
   }
@@ -268,7 +271,6 @@ export default JobSearchForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    margin: 10,
     padding: 10
   },
   modalHeader: {

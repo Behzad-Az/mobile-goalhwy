@@ -68,7 +68,7 @@ class NewCourseForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>New Institution:</Text>
+            <Text style={styles.modalHeader}>New Course:</Text>
 
             <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>Prefix:</Text>
@@ -145,7 +145,6 @@ export default NewCourseForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    margin: 10,
     padding: 10
   },
   modalHeader: {

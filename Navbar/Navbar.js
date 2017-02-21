@@ -92,10 +92,10 @@ class Navbar extends React.Component {
 
   render() {
     return (
-      <View style={[styles.container, { height: 65 + this.state.searchResults.length * 28 }]}>
+      <View style={[styles.container, { height: 89 + this.state.searchResults.length * 28, width: Dimensions.get('window').width }]}>
         <SearchBar handleSearch={this.handleSearch} />
         { this.renderPageAfterData() }
-        <View style={styles.resultContainer}>
+        <View style={[styles.resultContainer, {borderWidth: this.state.searchResults[0] ? .5 : 0, width: Dimensions.get('window').width - 20}]}>
           { this.state.searchResults }
         </View>
       </View>
@@ -108,11 +108,9 @@ export default Navbar;
 const styles = StyleSheet.create({
   container: {
     borderColor: 'white',
-    // borderTopWidth: 1,
     position: 'absolute',
     top: 0,
-    minHeight: 65,
-    width: Dimensions.get('window').width
+    minHeight: 65
   },
   navItem: {
     borderColor: 'white',
@@ -132,10 +130,8 @@ const styles = StyleSheet.create({
   },
   resultContainer: {
     position: 'absolute',
-    top: 30,
+    top: 54,
     left: 10,
-    backgroundColor: 'white',
-    borderWidth: .5,
-    width: Dimensions.get('window').width - 20
+    backgroundColor: 'white'
   }
 });

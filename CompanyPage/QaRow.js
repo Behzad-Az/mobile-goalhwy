@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderColor: '#004E89',
-    borderRadius: 5,
+    // borderRadius: 5,
     marginTop: 10
   },
   questionText: {

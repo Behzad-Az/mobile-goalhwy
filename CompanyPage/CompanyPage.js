@@ -74,10 +74,16 @@ class CompanyPage extends React.Component {
   }
 
   renderJobs() {
-    let jobCount = this.state.jobs.length;
-    return this.state.showJobs ?
-      this.state.jobs.map((job, index) => <JobRow key={index} job={job} /> ):
-      <Text style={styles.summaryInfo}>{jobCount} open positions...</Text>
+    if (this.state.showJobs) {
+      return (
+        <View style={{marginTop: 10}}>
+          { this.state.jobs.map((job, index) => <JobRow key={index} job={job} /> ) }
+        </View>
+      );
+    } else {
+      let jobCount = this.state.jobs.length;
+      return <Text style={styles.summaryInfo}>{jobCount} open positions...</Text>
+    }
   }
 
   renderQas() {
@@ -140,7 +146,7 @@ class CompanyPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 70}}>
+        <View style={{marginTop: 94}}>
           { this.renderPageAfterData() }
         </View>
       </ScrollView>
@@ -154,8 +160,6 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#004E89',
     padding: 5,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
     color: 'white',
     fontWeight: 'bold'
   },

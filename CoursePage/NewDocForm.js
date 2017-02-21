@@ -160,7 +160,6 @@ export default NewDocForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    margin: 10,
     padding: 10
   },
   modalHeader: {

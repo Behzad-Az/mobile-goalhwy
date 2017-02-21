@@ -196,7 +196,6 @@ export default NewCourseReviewForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    margin: 10,
     padding: 10
   },
   modalHeader: {

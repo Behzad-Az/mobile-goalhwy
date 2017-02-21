@@ -83,8 +83,9 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     borderWidth: .5,
-    borderRadius: 5,
-    marginBottom: 5
+    // borderRadius: 5,
+    marginBottom: 5,
+    backgroundColor: 'white'
   },
   dividedRow: {
     flex: 1,
@@ -112,18 +113,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     color: '#004E89'
   },
-  // flagBtn: {
-  //   color: 'white',
-  //   backgroundColor: '#9D0600',
-  //   paddingLeft: 7,
-  //   paddingRight: 7,
-  //   paddingTop: 3,
-  //   paddingBottom: 3,
-  //   borderRadius: 5,
-  //   textAlign: 'center',
-  //   marginTop: 5,
-  //   fontSize: 13
-  // },
   tagContainer: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 5,
+    paddingTop: 29,
     paddingBottom: 5,
     backgroundColor: '#004E89'
   },

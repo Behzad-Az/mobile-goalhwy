@@ -99,7 +99,7 @@ class DocPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 70}}>
+        <View style={{marginTop: 94}}>
           { this.renderPageAfterData() }
         </View>
       </ScrollView>

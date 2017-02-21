@@ -125,7 +125,6 @@ export default NewQuestionForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    margin: 10,
     padding: 10
   },
   modalHeader: {

@@ -1,7 +1,6 @@
 import Exponent from 'exponent';
 import React from 'react';
 import {
-  StyleSheet,
   Text
 } from 'react-native';
 
@@ -24,7 +23,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router hideNavBar={false} style={styles.container} navBar={Navbar}>
+      <Router hideNavBar={false} navBar={Navbar}>
         <Scene key="root">
 
           <Scene
@@ -74,16 +73,6 @@ class App extends React.Component {
       </Router>
     );
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    // backgroundColor: '#fff',
-    // marginTop: 25,
-    // marginLeft: 10,
-    // marginRight: 10,
-    // marginBottom: 10
-  }
-});
+};
 
 Exponent.registerRootComponent(App);
