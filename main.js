@@ -1,7 +1,8 @@
 import Exponent from 'exponent';
 import React from 'react';
 import {
-  StyleSheet
+  StyleSheet,
+  Text
 } from 'react-native';
 
 import { Router, Scene } from 'react-native-router-flux';
@@ -14,7 +15,7 @@ import DocPage from './DocPage/DocPage.js';
 import CareerPage from './CareerPage/CareerPage.js';
 import CompanyPage from './CompanyPage/CompanyPage.js';
 
-import MapTest from './Partials/MapTest.js';
+import Navbar from './Navbar/Navbar.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router hideNavBar={true} style={styles.container}>
+      <Router hideNavBar={false} style={styles.container} navBar={Navbar}>
         <Scene key="root">
 
           <Scene
@@ -77,11 +78,11 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    marginTop: 25,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10
+    // backgroundColor: '#fff',
+    // marginTop: 25,
+    // marginLeft: 10,
+    // marginRight: 10,
+    // marginBottom: 10
   }
 });
 

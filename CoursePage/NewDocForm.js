@@ -53,7 +53,6 @@ class NewDocForm extends Component {
   }
 
   handleNewDocPost() {
-    console.log("i'm here 1: ", this.state);
     // $.ajax({
     //   method: 'POST',
     //   url: `/api/courses/${this.props.courseId}`,

@@ -8,8 +8,6 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-import Navbar from '../Navbar/Navbar.js';
-import SearchBar from '../Partials/SearchBar.js';
 import JobRow from '../CareerPage/JobRow.js';
 import QaRow from './QaRow.js';
 import NewQuestionForm from './NewQuestionForm.js';
@@ -142,15 +140,8 @@ class CompanyPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{minHeight: Dimensions.get('window').height - 40}}>
-          <SearchBar handleSearch={this.handleSearch} />
-          <Navbar pageName="CompanyPage" />
-          <View style={styles.resultContainer}>
-            { this.state.searchResults }
-          </View>
-
+        <View style={{marginTop: 70}}>
           { this.renderPageAfterData() }
-
         </View>
       </ScrollView>
     );
@@ -181,15 +172,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: .5,
     borderLeftWidth: .5,
     borderRightWidth: .5
-  },
-  resultContainer: {
-    position: 'absolute',
-    top: 30,
-    left: 10,
-    zIndex: 1,
-    backgroundColor: 'white',
-    borderWidth: .5,
-    width: Dimensions.get('window').width - 40.5
   },
   componentContainer: {
     marginBottom: 10,

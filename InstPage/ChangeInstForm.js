@@ -53,8 +53,8 @@ class ChangeInstForm extends Component {
               onChangeText={filterPhrase => this.setState({ filterPhrase })}
               placeholder="Search institutions here..." />
 
-            { currInstList.map((inst, index) =>
-              <Text key={index} style={styles.instRowText} onPress={() => this.handleInstSelect(inst.id)}>
+            { currInstList.map(inst =>
+              <Text key={inst.id} style={styles.instRowText} onPress={() => this.handleInstSelect(inst.id)}>
                 {inst.displayName}
               </Text>
             )}

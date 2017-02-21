@@ -12,8 +12,6 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@exponent/vector-icons';
 
-import Navbar from '../Navbar/Navbar.js';
-import SearchBar from '../Partials/SearchBar.js';
 import IndexRow from './IndexRow.js';
 
 class IndexPage extends React.Component {
@@ -101,17 +99,9 @@ class IndexPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
-          <SearchBar handleSearch={this.handleSearch}/>
-          <Navbar pageName="IndexPage" />
-          <View style={styles.resultContainer}>
-            { this.state.searchResults }
-          </View>
-
+        <View style={{marginTop: 70}}>
           { this.renderPageAfterData() }
-
         </View>
-
       </ScrollView>
     );
   }
@@ -127,15 +117,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     color: 'white',
     fontWeight: 'bold'
-  },
-  resultContainer: {
-    position: 'absolute',
-    top: 30,
-    left: 10,
-    zIndex: 1,
-    backgroundColor: 'white',
-    borderWidth: .5,
-    width: Dimensions.get('window').width - 40.5
   },
   componentContainer: {
     marginBottom: 10,

@@ -55,10 +55,10 @@ class SearhBar extends React.Component {
             searchResults.push(
               <TouchableHighlight key={index} onPress={() => this.redirect('DocPage', { courseId: result._source.course_id, docId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
-                  <Text style={styles.searchRow}><FontAwesome name="file-text" size={19} color="#004E89" /></Text>
-                  <Text style={styles.searchRow}>{result._source.course_name}</Text>
-                  <Text style={styles.searchRow}><FontAwesome name="arrow-right" size={19} color="#004E89" /></Text>
-                  <Text style={styles.searchRow}>{result._source.title}</Text>
+                  <Text style={styles.searchRowText}><FontAwesome name="file-text" size={19} color="#004E89" /></Text>
+                  <Text style={styles.searchRowText}>{result._source.course_name}</Text>
+                  <Text style={styles.searchRowText}><FontAwesome name="arrow-right" size={19} color="#004E89" /></Text>
+                  <Text style={styles.searchRowText}>{result._source.title}</Text>
                 </View>
               </TouchableHighlight>
               );
@@ -67,8 +67,8 @@ class SearhBar extends React.Component {
             searchResults.push(
               <TouchableHighlight key={index} onPress={() => this.redirect('CoursePage', { courseId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
-                  <Text style={styles.searchRow}><FontAwesome name="users" size={19} color="#004E89" /></Text>
-                  <Text style={styles.searchRow}>{result._source.title}</Text>
+                  <Text style={styles.searchRowText}><FontAwesome name="users" size={19} color="#004E89" /></Text>
+                  <Text style={styles.searchRowText}>{result._source.title}</Text>
                 </View>
               </TouchableHighlight> );
             break;
@@ -76,8 +76,8 @@ class SearhBar extends React.Component {
             searchResults.push(
               <TouchableHighlight key={index} onPress={() => this.redirect('InstPage', { instId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
-                  <Text style={styles.searchRow}><FontAwesome name="graduation-cap" size={19} color="#004E89" /></Text>
-                  <Text style={styles.searchRow}>{result._source.inst_name}</Text>
+                  <Text style={styles.searchRowText}><FontAwesome name="graduation-cap" size={19} color="#004E89" /></Text>
+                  <Text style={styles.searchRowText}>{result._source.inst_name}</Text>
                 </View>
               </TouchableHighlight> );
             break;
@@ -85,8 +85,8 @@ class SearhBar extends React.Component {
             searchResults.push(
               <TouchableHighlight key={index} onPress={() => this.redirect('CompanyPage', { companyId: result._source.id })}>
                 <View style={styles.searchRowContainer}>
-                  <Text style={styles.searchRow}><FontAwesome name="briefcase" size={19} color="#004E89" /></Text>
-                  <Text style={styles.searchRow}>{result._source.company_name}</Text>
+                  <Text style={styles.searchRowText}><FontAwesome name="briefcase" size={19} color="#004E89" /></Text>
+                  <Text style={styles.searchRowText}>{result._source.company_name}</Text>
                 </View>
               </TouchableHighlight> );
             break;
@@ -136,8 +136,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     padding: 5
   },
-  searchRow: {
+  searchRowText: {
     paddingRight: 5,
-    color: '#004E89'
+    color: '#004E89',
+    fontSize: 13
   }
 });

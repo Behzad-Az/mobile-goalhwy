@@ -8,8 +8,6 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-import Navbar from '../Navbar/Navbar.js';
-import SearchBar from '../Partials/SearchBar.js';
 import SortModal from '../Partials/ModalSelect.js';
 import TopRow from './TopRow.js';
 import CourseReviewRow from './CourseReviewRow.js';
@@ -154,15 +152,8 @@ class CourseReviewPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{minHeight: Dimensions.get('window').height - 40}}>
-          <SearchBar handleSearch={this.handleSearch} />
-          <Navbar />
-          <View style={styles.resultContainer}>
-            { this.state.searchResults }
-          </View>
-
+        <View style={{marginTop: 70}}>
           { this.renderPageAfterData() }
-
         </View>
       </ScrollView>
     );
@@ -186,15 +177,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: .5,
     borderLeftWidth: .5,
     borderRightWidth: .5
-  },
-  resultContainer: {
-    position: 'absolute',
-    top: 30,
-    left: 10,
-    zIndex: 1,
-    backgroundColor: 'white',
-    borderWidth: .5,
-    width: Dimensions.get('window').width - 40.5
   },
   componentContainer: {
     marginBottom: 10,

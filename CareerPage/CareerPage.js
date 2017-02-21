@@ -10,8 +10,6 @@ import {
 
 import { FontAwesome } from '@exponent/vector-icons';
 
-import Navbar from '../Navbar/Navbar.js';
-import SearchBar from '../Partials/SearchBar.js';
 import JobRow from './JobRow.js';
 import JobSearchForm from './JobSearchForm.js';
 
@@ -98,15 +96,8 @@ class CareerPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
-          <SearchBar handleSearch={this.handleSearch} />
-          <Navbar pageName="CareerPage" />
-          <View style={styles.resultContainer}>
-            { this.state.searchResults }
-          </View>
-
+        <View style={{marginTop: 70}}>
           { this.renderPageAfterData() }
-
         </View>
       </ScrollView>
     );
@@ -124,15 +115,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     marginBottom: 5
-  },
-  resultContainer: {
-    position: 'absolute',
-    top: 30,
-    left: 10,
-    zIndex: 1,
-    backgroundColor: 'white',
-    borderWidth: .5,
-    width: Dimensions.get('window').width - 40.5
   },
   componentContainer: {
     marginBottom: 10,
