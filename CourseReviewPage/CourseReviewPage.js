@@ -128,7 +128,10 @@ class CourseReviewPage extends React.Component {
                 reload={this.loadComponentData}
                 style={styles.headerBtn}
               />
-              <FontAwesome name={this.state.showReviews ? "chevron-up" : "chevron-down"} style={styles.headerChevron} onPress={() => this.setState({showReviews: !this.state.showReviews})} />
+              <FontAwesome
+                name={this.state.showReviews ? "chevron-up" : "chevron-down"}
+                style={styles.headerBtn}
+                onPress={() => this.setState({showReviews: !this.state.showReviews})} />
             </View>
             { this.renderReviews() }
           </View>
@@ -176,14 +179,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     color: 'white',
     fontWeight: 'bold'
-  },
-  headerChevron: {
-    paddingLeft: 7,
-    paddingRight: 7,
-    textAlign: 'center',
-    fontSize: 19,
-    color: 'white',
-    textAlign: 'right'
   },
   summaryInfo: {
     padding: 5,

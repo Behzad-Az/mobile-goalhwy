@@ -131,7 +131,7 @@ class NewQuestionForm extends Component {
           </ScrollView>
         </Modal>
 
-        <FontAwesome name="plus" style={styles.headerBtn} onPress={() => this.setModalVisible(true)} />
+        <FontAwesome name="plus" style={this.props.style} onPress={() => this.setModalVisible(true)} />
 
       </View>
     );
@@ -184,13 +184,6 @@ const styles = StyleSheet.create({
   textInput: {
     paddingRight: 5,
     paddingLeft: 5
-  },
-  headerBtn: {
-    paddingLeft: 5,
-    paddingRight: 5,
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 19
   },
   selectContainer: {
     marginBottom: 10,

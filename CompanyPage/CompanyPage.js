@@ -106,16 +106,20 @@ class CompanyPage extends React.Component {
           </View>
           <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showJobs: !this.state.showJobs})}>Current Job Openings:</Text>
-            <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showJobs: !this.state.showJobs})}>
-              <FontAwesome name={this.state.showJobs ? "chevron-up" : "chevron-down"} size={19} color="white" />
-            </Text>
+            <FontAwesome
+              name={this.state.showJobs ? "chevron-up" : "chevron-down"}
+              style={styles.headerStanAloneChevron}
+              onPress={() => this.setState({showJobs: !this.state.showJobs})} />
             { this.renderJobs() }
           </View>
           <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showQas: !this.state.showQas})}>Interview Questions / Answers:</Text>
             <View style={styles.headerBtnContainer}>
-              <NewQuestionForm companyId={this.props.companyId} reload={this.loadComponentData} />
-              <FontAwesome name={this.state.showQas ? "chevron-up" : "chevron-down"} style={styles.headerBtn} onPress={() => this.setState({ showQas: !this.state.showQas })} />
+              <NewQuestionForm companyId={this.props.companyId} reload={this.loadComponentData} style={styles.headerBtn} />
+              <FontAwesome
+                name={this.state.showQas ? "chevron-up" : "chevron-down"}
+                style={styles.headerBtn}
+                onPress={() => this.setState({ showQas: !this.state.showQas })} />
             </View>
             { this.renderQas() }
           </View>
@@ -195,9 +199,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
-    paddingBottom: 5,
     position: 'absolute',
-    right: 10,
+    right: 5,
     top: 5
+  },
+  headerBtn: {
+    paddingLeft: 7,
+    paddingRight: 7,
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 19
+  },
+  headerStanAloneChevron: {
+    textAlign: 'center',
+    fontSize: 19,
+    color: 'white',
+    textAlign: 'right',
+    position: 'absolute',
+    top: 5,
+    right: 12
   }
 });
