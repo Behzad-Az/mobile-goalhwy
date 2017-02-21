@@ -4,7 +4,8 @@ import {
   Text,
   View,
   ScrollView,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
@@ -27,6 +28,8 @@ class CourseReviewPage extends React.Component {
       { value: 'instructor_name', label: 'Instructor Name' }
     ];
     this.state = {
+      dataLoaded: false,
+      pageError: false,
       showReviews: false,
       courseInfo: {},
       courseReviews: [],
@@ -37,6 +40,7 @@ class CourseReviewPage extends React.Component {
     this.loadComponentData = this.loadComponentData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.sortReviews = this.sortReviews.bind(this);
+      this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
@@ -46,8 +50,14 @@ class CourseReviewPage extends React.Component {
   loadComponentData() {
     fetch(`http://127.0.0.1:19001/api/courses/${this.props.courseId}/reviews`)
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState(resJSON) : console.log("server error - 0", resJSON))
-    .catch(err => console.log("Error here: ", err));
+    .then(resJSON => {
+      resJSON.dataLoaded = true;
+      this.setState(resJSON)
+    })
+    .catch(err => {
+      console.log("Error here: IndexPage.js: ", err);
+      this.setState({ dataLoaded: true, pageError: false });
+    });
   }
 
   handleSearch(searchResults) {
@@ -85,19 +95,19 @@ class CourseReviewPage extends React.Component {
       <Text style={styles.summaryInfo}>{reviewCount} review(s)... last update on {lastUpdate}</Text>
   }
 
-  render() {
-    return (
-      <ScrollView>
-        <View style={{minHeight: Dimensions.get('window').height - 40}}>
-
-          <SearchBar handleSearch={this.handleSearch} />
-          <Navbar />
-          <View style={styles.resultContainer}>
-            { this.state.searchResults }
-          </View>
-
+  renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) {
+      return (
+        <View style={styles.componentContainer}>
+          <Text style={{padding: 5, textAlign: 'center'}}>
+            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+          </Text>
+        </View>
+      );
+    } else if (this.state.dataLoaded) {
+      return (
+        <View style={{backgroundColor: 'white'}}>
           <TopRow courseReviews={this.state.courseReviews} />
-
           <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
             <View style={{position: 'absolute', right: 5, top: 5}}>
@@ -122,6 +132,33 @@ class CourseReviewPage extends React.Component {
             </View>
             { this.renderReviews() }
           </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.componentContainer}>
+          <ActivityIndicator
+            animating={true}
+            style={{height: 80}}
+            size={60}
+            color="#004E89"
+          />
+        </View>
+      );
+    }
+  }
+
+  render() {
+    return (
+      <ScrollView>
+        <View style={{minHeight: Dimensions.get('window').height - 40}}>
+          <SearchBar handleSearch={this.handleSearch} />
+          <Navbar />
+          <View style={styles.resultContainer}>
+            { this.state.searchResults }
+          </View>
+
+          { this.renderPageAfterData() }
 
         </View>
       </ScrollView>
