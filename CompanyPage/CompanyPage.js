@@ -47,7 +47,7 @@ class CompanyPage extends React.Component {
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {
       console.log("Error here: CompanyPage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: false });
+      this.setState({ dataLoaded: true, pageError: true });
     });
   }
 
@@ -67,7 +67,7 @@ class CompanyPage extends React.Component {
       this.setState(state);
     } else {
       console.log("Error here: CompanyPage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: false });
+      this.setState({ dataLoaded: true, pageError: true });
     }
   }
 

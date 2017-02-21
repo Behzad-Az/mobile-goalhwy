@@ -46,12 +46,17 @@ class IndexPage extends React.Component {
     .then(() => fetch('http://127.0.0.1:19001/api/home'))
     .then(response => response.json())
     .then(resJSON => {
-      resJSON.dataLoaded = true;
-      this.setState(resJSON)
+      if (resJSON) {
+        resJSON.dataLoaded = true;
+        this.setState(resJSON)
+      } else {
+        console.log("Error here: IndexPage.js: ", err);
+        this.setState({ dataLoaded: true, pageError: true });
+      }
     })
     .catch(err => {
       console.log("Error here: IndexPage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: false });
+      this.setState({ dataLoaded: true, pageError: true });
     });
   }
 

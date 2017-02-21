@@ -57,19 +57,24 @@ class InstPage extends React.Component {
       .then(resJSON => this.conditionData(resJSON, instId))
       .catch(err => {
         console.log("Error here: InstPage.js: ", err);
-        this.setState({ dataLoaded: true, pageError: false });
+        this.setState({ dataLoaded: true, pageError: true });
       });
     }
   }
 
   conditionData(resJSON, instId) {
-    resJSON.currInstId = instId;
-    resJSON.currInstCourses.forEach(course => course.displayName = `${course.prefix} ${course.suffix} - ${course.course_desc}`);
-    resJSON.instList.forEach(inst => {
-      inst.displayName = inst.inst_short_name ? inst.inst_long_name + ` (${inst.inst_short_name})` : inst.inst_long_name;
-    });
-    resJSON.dataLoaded = true;
-    this.setState(resJSON);
+    if (resJSON) {
+      resJSON.currInstId = instId;
+      resJSON.currInstCourses.forEach(course => course.displayName = `${course.prefix} ${course.suffix} - ${course.course_desc}`);
+      resJSON.instList.forEach(inst => {
+        inst.displayName = inst.inst_short_name ? inst.inst_long_name + ` (${inst.inst_short_name})` : inst.inst_long_name;
+      });
+      resJSON.dataLoaded = true;
+      this.setState(resJSON);
+    } else {
+      console.log("Error here: InstPage.js: ", err);
+      this.setState({ dataLoaded: true, pageError: true });
+    }
   }
 
   handleSearch(searchResults) {

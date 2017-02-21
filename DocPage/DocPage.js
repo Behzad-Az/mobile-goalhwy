@@ -43,12 +43,17 @@ class DocPage extends React.Component {
     fetch(`http://127.0.0.1:19001/api/courses/${courseId}/docs/${docId}`)
     .then(response => response.json())
     .then(resJSON => {
-      resJSON.dataLoaded = true;
-      this.setState(resJSON)
+      if (resJSON) {
+        resJSON.dataLoaded = true;
+        this.setState(resJSON)
+      } else {
+        console.log("Error here: DocPage.js: ", err);
+        this.setState({ dataLoaded: true, pageError: true });
+      }
     })
     .catch(err => {
       console.log("Error here: DocPage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: false });
+      this.setState({ dataLoaded: true, pageError: true });
     });
   }
 
