@@ -87,6 +87,10 @@ class CompanyPage extends React.Component {
           </View>
 
           <View style={styles.componentContainer}>
+            <Text style={styles.header}>{this.state.companyInfo.name}</Text>
+          </View>
+
+          <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showJobs: !this.state.showJobs})}>Current Job Openings:</Text>
             <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showJobs: !this.state.showJobs})}>
               <FontAwesome name={this.state.showJobs ? "chevron-up" : "chevron-down"} size={19} color="white" />

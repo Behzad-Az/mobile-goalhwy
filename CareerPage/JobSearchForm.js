@@ -182,6 +182,7 @@ class JobSearchForm extends Component {
                     btnContent={{ type: 'text', name: this.determineDistanceText() }}
                     style={styles.selectContainer}
                   />
+                  <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
                 </View>
               </View>
             </View>
@@ -256,7 +257,7 @@ class JobSearchForm extends Component {
           </ScrollView>
         </Modal>
         <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="search" size={19} color="white" /> Search Jobs
+          <FontAwesome name="search" size={19} color="white" /> Job Search Criteria
         </Text>
       </View>
     );

@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 import FlagModal from '../Partials/ModalSelect.js';
 
 class RevisionRow extends React.Component {
@@ -47,7 +48,7 @@ class RevisionRow extends React.Component {
           <FlagModal
             options={this.flagOptions}
             handleSelect={this.handleFlagSelect}
-            btnContent={{ type: 'icon', name: 'flag', size: 13, color: "white"}}
+            btnContent={{ type: 'icon', name: 'flag'}}
             style={styles.flagBtn}
           />
         </View>
@@ -60,9 +61,11 @@ class RevisionRow extends React.Component {
               style={{ width: 50, height: 50 }} />
           </View>
           <View style={{flex: 4}}>
-            <Text style={{fontWeight: 'bold'}}>{this.props.job.title}</Text>
-            <Text>@ {this.props.job.company}</Text>
-            <Text style={{fontSize: 13}}>Job Level: {this.props.job.kind}</Text>
+            <Text style={{fontWeight: 'bold', paddingBottom: 5}}>{this.props.job.title}</Text>
+            <Text style={styles.textBtn} onPress={() => Actions.CompanyPage({ companyId: this.props.job.company_id })}>
+              @ {this.props.job.company}
+            </Text>
+            <Text style={{fontSize: 12, paddingBottom: 5}}>Job Level: {this.props.job.kind}</Text>
             <View style={styles.tagContainer}>
               { this.props.job.tags.map((tag, index) => <Text key={index} style={styles.tag}>{tag}</Text> )}
             </View>
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: .5,
     borderRadius: 5,
-    marginTop: 5
+    marginBottom: 5
   },
   dividedRow: {
     flex: 1,
@@ -101,16 +104,26 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   flagBtn: {
-    color: 'white',
-    backgroundColor: '#9D0600',
-    paddingLeft: 7,
-    paddingRight: 7,
-    paddingTop: 3,
-    paddingBottom: 3,
-    borderRadius: 5,
+    fontSize: 13,
     textAlign: 'center',
-    marginTop: 5
+    marginTop: 10
   },
+  textBtn: {
+    paddingBottom: 5,
+    color: '#004E89'
+  },
+  // flagBtn: {
+  //   color: 'white',
+  //   backgroundColor: '#9D0600',
+  //   paddingLeft: 7,
+  //   paddingRight: 7,
+  //   paddingTop: 3,
+  //   paddingBottom: 3,
+  //   borderRadius: 5,
+  //   textAlign: 'center',
+  //   marginTop: 5,
+  //   fontSize: 13
+  // },
   tagContainer: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -8,6 +8,8 @@ import {
   Dimensions
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
+
 import Navbar from '../Navbar/Navbar.js';
 import SearchBar from '../Partials/SearchBar.js';
 import IndexRow from './IndexRow.js';
@@ -58,7 +60,10 @@ class IndexPage extends React.Component {
         <View style={styles.componentContainer}>
           <Text style={styles.header}>My Courses:</Text>
           { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
-          { !this.state.courses[0] && <Text style={{padding: 5}}>To get updates, please subscribe to at least one course...</Text> }
+          { !this.state.courses[0] &&
+          <Text style={styles.textBtn} onPress={() => Actions.InstPage({ instId: 1 })}>
+            To get updates, please click here to select and subscribe to at least one course.
+          </Text> }
         </View>
 
       </ScrollView>
@@ -89,5 +94,10 @@ const styles = StyleSheet.create({
   componentContainer: {
     marginBottom: 10,
     backgroundColor: 'white'
+  },
+  textBtn: {
+    padding: 5,
+    textAlign: 'center',
+    color: '#004E89'
   }
 });

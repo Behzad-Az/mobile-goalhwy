@@ -32,7 +32,7 @@ class CareerPage extends React.Component {
   loadComponentData() {
     fetch(`http://127.0.0.1:19001/api/users/${this.userId}/jobs`)
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.conditionData(resJSON) : console.error("server error - 0", resJSON))
+    .then(resJSON => resJSON ? this.conditionData(resJSON) : console.log("server error - 0", resJSON))
     .catch(err => console.log("Error here: ", err));
   }
 
@@ -51,6 +51,7 @@ class CareerPage extends React.Component {
   }
 
   render() {
+    console.log("i'm here 1: ", this.state);
     return (
       <ScrollView>
         <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
@@ -59,12 +60,13 @@ class CareerPage extends React.Component {
           <View style={styles.resultContainer}>
             { this.state.searchResults }
           </View>
+
           <JobSearchForm reload={this.loadComponentData} />
 
           <View style={styles.componentContainer}>
             <Text style={styles.header}>Open Positions:</Text>
             { this.state.jobs.map((job, index) => <JobRow key={index} job={job} />) }
-            { !this.state.jobs[0] && <Text style={{paddingLeft: 5}}>No jobs matching your search...</Text> }
+            { !this.state.jobs[0] && <Text style={{padding: 5, textAlign: 'center'}}>No jobs matching your search. Please revise your search criteria.</Text> }
           </View>
 
         </View>
@@ -82,7 +84,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: 5
   },
   resultContainer: {
     position: 'absolute',
