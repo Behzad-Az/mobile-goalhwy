@@ -4,7 +4,8 @@ import {
   Text,
   View,
   ScrollView,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
@@ -18,6 +19,8 @@ class CoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataLoaded: false,
+      pageError: false,
       courseInfo: {
         id: this.props.courseId
       },
@@ -39,6 +42,7 @@ class CoursePage extends React.Component {
     this.renderLectureNotes = this.renderLectureNotes.bind(this);
     this.renderItemsForSale = this.renderItemsForSale.bind(this);
     this.toggleDocView = this.toggleDocView.bind(this);
+    this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +53,10 @@ class CoursePage extends React.Component {
     fetch(`http://127.0.0.1:19001/api/courses/${course_id}`)
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
-    .catch(err => console.log("Error here: ", err));
+    .catch(err => {
+      console.log("Error here: IndexPage.js: ", err);
+      this.setState({ dataLoaded: true, pageError: false });
+    });
   }
 
   conditionData(response) {
@@ -60,7 +67,8 @@ class CoursePage extends React.Component {
       itemsForSale: response.itemsForSale,
       sampleQuestions: filterDocs(response.docs, 'sample_question'),
       asgReports: filterDocs(response.docs, 'asg_report'),
-      lectureNotes: filterDocs(response.docs, 'lecture_note')
+      lectureNotes: filterDocs(response.docs, 'lecture_note'),
+      dataLoaded: true
     };
     this.setState(newState);
   }
@@ -106,17 +114,18 @@ class CoursePage extends React.Component {
     this.setState(obj);
   }
 
-  render() {
-    return (
-      <ScrollView>
-        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
-
-          <SearchBar handleSearch={this.handleSearch} />
-          <Navbar />
-          <View style={styles.resultContainer}>
-            { this.state.searchResults }
-          </View>
-
+  renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) {
+      return (
+        <View style={styles.componentContainer}>
+          <Text style={{padding: 5, textAlign: 'center'}}>
+            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+          </Text>
+        </View>
+      );
+    } else if (this.state.dataLoaded) {
+      return (
+        <View style={{backgroundColor: 'white'}}>
           <View style={styles.componentContainer}>
             <Text style={styles.header}>
               {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
@@ -163,6 +172,33 @@ class CoursePage extends React.Component {
             </Text>
             { this.renderItemsForSale() }
           </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.componentContainer}>
+          <ActivityIndicator
+            animating={true}
+            style={{height: 80}}
+            size={60}
+            color="#004E89"
+          />
+        </View>
+      );
+    }
+  }
+
+  render() {
+    return (
+      <ScrollView>
+        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+          <SearchBar handleSearch={this.handleSearch} />
+          <Navbar />
+          <View style={styles.resultContainer}>
+            { this.state.searchResults }
+          </View>
+
+          { this.renderPageAfterData() }
 
         </View>
       </ScrollView>

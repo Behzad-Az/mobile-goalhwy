@@ -62,9 +62,11 @@ class IndexPage extends React.Component {
   renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
-        <Text style={{padding: 5, textAlign: 'center'}}>
-          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-        </Text>
+        <View style={styles.componentContainer}>
+          <Text style={{padding: 5, textAlign: 'center'}}>
+            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+          </Text>
+        </View>
       );
     } else if (this.state.dataLoaded) {
       return (
@@ -79,12 +81,14 @@ class IndexPage extends React.Component {
       );
     } else {
       return (
-        <ActivityIndicator
-          animating={true}
-          style={{height: 80}}
-          size={60}
-          color="#004E89"
-        />
+        <View style={styles.componentContainer}>
+          <ActivityIndicator
+            animating={true}
+            style={{height: 80}}
+            size={60}
+            color="#004E89"
+          />
+        </View>
       );
     }
   }
@@ -92,13 +96,16 @@ class IndexPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <SearchBar handleSearch={this.handleSearch}/>
-        <Navbar />
-        <View style={styles.resultContainer}>
-          { this.state.searchResults }
-        </View>
+        <View style={{minHeight: Dimensions.get('window').height - 40, backgroundColor: 'white'}}>
+          <SearchBar handleSearch={this.handleSearch}/>
+          <Navbar />
+          <View style={styles.resultContainer}>
+            { this.state.searchResults }
+          </View>
 
-        { this.renderPageAfterData() }
+          { this.renderPageAfterData() }
+
+        </View>
 
       </ScrollView>
     );
