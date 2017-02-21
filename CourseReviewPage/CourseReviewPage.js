@@ -40,7 +40,7 @@ class CourseReviewPage extends React.Component {
     this.loadComponentData = this.loadComponentData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.sortReviews = this.sortReviews.bind(this);
-      this.renderPageAfterData = this.renderPageAfterData.bind(this);
+    this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +55,7 @@ class CourseReviewPage extends React.Component {
       this.setState(resJSON)
     })
     .catch(err => {
-      console.log("Error here: IndexPage.js: ", err);
+      console.log("Error here: CourseReviewPage.js: ", err);
       this.setState({ dataLoaded: true, pageError: false });
     });
   }

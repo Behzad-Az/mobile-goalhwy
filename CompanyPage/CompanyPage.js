@@ -4,7 +4,8 @@ import {
   Text,
   View,
   ScrollView,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 
 import Navbar from '../Navbar/Navbar.js';
@@ -19,6 +20,8 @@ class CompanyPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataLoaded: false,
+      pageError: false,
       companyInfo: {},
       questions: [],
       jobs: [],
@@ -31,6 +34,7 @@ class CompanyPage extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.renderJobs = this.renderJobs.bind(this);
     this.renderQas = this.renderQas.bind(this);
+    this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
@@ -40,22 +44,31 @@ class CompanyPage extends React.Component {
   loadComponentData() {
     fetch(`http://127.0.0.1:19001/api/companies/${this.props.companyId}`)
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.conditionData(resJSON) : console.log("server error - 0", resJSON))
-    .catch(err => console.log("Error here 1: ", err));
+    .then(resJSON => this.conditionData(resJSON))
+    .catch(err => {
+      console.log("Error here: CompanyPage.js: ", err);
+      this.setState({ dataLoaded: true, pageError: false });
+    });
   }
 
   conditionData(resJSON) {
-    let jobs = resJSON.jobs.map(data => {
-      return {
-        ...data._source.pin,
-        tags: data._source.pin.search_text.split(' ')
+    if (resJSON) {
+      let jobs = resJSON.jobs.map(data => {
+        return {
+          ...data._source.pin,
+          tags: data._source.pin.search_text.split(' ')
+        };
+      });
+      let state = {
+        ...resJSON,
+        jobs: jobs,
+        dataLoaded: true
       };
-    });
-    let state = {
-      ...resJSON,
-      jobs: jobs
-    };
-    this.setState(state);
+      this.setState(state);
+    } else {
+      console.log("Error here: CompanyPage.js: ", err);
+      this.setState({ dataLoaded: true, pageError: false });
+    }
   }
 
   handleSearch(searchResults) {
@@ -76,6 +89,52 @@ class CompanyPage extends React.Component {
       <Text style={styles.summaryInfo}>{qaCount} interview questions...</Text>
   }
 
+  renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) {
+      return (
+        <View style={styles.componentContainer}>
+          <Text style={{padding: 5, textAlign: 'center'}}>
+            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+          </Text>
+        </View>
+      );
+    } else if (this.state.dataLoaded) {
+      return (
+        <View style={{backgroundColor: 'white'}}>
+          <View style={styles.componentContainer}>
+            <Text style={styles.header}>{this.state.companyInfo.name}</Text>
+          </View>
+          <View style={styles.componentContainer}>
+            <Text style={styles.header} onPress={() => this.setState({showJobs: !this.state.showJobs})}>Current Job Openings:</Text>
+            <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showJobs: !this.state.showJobs})}>
+              <FontAwesome name={this.state.showJobs ? "chevron-up" : "chevron-down"} size={19} color="white" />
+            </Text>
+            { this.renderJobs() }
+          </View>
+          <View style={styles.componentContainer}>
+            <Text style={styles.header} onPress={() => this.setState({showQas: !this.state.showQas})}>Interview Questions / Answers:</Text>
+            <View style={styles.headerBtnContainer}>
+              <NewQuestionForm companyId={this.props.companyId} reload={this.loadComponentData} />
+              <FontAwesome name={this.state.showQas ? "chevron-up" : "chevron-down"} style={styles.headerBtn} onPress={() => this.setState({ showQas: !this.state.showQas })} />
+            </View>
+            { this.renderQas() }
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.componentContainer}>
+          <ActivityIndicator
+            animating={true}
+            style={{height: 80}}
+            size={60}
+            color="#004E89"
+          />
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <ScrollView>
@@ -86,26 +145,7 @@ class CompanyPage extends React.Component {
             { this.state.searchResults }
           </View>
 
-          <View style={styles.componentContainer}>
-            <Text style={styles.header}>{this.state.companyInfo.name}</Text>
-          </View>
-
-          <View style={styles.componentContainer}>
-            <Text style={styles.header} onPress={() => this.setState({showJobs: !this.state.showJobs})}>Current Job Openings:</Text>
-            <Text style={{position: 'absolute', right: 10, top: 5}} onPress={() => this.setState({showJobs: !this.state.showJobs})}>
-              <FontAwesome name={this.state.showJobs ? "chevron-up" : "chevron-down"} size={19} color="white" />
-            </Text>
-            { this.renderJobs() }
-          </View>
-
-          <View style={styles.componentContainer}>
-            <Text style={styles.header} onPress={() => this.setState({showQas: !this.state.showQas})}>Interview Questions / Answers:</Text>
-            <View style={styles.headerBtnContainer}>
-              <NewQuestionForm companyId={this.props.companyId} reload={this.loadComponentData} />
-              <FontAwesome name={this.state.showQas ? "chevron-up" : "chevron-down"} style={styles.headerBtn} onPress={() => this.setState({ showQas: !this.state.showQas })} />
-            </View>
-            { this.renderQas() }
-          </View>
+          { this.renderPageAfterData() }
 
         </View>
       </ScrollView>
