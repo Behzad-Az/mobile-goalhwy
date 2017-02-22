@@ -13,6 +13,7 @@ import CourseReviewPage from './CourseReviewPage/CourseReviewPage.js';
 import DocPage from './DocPage/DocPage.js';
 import CareerPage from './CareerPage/CareerPage.js';
 import CompanyPage from './CompanyPage/CompanyPage.js';
+import LoginPage from './RegisterLoginPage/Login.js';
 
 import Navbar from './Navbar/Navbar.js';
 
@@ -23,14 +24,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router hideNavBar={false} navBar={Navbar}>
+      <Router navBar={Navbar}>
         <Scene key="root">
 
           <Scene
             key="IndexPage"
             component={IndexPage}
             title="IndexPage"
-            initial
           />
 
           <Scene
@@ -67,6 +67,14 @@ class App extends React.Component {
             key="CompanyPage"
             component={CompanyPage}
             title="CompanyPage"
+          />
+
+          <Scene
+            key="LoginPage"
+            component={LoginPage}
+            title="LoginPage"
+            initial
+            hideNavBar={true}
           />
 
         </Scene>
