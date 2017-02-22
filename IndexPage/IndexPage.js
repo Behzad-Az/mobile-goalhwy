@@ -30,18 +30,7 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://127.0.0.1:19001/api/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: 'ben',
-        password: 'ben123'
-      })
-    })
-    .then(() => fetch('http://127.0.0.1:19001/api/home'))
+    fetch('http://127.0.0.1:19001/api/home')
     .then(response => response.json())
     .then(resJSON => {
       if (resJSON) {

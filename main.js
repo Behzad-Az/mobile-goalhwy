@@ -24,7 +24,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router navBar={Navbar}>
+      <Router hideNavBar={false} navBar={Navbar}>
         <Scene key="root">
 
           <Scene
@@ -74,7 +74,7 @@ class App extends React.Component {
             component={LoginPage}
             title="LoginPage"
             initial
-            hideNavBar={true}
+            hideNavBar
           />
 
         </Scene>
