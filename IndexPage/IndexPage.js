@@ -66,8 +66,8 @@ class IndexPage extends React.Component {
           <Text style={styles.header}>My Courses:</Text>
           { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
           { !this.state.courses[0] &&
-          <Text style={styles.textBtn} onPress={() => Actions.InstPage({ instId: 1 })}>
-            To get updates, please click here to select and subscribe to at least one course.
+          <Text style={styles.textBtn} onPress={() => Actions.InstPage({ instId: this.state.instId })}>
+            To get updates, click here to select and subscribe to at least one course.
           </Text> }
         </View>
       );

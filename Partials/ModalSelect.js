@@ -33,9 +33,9 @@ class ModalSelect extends Component {
     }
   }
 
-  submitSelect(value) {
+  submitSelect(value, label) {
     this.setModalVisible(false);
-    this.props.handleSelect(value);
+    this.props.handleSelect(value, label);
   }
 
   render() {
@@ -50,7 +50,7 @@ class ModalSelect extends Component {
           <TouchableHighlight style={styles.modalContainer} onPress={() => this.setModalVisible(false)}>
             <View style={styles.selectionBox}>
               { this.props.options.map((option, index) =>
-                <Text key={index} style={styles.selectRow} onPress={() => this.submitSelect(option.value)}>
+                <Text key={index} style={styles.selectRow} onPress={() => this.submitSelect(option.value, option.label)}>
                   {option.label}
                 </Text>
               )}

@@ -75,7 +75,7 @@ class CareerPage extends React.Component {
           <View style={[styles.componentContainer, {backgroundColor: '#eee'}]}>
             <Text style={styles.header}>Open Positions:</Text>
             { this.state.jobs.map((job, index) => <JobRow key={index} job={job} />) }
-            { !this.state.jobs[0] && <Text style={{padding: 5, textAlign: 'center'}}>No jobs matching your search. Please revise your search criteria.</Text> }
+            { !this.state.jobs[0] && <Text style={{padding: 5, textAlign: 'center'}}>No jobs matching your search. Revise your search criteria.</Text> }
           </View>
         </View>
       );

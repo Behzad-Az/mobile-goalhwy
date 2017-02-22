@@ -4,14 +4,13 @@ import {
   Text,
   TextInput,
   View,
-  ScrollView,
-  Dimensions,
-  ActivityIndicator,
   Image
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
 import { Actions } from 'react-native-router-flux';
+
+import NewRegisterForm from './NewRegisterForm.js';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -19,23 +18,15 @@ class LoginPage extends React.Component {
     this.state = {
       username: '',
       password: '',
-      errMsg: ''
+      pageMsg: ''
     };
     this.handleLogin = this.handleLogin.bind(this);
+    this.setMessage = this.setMessage.bind(this);
   }
 
   handleLogin() {
-    // $.ajax({
-    //   method: 'POST',
-    //   url: '/api/login',
-    //   data: this.state,
-    //   success: response => {
-    //     response ? browserHistory.push("/home") : this.props.handleBadInput(true, 'Invalid login credentials.');
-    //   }
-    // });
-
     let data = { ...this.state };
-    delete data.errMsg;
+    delete data.pageMsg;
 
     fetch('http://127.0.0.1:19001/api/login', {
       method: 'POST',
@@ -46,15 +37,19 @@ class LoginPage extends React.Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? Actions.IndexPage() : this.setState({ errMsg: "Invalid username and/or password"  }))
-    .catch(err => this.setState({ errMsg: "Login failed"  }));
+    .then(resJSON => resJSON ? Actions.IndexPage() : this.setState({ pageMsg: "Invalid username and/or password"  }))
+    .catch(err => this.setState({ pageMsg: "Login failed"  }));
+  }
+
+  setMessage(pageMsg) {
+    this.setState({ pageMsg });
   }
 
   render() {
     return (
       <View style={[styles.container]}>
 
-        <Text style={[styles.textStyle, {fontSize: 13}]}>{this.state.errMsg}</Text>
+        <Text style={[styles.textStyle, {fontSize: 13}]}>{this.state.pageMsg}</Text>
         <Image
           source={require('../public/images/logo.png')}
           fadeDuration={0}
@@ -66,7 +61,9 @@ class LoginPage extends React.Component {
           <TextInput
             style={styles.textInput}
             onChangeText={username => this.setState({ username })}
-            placeholder="Username" />
+            placeholder="Username"
+            underlineColorAndroid="rgba(0,0,0,0)"
+          />
           <FontAwesome name="user" style={styles.fontAwesomeStyle} />
         </View>
 
@@ -75,14 +72,16 @@ class LoginPage extends React.Component {
             style={styles.textInput}
             onChangeText={password => this.setState({ password })}
             placeholder="Password"
-            secureTextEntry={true} />
+            secureTextEntry={true}
+            underlineColorAndroid="rgba(0,0,0,0)"
+          />
           <FontAwesome name="key" style={styles.fontAwesomeStyle} />
 
         </View>
 
         <View style={styles.dividedRow}>
           <Text style={[styles.loginBtn, {flex: 1}]} onPress={this.handleLogin}>Login</Text>
-          <Text style={[styles.textStyle, {flex: 1}]}>Register</Text>
+          <NewRegisterForm style={styles.textStyle} setMessage={this.setMessage} />
         </View>
 
 

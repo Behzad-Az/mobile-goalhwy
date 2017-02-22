@@ -110,7 +110,8 @@ class InstPage extends React.Component {
           <TextInput
             style={styles.textInput}
             onChangeText={filterPhrase => this.setState({ filterPhrase })}
-            placeholder="Search courses here..." />
+            placeholder="Search courses here..."
+          />
           { slicedArr.map(course => <CourseRow key={course.id} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
           { !slicedArr[0] && <NewCourseForm instId={this.state.currInstId} reload={this.loadComponentData} /> }
         </View>
