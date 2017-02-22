@@ -19,7 +19,7 @@ class UserProfilePage extends React.Component {
     return (
       <ScrollView>
         <View style={{marginTop: 94}}>
-          <ProfileCard />
+          <ProfileCard userId={this.props.userId} />
         </View>
       </ScrollView>
     );

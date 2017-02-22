@@ -17,10 +17,16 @@ class RevisionRow extends React.Component {
       userInfo: {},
       pageMsg: ''
     };
+    this.loadComponentData = this.loadComponentData.bind(this);
+    this.conditionData = this.conditionData.bind(this);
     this.setMessage = this.setMessage.bind(this);
   }
 
   componentDidMount() {
+    this.loadComponentData();
+  }
+
+  loadComponentData() {
     fetch(`http://127.0.0.1:19001/api/users/${this.props.userId}`)
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
@@ -33,6 +39,7 @@ class RevisionRow extends React.Component {
   conditionData(resJSON) {
     if (resJSON) {
       let userInfo = {
+        userId: resJSON.userInfo.id,
         instId: resJSON.userInfo.inst_id,
         progId: resJSON.userInfo.prog_id,
         username: resJSON.userInfo.username,
@@ -41,7 +48,7 @@ class RevisionRow extends React.Component {
         instDisplayName: resJSON.userInfo.inst_short_name ? resJSON.userInfo.inst_long_name + ` (${resJSON.userInfo.inst_short_name})` : resJSON.userInfo.inst_long_name,
         progDisplayName: resJSON.userInfo.prog_short_name ? resJSON.userInfo.prog_long_name + ` (${resJSON.userInfo.prog_short_name})` : resJSON.userInfo.prog_long_name
       };
-      this.setState({ dataLoaded: true, userInfo });
+      this.setState({ dataLoaded: true, userInfo, pageMsg: '' });
     } else {
       console.log("Error here: UserProfilePage.js: ", err);
       this.setState({ dataLoaded: true, pageError: true });
@@ -55,6 +62,7 @@ class RevisionRow extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text>{this.state.pageMsg}</Text>
         <Text style={styles.header}>Profile Information:</Text>
 
         <View style={styles.attributeContainer}>
@@ -82,7 +90,7 @@ class RevisionRow extends React.Component {
            <Text>{this.state.userInfo.userYear}</Text>
         </View>
 
-        <EditProfileForm style={styles.editBtn} setMessage={this.setMessage} userInfo={this.state.userInfo} />
+        <EditProfileForm style={styles.editBtn} setMessage={this.setMessage} userInfo={this.state.userInfo} reload={this.loadComponentData} />
 
       </View>
     );
@@ -101,10 +109,7 @@ const styles = StyleSheet.create({
   header: {
     color: '#004E89',
     fontWeight: 'bold',
-    // paddingBottom: 5,
-    marginBottom: 10,
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#004E89'
+    marginBottom: 10
   },
   attributeContainer: {
     marginBottom: 10
@@ -116,8 +121,10 @@ const styles = StyleSheet.create({
   editBtn: {
     backgroundColor: '#004E89',
     color: 'white',
-    // position: 'absolute',
-    // top: 10,
-    // right: 10
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingRight: 6,
+    paddingLeft: 6,
+    borderRadius: 5
   }
 });

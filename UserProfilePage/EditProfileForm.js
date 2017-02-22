@@ -21,6 +21,7 @@ class EditProfileForm extends Component {
     this.state = {
       pageError: false,
       modalVisible: false,
+      userId: this.props.userInfo.userId,
       username: this.props.userInfo.username,
       email: this.props.userInfo.email,
       instId: this.props.userInfo.instId,
@@ -37,7 +38,7 @@ class EditProfileForm extends Component {
     this.selectInst = this.selectInst.bind(this);
     this.selectProgram = this.selectProgram.bind(this);
     this.selectUserYear = this.selectUserYear.bind(this);
-    this.handleRegister = this.handleRegister.bind(this);
+    this.updateProfile = this.updateProfile.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +67,7 @@ class EditProfileForm extends Component {
         });
         return {value, label, programs};
       });
+      console.log("i'm here 1.1: ", instProgDropDownList);
       this.setState({ instProgDropDownList });
     } else {
       console.log("Error here: EditProfileForm.js: ", err);
@@ -91,16 +93,16 @@ class EditProfileForm extends Component {
     this.setState({ userYear });
   }
 
-  handleRegister() {
+  updateProfile() {
     let data = {
-      username: this.state.username,
-      email: this.state.email,
+      type: "profile",
+      username: this.state.username.toLowerCase(),
+      email: this.state.email.toLowerCase(),
+      userYear: this.state.userYear,
       instId: this.state.instId,
-      progId: this.state.progId,
-      userYear: this.state.userYear
+      progId: this.state.progId
     };
-
-    fetch('http://127.0.0.1:19001/api/register', {
+    fetch(`http://127.0.0.1:19001/api/users/${this.state.userId}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -109,17 +111,17 @@ class EditProfileForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.setMessage("Registration successfull. Please login.") : console.log("Error in server EditProfileForm.js - 0: ", resJSON))
-    .catch(err => console.log("Error here: EditProfileForm.js ", err));
+    .then(resJSON => resJSON ? this.props.reload() : this.props.setMessage("Could not update profile."))
+    .catch(err => this.props.setMessage("Could not update profile."));
     this.setModalVisible(false);
   }
 
   render() {
-    let programList = this.state.instId ?
+    let programList = this.state.instProgDropDownList[0] && this.state.instId ?
                       this.state.instProgDropDownList.find(item => item.value === this.state.instId).programs :
                       [];
     return (
-      <View style={{flex: 1}}>
+      <View style={{position: 'absolute', top: 10, right: 10}}>
         <Modal
           animationType={"slide"}
           transparent={false}
@@ -184,7 +186,7 @@ class EditProfileForm extends Component {
 
             <View style={styles.dividedRow}>
               <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleRegister}>
+                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.updateProfile}>
                   Update
                 </Text>
               </View>
