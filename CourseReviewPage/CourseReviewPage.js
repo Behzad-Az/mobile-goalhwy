@@ -51,7 +51,7 @@ class CourseReviewPage extends React.Component {
     .then(resJSON => {
       if (resJSON) {
         resJSON.dataLoaded = true;
-        this.setState(resJSON)
+        this.setState(resJSON);
       } else {
         console.log("Error here: CourseReviewPage.js: ", err);
         this.setState({ dataLoaded: true, pageError: true });

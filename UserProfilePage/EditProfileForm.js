@@ -10,10 +10,9 @@ import {
 
 import { FontAwesome } from '@exponent/vector-icons';
 import ModalSelect from '../Partials/ModalSelect.js';
+import SelectInstModal from '../RegisterLoginPage/SelectInst.js';
 
-import SelectInstModal from './SelectInst.js';
-
-class NewRegisterForm extends Component {
+class EditProfileForm extends Component {
   constructor(props) {
     super(props);
     this.userYearOptions = [
@@ -22,15 +21,13 @@ class NewRegisterForm extends Component {
     this.state = {
       pageError: false,
       modalVisible: false,
-      username: '',
-      email: '',
-      password: '',
-      passwordConfirm: '',
-      instId: '',
-      instDisplayName: '',
-      progId: '',
-      progDisplayName: '',
-      userYear: '',
+      username: this.props.userInfo.username,
+      email: this.props.userInfo.email,
+      instId: this.props.userInfo.instId,
+      instDisplayName: this.props.userInfo.instDisplayName,
+      progId: this.props.userInfo.progId,
+      progDisplayName: this.props.userInfo.progDisplayName,
+      userYear: this.props.userInfo.user_year,
       instProgDropDownList: [],
       usernameAvaialble: false,
       emailAvaialble: false
@@ -48,9 +45,13 @@ class NewRegisterForm extends Component {
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {
-      console.log("Error here: NewRegisterForm.js: ", err);
+      console.log("Error here: EditProfileForm.js: ", err);
       this.setState({ pageError: true });
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps.userInfo);
   }
 
   conditionData(resJSON) {
@@ -67,7 +68,7 @@ class NewRegisterForm extends Component {
       });
       this.setState({ instProgDropDownList });
     } else {
-      console.log("Error here: NewRegisterForm.js: ", err);
+      console.log("Error here: EditProfileForm.js: ", err);
       this.setState({ pageError: true });
     }
   }
@@ -77,7 +78,9 @@ class NewRegisterForm extends Component {
   }
 
   selectInst(instId, instDisplayName) {
-    this.setState({ instId, instDisplayName });
+    if (instId !== this.state.instId) {
+      this.setState({ instId, instDisplayName, progId: '', progDisplayName: '' });
+    }
   }
 
   selectProgram(progId, progDisplayName) {
@@ -92,8 +95,6 @@ class NewRegisterForm extends Component {
     let data = {
       username: this.state.username,
       email: this.state.email,
-      password: this.state.password,
-      passwordConfirm: this.state.passwordConfirm,
       instId: this.state.instId,
       progId: this.state.progId,
       userYear: this.state.userYear
@@ -108,8 +109,8 @@ class NewRegisterForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.setMessage("Registration successfull. Please login.") : console.log("Error in server NewRegisterForm.js - 0: ", resJSON))
-    .catch(err => console.log("Error here: NewRegisterForm.js ", err));
+    .then(resJSON => resJSON ? this.props.setMessage("Registration successfull. Please login.") : console.log("Error in server EditProfileForm.js - 0: ", resJSON))
+    .catch(err => console.log("Error here: EditProfileForm.js ", err));
     this.setModalVisible(false);
   }
 
@@ -151,30 +152,6 @@ class NewRegisterForm extends Component {
               />
             </View>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Password:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={password => this.setState({password})}
-                value={this.state.password}
-                placeholder="Enter password"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                secureTextEntry={true}
-              />
-            </View>
-
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Confirm Password:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={passwordConfirm => this.setState({passwordConfirm})}
-                value={this.state.passwordConfirm}
-                placeholder="Confirm password"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                secureTextEntry={true}
-              />
-            </View>
-
             <View>
               <SelectInstModal
                 instList={this.state.instProgDropDownList}
@@ -208,7 +185,7 @@ class NewRegisterForm extends Component {
             <View style={styles.dividedRow}>
               <View style={{flex: 1}}>
                 <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleRegister}>
-                  Register
+                  Update
                 </Text>
               </View>
               <View style={{flex: 1}}>
@@ -221,14 +198,14 @@ class NewRegisterForm extends Component {
           </ScrollView>
         </Modal>
 
-        <Text style={this.props.style} onPress={() => this.setModalVisible(true)}>Register</Text>
+        <Text style={this.props.style} onPress={() => this.setModalVisible(true)}>Edit</Text>
 
       </View>
     );
   }
 }
 
-export default NewRegisterForm;
+export default EditProfileForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
