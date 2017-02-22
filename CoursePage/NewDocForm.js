@@ -135,12 +135,12 @@ class NewDocForm extends Component {
 
             <View style={[styles.dividedRow, {marginTop: 10}]}>
               <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginRight: 5}]}>
+                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginRight: 5}]}>
                   Submit
                 </Text>
               </View>
               <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginLeft: 5}]}>
+                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginLeft: 5}]}>
                   Go Back
                 </Text>
               </View>
@@ -148,7 +148,7 @@ class NewDocForm extends Component {
 
           </ScrollView>
         </Modal>
-        <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(true)}>
+        <Text style={styles.headerBtn} onPress={() => this.setModalVisible(true)}>
           <FontAwesome name="upload" size={19} color="white" />
         </Text>
       </View>
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  primaryBtn: {
+  headerBtn: {
     color: 'white',
     backgroundColor: '#004E89',
     padding: 5,
@@ -217,13 +217,12 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     paddingLeft: 5
   },
-  actionBtn: {
-    alignItems: 'center',
-    backgroundColor: '#004E89',
-    textAlign: 'center',
-    paddingTop: 5,
-    paddingBottom: 5,
+  primaryBtn: {
     color: 'white',
-    fontWeight: 'bold'
+    backgroundColor: '#004E89',
+    padding: 5,
+    borderRadius: 5,
+    textAlign: 'center',
+    marginBottom: 10
   }
 });

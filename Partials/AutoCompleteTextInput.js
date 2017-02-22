@@ -72,15 +72,15 @@ const styles = StyleSheet.create({
   },
   inputContainerStyle: {
     paddingRight: 5,
-    paddingLeft: 5
+    paddingLeft: 5,
+    borderRadius: 5
   },
   autocompleteContainer: {
     flex: 1,
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0,
-    zIndex: 1
+    top: 0
   },
   itemText: {
     fontSize: 15,

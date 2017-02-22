@@ -27,7 +27,7 @@ class ModalSelect extends Component {
 
   determineBtnContent() {
     if (this.props.btnContent.type === 'icon') {
-      return <FontAwesome name={this.props.btnContent.name} size={this.props.btnContent.size} color={this.props.btnContent.color} /> ;
+      return <FontAwesome name={this.props.btnContent.name} style={this.props.style} /> ;
     } else {
       return this.props.btnContent.name;
     }

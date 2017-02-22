@@ -18,23 +18,26 @@ class RadioInput extends React.Component {
       <View style={styles.container}>
         <View style={styles.component}>
           <RadioForm
-            formHorizontal={true}
+            formHorizontal={this.props.horizontal}
             animation={true}
           >
           { this.props.options.map((obj, index) => {
-            var that = this;
-            var is_selected = this.state.selectedIndex == index;
+            let radioStyle =
+              this.props.horizontal && index !== this.props.options.length - 1 ?
+              { borderRightWidth: 1, borderColor: '#004E89', paddingRight: 10 } :
+              {};
+
             return (
               <View key={index} style={styles.radioButtonWrap}>
                 <RadioButton
-                  isSelected={is_selected}
+                  isSelected={this.state.selectedIndex == index}
                   obj={obj}
                   index={index}
                   labelHorizontal={true}
                   buttonColor={'#2196f3'}
                   labelColor={'#000'}
                   buttonSize={12}
-                  style={[index !== this.props.options.length-1 && styles.radioStyle]}
+                  style={radioStyle}
                   onPress={(value, index) => {
                     this.setState({selectedIndex: index});
                     this.props.handleRadioChange(this.props.type, this.props.options[index].value);
@@ -55,21 +58,12 @@ export default RadioInput;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    alignItems: 'center',
-    // maxWidth: 200
+    alignItems: 'center'
   },
   component: {
     marginBottom: 10
-    // marginTop: 10
-  },
-  radioStyle: {
-    borderRightWidth: 1,
-    borderColor: '#004E89',
-    paddingRight: 10
   },
   radioButtonWrap: {
-    marginRight: 10,
-    // marginLeft: 5
+    marginRight: 10
   }
 });

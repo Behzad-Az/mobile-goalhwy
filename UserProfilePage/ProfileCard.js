@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     borderWidth: .5,
-    backgroundColor: 'white',
+    backgroundColor: '#eee',
     marginBottom: 10
   },
   header: {

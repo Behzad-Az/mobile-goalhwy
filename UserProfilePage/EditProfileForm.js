@@ -67,7 +67,6 @@ class EditProfileForm extends Component {
         });
         return {value, label, programs};
       });
-      console.log("i'm here 1.1: ", instProgDropDownList);
       this.setState({ instProgDropDownList });
     } else {
       console.log("Error here: EditProfileForm.js: ", err);

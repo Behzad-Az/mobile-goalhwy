@@ -50,8 +50,8 @@ class RevisionRow extends React.Component {
             <FlagModal
               options={this.flagOptions}
               handleSelect={this.handleFlagSelect}
-              btnContent={{ type: 'icon', name: 'flag', size: 19, color: "white"}}
-              style={[{backgroundColor: '#9D0600'}, styles.lowerBtn]}
+              btnContent={{ type: 'icon', name: 'flag'}}
+              style={styles.flagBtn}
             />
           </View>
         </View>
@@ -95,6 +95,12 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 5,
     borderRadius: 5,
+    textAlign: 'center',
+    margin: 5
+  },
+  flagBtn: {
+    fontSize: 19,
+    padding: 5,
     textAlign: 'center',
     margin: 5
   }

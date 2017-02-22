@@ -61,12 +61,12 @@ class NewAssistForm extends Component {
           </View>
           <View style={[styles.dividedRow, {marginTop: 10}]}>
             <View style={{flex: 1}}>
-              <Text onPress={this.handleUpdateRequestAssist} style={[styles.actionBtn, {marginRight: 5}]}>
+              <Text onPress={this.handleUpdateRequestAssist} style={[styles.primaryBtn, {marginRight: 5}]}>
                 Update
               </Text>
             </View>
             <View style={{flex: 1}}>
-              <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.actionBtn, {marginLeft: 5}]}>
+              <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginLeft: 5}]}>
                 Go Back
               </Text>
             </View>
@@ -77,12 +77,12 @@ class NewAssistForm extends Component {
       return (
         <View style={[styles.dividedRow, {marginTop: 10}]}>
           <View style={{flex: 1}}>
-            <Text onPress={this.handleNewRequestAssist} style={[styles.actionBtn, {marginRight: 5}]}>
+            <Text onPress={this.handleNewRequestAssist} style={[styles.primaryBtn, {marginRight: 5}]}>
               Submit
             </Text>
           </View>
           <View style={{flex: 1}}>
-            <Text onPress={() => this.setModalVisible(false)} style={[styles.actionBtn, {marginLeft: 5}]}>
+            <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginLeft: 5}]}>
               Go Back
             </Text>
           </View>
@@ -162,7 +162,7 @@ class NewAssistForm extends Component {
           </ScrollView>
         </Modal>
         <TouchableHighlight onPress={() => this.setModalVisible(true)} disabled={!this.props.subscriptionStatus}>
-          <Text style={[styles.primaryBtn, {backgroundColor: this.props.subscriptionStatus ? "#004E89" : "#bbb"}]}>
+          <Text style={[styles.headerBtn, {backgroundColor: this.props.subscriptionStatus ? "#004E89" : "#bbb"}]}>
             <FontAwesome name="bell" size={19} color={this.state.assistReqOpen ? "green" : "white"} />
           </Text>
         </TouchableHighlight>
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  primaryBtn: {
+  headerBtn: {
     color: 'white',
     backgroundColor: '#004E89',
     padding: 5,
@@ -231,13 +231,12 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     paddingLeft: 5
   },
-  actionBtn: {
-    alignItems: 'center',
-    backgroundColor: '#004E89',
-    textAlign: 'center',
-    paddingTop: 5,
-    paddingBottom: 5,
+  primaryBtn: {
     color: 'white',
-    fontWeight: 'bold'
+    backgroundColor: '#004E89',
+    padding: 5,
+    borderRadius: 5,
+    textAlign: 'center',
+    marginBottom: 10
   }
 });

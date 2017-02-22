@@ -113,8 +113,6 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#004E89',
     padding: 5,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
     color: 'white',
     fontWeight: 'bold'
   },

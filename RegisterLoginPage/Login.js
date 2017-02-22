@@ -27,7 +27,6 @@ class LoginPage extends React.Component {
   handleLogin() {
     let data = { ...this.state };
     delete data.pageMsg;
-
     fetch('http://127.0.0.1:19001/api/login', {
       method: 'POST',
       headers: {
@@ -47,7 +46,7 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <View style={[styles.container]}>
+      <View style={styles.container}>
 
         <Text style={[styles.textStyle, {fontSize: 13}]}>{this.state.pageMsg}</Text>
         <Image

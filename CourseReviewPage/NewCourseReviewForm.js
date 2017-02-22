@@ -113,19 +113,17 @@ class NewCourseReviewForm extends React.Component {
 
             <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>How was the workload?</Text>
-              <RadioInput handleRadioChange={this.handleRadioChange} type="workload_rating" options={this.workLoadOptions} />
+              <RadioInput handleRadioChange={this.handleRadioChange} type="workload_rating" options={this.workLoadOptions} horizontal />
             </View>
 
             <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>How was the evaluation?</Text>
-              <RadioInput handleRadioChange={this.handleRadioChange} type="fairness_rating" options={this.evalOptions} />
+              <RadioInput handleRadioChange={this.handleRadioChange} type="fairness_rating" options={this.evalOptions} horizontal />
             </View>
 
             <View style={styles.inputCotainer}>
               <Text style={styles.inputLabel}>How was the instructor?</Text>
-              <RadioInput handleRadioChange={this.handleRadioChange} type="prof_rating" options={this.profOptions.slice(0, 2)} />
-              <RadioInput handleRadioChange={this.handleRadioChange} type="prof_rating" options={this.profOptions.slice(2, 4)} />
-              <RadioInput handleRadioChange={this.handleRadioChange} type="prof_rating" options={this.profOptions.slice(4, 5)} />
+              <RadioInput handleRadioChange={this.handleRadioChange} type="prof_rating" options={this.profOptions} />
             </View>
 
             <View style={styles.inputCotainer}>
@@ -235,7 +233,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#004E89',
     padding: 5,
     borderRadius: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 10
   },
   textInput: {
     paddingRight: 5,
