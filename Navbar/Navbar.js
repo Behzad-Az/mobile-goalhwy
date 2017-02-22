@@ -84,7 +84,7 @@ class Navbar extends React.Component {
           <FontAwesome
             name="user-circle-o"
             style={[styles.navItem, {borderBottomWidth: this.props.title === 'CompanyPage' ? 3 : 0 }]}
-            onPress={() => Actions.CompanyPage({ companyId: 2 })} />
+            onPress={() => Actions.UserProfilePage({ userId: this.state.userInfo.id })} />
         </View>
       );
     }

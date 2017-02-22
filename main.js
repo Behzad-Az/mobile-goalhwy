@@ -6,6 +6,7 @@ import {
 
 import { Router, Scene } from 'react-native-router-flux';
 
+import Navbar from './Navbar/Navbar.js';
 import CoursePage from './CoursePage/CoursePage.js';
 import InstPage from './InstPage/InstPage.js';
 import IndexPage from './IndexPage/IndexPage.js';
@@ -14,8 +15,7 @@ import DocPage from './DocPage/DocPage.js';
 import CareerPage from './CareerPage/CareerPage.js';
 import CompanyPage from './CompanyPage/CompanyPage.js';
 import LoginPage from './RegisterLoginPage/Login.js';
-
-import Navbar from './Navbar/Navbar.js';
+import UserProfilePage from './UserProfilePage/UserProfilePage.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -75,6 +75,12 @@ class App extends React.Component {
             title="LoginPage"
             initial
             hideNavBar
+          />
+
+          <Scene
+            key="UserProfilePage"
+            component={UserProfilePage}
+            title="UserProfilePage"
           />
 
         </Scene>
