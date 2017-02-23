@@ -11,7 +11,7 @@ class TopRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDetails: false
+      showDetails: true
     };
     this.getAverageValues = this.getAverageValues.bind(this);
     this.getProfAvgRatings = this.getProfAvgRatings.bind(this);
@@ -141,7 +141,6 @@ class TopRow extends React.Component {
     return (
       <View style={styles.componentContainer}>
         <Text style={styles.header} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
-        <FontAwesome name={this.state.showDetails ? "chevron-up" : "chevron-down"} style={styles.headerStanAloneChevron} onPress={() => this.setState({showDetails: !this.state.showDetails})} />
         { this.renderDetails() }
       </View>
     );
@@ -190,7 +189,9 @@ const styles = StyleSheet.create({
   },
   componentContainer: {
     marginBottom: 10,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderColor: '#004E89',
+    borderBottomWidth: .5
   }
 });
 

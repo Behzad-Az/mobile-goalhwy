@@ -102,10 +102,11 @@ export default CourseReviewRow;
 const styles = StyleSheet.create({
   container: {
     padding: 5,
-    borderWidth: 1,
+    borderTopWidth: .5,
+    borderBottomWidth: .5,
     borderColor: '#004E89',
-    borderRadius: 5,
-    marginTop: 10
+    backgroundColor: 'white',
+    marginTop: 5
   },
   dividedRow: {
     flex: 1,

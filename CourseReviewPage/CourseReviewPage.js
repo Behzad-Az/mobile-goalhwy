@@ -28,7 +28,7 @@ class CourseReviewPage extends React.Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      showReviews: false,
+      showReviews: true,
       courseInfo: {},
       courseReviews: [],
       sortedBy: '',
@@ -109,7 +109,7 @@ class CourseReviewPage extends React.Component {
       );
     } else if (this.state.dataLoaded) {
       return (
-        <View style={{backgroundColor: 'white'}}>
+        <View>
           <TopRow courseReviews={this.state.courseReviews} />
           <View style={styles.componentContainer}>
             <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
@@ -126,10 +126,7 @@ class CourseReviewPage extends React.Component {
                 reload={this.loadComponentData}
                 style={styles.headerBtn}
               />
-              <FontAwesome
-                name={this.state.showReviews ? "chevron-up" : "chevron-down"}
-                style={styles.headerBtn}
-                onPress={() => this.setState({showReviews: !this.state.showReviews})} />
+
             </View>
             { this.renderReviews() }
           </View>
@@ -152,7 +149,7 @@ class CourseReviewPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 94}}>
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
           { this.renderPageAfterData() }
         </View>
       </ScrollView>
@@ -171,14 +168,13 @@ const styles = StyleSheet.create({
   },
   summaryInfo: {
     padding: 5,
-    backgroundColor: '#eee',
+    backgroundColor: 'white',
     borderBottomWidth: .5,
     borderLeftWidth: .5,
     borderRightWidth: .5
   },
   componentContainer: {
-    marginBottom: 10,
-    backgroundColor: 'white'
+    marginBottom: 10
   },
   headerBtnContainer: {
     flexDirection: 'row',

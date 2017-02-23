@@ -70,7 +70,7 @@ class DocPage extends React.Component {
       );
     } else if (this.state.dataLoaded) {
       return (
-        <View style={{backgroundColor: 'white'}}>
+        <View>
           <View style={styles.componentContainer}>
             <Text style={styles.header}>{this.state.doc.title}</Text>
             <TopRow courseInfo={this.state.courseInfo} />
@@ -99,7 +99,7 @@ class DocPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 94}}>
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
           { this.renderPageAfterData() }
         </View>
       </ScrollView>
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   componentContainer: {
-    marginBottom: 10,
-    backgroundColor: 'white'
+    marginBottom: 10
   }
 });

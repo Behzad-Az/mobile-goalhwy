@@ -71,8 +71,9 @@ export default RevisionRow;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    borderWidth: .5,
-    borderRadius: 5,
+    borderTopWidth: .5,
+    borderBottomWidth: .5,
+    borderColor: '#004E89',
     backgroundColor: 'white',
     marginTop: 5
   },
