@@ -16,6 +16,7 @@ import CareerPage from './CareerPage/CareerPage.js';
 import CompanyPage from './CompanyPage/CompanyPage.js';
 import LoginPage from './RegisterLoginPage/Login.js';
 import UserProfilePage from './UserProfilePage/UserProfilePage.js';
+import FeedPage from './FeedPage/FeedPage.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -81,6 +82,12 @@ class App extends React.Component {
             key="UserProfilePage"
             component={UserProfilePage}
             title="UserProfilePage"
+          />
+
+          <Scene
+            key="FeedPage"
+            component={FeedPage}
+            title="FeedPage"
           />
 
         </Scene>

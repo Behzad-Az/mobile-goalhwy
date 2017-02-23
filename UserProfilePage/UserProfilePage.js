@@ -1,13 +1,9 @@
 import React from 'react';
 import {
   ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
   View
 } from 'react-native';
 
-import { FontAwesome } from '@exponent/vector-icons';
 import ProfileCard from './ProfileCard.js';
 
 class UserProfilePage extends React.Component {

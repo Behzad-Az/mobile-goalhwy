@@ -70,6 +70,10 @@ class Navbar extends React.Component {
       return (
         <View style={styles.dividedRow}>
           <FontAwesome
+            name="feed"
+            style={[styles.navItem, {borderBottomWidth: this.props.title === 'FeedPage' ? 3 : 0 }]}
+            onPress={() => Actions.FeedPage({ userId: this.state.userInfo.id })} />
+          <FontAwesome
             name="book"
             style={[styles.navItem, {borderBottomWidth: this.props.title === 'IndexPage' ? 3 : 0 }]}
             onPress={() => Actions.IndexPage()} />
@@ -83,7 +87,7 @@ class Navbar extends React.Component {
             onPress={() => Actions.CareerPage()} />
           <FontAwesome
             name="user-circle-o"
-            style={[styles.navItem, {borderBottomWidth: this.props.title === 'CompanyPage' ? 3 : 0 }]}
+            style={[styles.navItem, {borderBottomWidth: this.props.title === 'UserProfilePage' ? 3 : 0 }]}
             onPress={() => Actions.UserProfilePage({ userId: this.state.userInfo.id })} />
         </View>
       );
