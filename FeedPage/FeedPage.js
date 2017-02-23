@@ -49,7 +49,7 @@ class FeedPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd' }}>
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
           { this.state.courseFeeds.map((feed, index) => <CourseFeedRow key={index} feed={feed} />) }
         </View>
       </ScrollView>

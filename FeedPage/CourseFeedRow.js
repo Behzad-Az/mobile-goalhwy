@@ -49,11 +49,11 @@ export default CourseFeedRow;
 
 const styles = StyleSheet.create({
   feedContainer: {
-    marginBottom: 10,
+    marginBottom: 5,
     backgroundColor: 'white',
     borderTopWidth: .5,
     borderBottomWidth: .5,
-    marginTop: 5
+    borderColor: '#004E89'
   },
   dividedRow: {
     flex: 1,
