@@ -133,7 +133,7 @@ class InstPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 94}}>
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
           { this.renderPageAfterData() }
         </View>
       </ScrollView>
@@ -157,12 +157,12 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingBottom: 2,
     borderWidth: .5,
-    borderColor: '#aaa',
-    borderRadius: 5
+    borderColor: '#999',
+    borderRadius: 5,
+    backgroundColor: 'white'
   },
   componentContainer: {
     marginBottom: 10,
-    backgroundColor: 'white'
   },
   headerBtnContainer: {
     flexDirection: 'row',

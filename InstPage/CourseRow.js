@@ -73,8 +73,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
-    backgroundColor: '#eee',
-    borderWidth: .5,
+    backgroundColor: 'white',
+    borderTopWidth: .5,
+    borderBottomWidth: .5,
+    borderColor: '#004E89',
     padding: 5
   },
   subBtn: {

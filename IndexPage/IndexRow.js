@@ -27,9 +27,10 @@ const styles = StyleSheet.create({
   courseTitle: {
     padding: 5,
     fontWeight: 'bold',
-    backgroundColor: '#eee',
+    backgroundColor: 'white',
     borderBottomWidth: .5,
-    borderLeftWidth: .5,
-    borderRightWidth: .5
+    borderColor: '#004E89'
+    // borderLeftWidth: .5,
+    // borderRightWidth: .5
   }
 });
