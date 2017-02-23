@@ -102,8 +102,10 @@ export default RevisionRow;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    borderWidth: .5,
-    backgroundColor: '#eee',
+    borderTopWidth: .5,
+    borderBottomWidth: .5,
+    borderColor: '#004E89',
+    backgroundColor: 'white',
     marginBottom: 10
   },
   header: {

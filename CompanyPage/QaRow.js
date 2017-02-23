@@ -69,11 +69,12 @@ export default QaRow;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     padding: 5,
-    borderWidth: 1,
+    borderTopWidth: .5,
+    borderBottomWidth: .5,
     borderColor: '#004E89',
-    // borderRadius: 5,
-    marginTop: 10
+    marginTop: 5
   },
   questionText: {
     padding: 2.5,

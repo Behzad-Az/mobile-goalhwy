@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   ScrollView,
-  View
+  View,
+  Dimensions
 } from 'react-native';
 
 import ProfileCard from './ProfileCard.js';
@@ -14,7 +15,7 @@ class UserProfilePage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 94}}>
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
           <ProfileCard userId={this.props.userId} />
         </View>
       </ScrollView>

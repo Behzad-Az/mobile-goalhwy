@@ -27,9 +27,8 @@ export default DocRow;
 const styles = StyleSheet.create({
   docTypeHeader: {
     padding: 5,
-    backgroundColor: '#eee',
+    backgroundColor: 'white',
     borderBottomWidth: .5,
-    borderLeftWidth: .5,
-    borderRightWidth: .5
+    borderColor: '#004E89'
   }
 });

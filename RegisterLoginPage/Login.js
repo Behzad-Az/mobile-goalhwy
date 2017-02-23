@@ -36,7 +36,7 @@ class LoginPage extends React.Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? Actions.IndexPage() : this.setState({ pageMsg: "Invalid username and/or password"  }))
+    .then(resJSON => resJSON ? Actions.FeedPage() : this.setState({ pageMsg: "Invalid username and/or password"  }))
     .catch(err => this.setState({ pageMsg: "Login failed"  }));
   }
 

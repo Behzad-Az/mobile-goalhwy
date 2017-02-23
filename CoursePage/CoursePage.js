@@ -128,7 +128,7 @@ class CoursePage extends React.Component {
       );
     } else if (this.state.dataLoaded) {
       return (
-        <View style={{backgroundColor: 'white'}}>
+        <View>
           <View style={styles.componentContainer}>
             <Text style={styles.header}>
               {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
@@ -202,7 +202,7 @@ class CoursePage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 94}}>
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
           { this.renderPageAfterData() }
         </View>
       </ScrollView>
@@ -221,14 +221,12 @@ const styles = StyleSheet.create({
   },
   summaryInfo: {
     padding: 5,
-    backgroundColor: '#eee',
+    backgroundColor: 'white',
     borderBottomWidth: .5,
-    borderLeftWidth: .5,
-    borderRightWidth: .5
+    borderColor: '#004E89'
   },
   componentContainer: {
-    marginBottom: 10,
-    backgroundColor: 'white'
+    marginBottom: 10
   },
   headerStanAloneChevron: {
     textAlign: 'center',
