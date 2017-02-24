@@ -147,16 +147,15 @@ class ChangeInstForm extends Component {
               <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
             </View>
 
-
             <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleNewInstPost}>
+              <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                <Text style={styles.primaryBtn} onPress={this.handleNewInstPost}>
                   Submit
                 </Text>
               </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
+              <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                  Cancel
                 </Text>
               </View>
             </View>
@@ -200,19 +199,6 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingBottom: 5
   },
-  dividedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10
-  },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center'
-  },
   textInput: {
     paddingRight: 5,
     paddingLeft: 5
@@ -227,5 +213,23 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     borderColor: '#aaa',
     alignItems: 'center'
+  },
+  dividedRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
+  primaryBtn: {
+    color: 'white',
+    textAlign: 'center'
   }
 });

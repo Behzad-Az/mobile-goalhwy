@@ -117,14 +117,14 @@ class NewCourseForm extends Component {
             </View>
 
             <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleNewCoursePost}>
+              <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                <Text style={styles.primaryBtn} onPress={this.handleNewCoursePost}>
                   Submit
                 </Text>
               </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
+              <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                  Cancel
                 </Text>
               </View>
             </View>
@@ -176,11 +176,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10
   },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
   primaryBtn: {
     color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
     textAlign: 'center'
   },
   textInput: {
