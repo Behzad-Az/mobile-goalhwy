@@ -109,6 +109,8 @@ class InstPage extends React.Component {
           </View>
           <TextInput
             style={styles.textInput}
+            autoCorrect={false}
+            autoCapitalize="none"
             onChangeText={filterPhrase => this.setState({ filterPhrase })}
             placeholder="Search courses here..."
           />
@@ -122,7 +124,7 @@ class InstPage extends React.Component {
           <ActivityIndicator
             animating={true}
             style={{height: 80}}
-            size={60}
+            size="large"
             color="#004E89"
           />
         </View>
@@ -159,7 +161,9 @@ const styles = StyleSheet.create({
     borderWidth: .5,
     borderColor: '#999',
     borderRadius: 5,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    height: 30,
+    fontSize: 16
   },
   componentContainer: {
     marginBottom: 10,
@@ -170,7 +174,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     position: 'absolute',
     right: 5,
-    top: 5
+    top: 5,
+    backgroundColor: '#004E89'
   },
   headerBtn: {
     paddingLeft: 7,

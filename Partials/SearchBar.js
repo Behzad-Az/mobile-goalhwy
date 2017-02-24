@@ -103,6 +103,8 @@ class SearhBar extends React.Component {
       <View style={styles.container}>
         <TextInput
           style={styles.textInput}
+          autoCorrect={false}
+          autoCapitalize="none"
           onChangeText={query => this.handleSearch(query)}
           value={this.state.query}
           placeholder="search courses, documents and employers here"

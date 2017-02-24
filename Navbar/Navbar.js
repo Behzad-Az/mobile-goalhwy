@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 19,
+    fontSize: 19
   },
   dividedRow: {
     flex: 1,
