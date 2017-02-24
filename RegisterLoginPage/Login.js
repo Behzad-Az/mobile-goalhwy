@@ -16,12 +16,16 @@ class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      username: 'ben',
+      password: 'ben123',
       pageMsg: ''
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.setMessage = this.setMessage.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleLogin();
   }
 
   handleLogin() {
