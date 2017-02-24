@@ -50,6 +50,8 @@ class ChangeInstForm extends Component {
             <Text style={styles.modalHeader}>Select Institution:</Text>
             <TextInput
               style={styles.searchInput}
+              autoCorrect={false}
+              autoCapitalize="none"
               onChangeText={filterPhrase => this.setState({ filterPhrase })}
               placeholder="Search institutions here..." />
 
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
     color: '#004E89',
     fontWeight: 'bold',
     paddingBottom: 5,
-    marginBottom: 10,
+    marginBottom: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },

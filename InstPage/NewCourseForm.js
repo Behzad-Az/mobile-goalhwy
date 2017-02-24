@@ -15,14 +15,14 @@ class NewCourseForm extends Component {
   constructor(props) {
     super(props);
     this.courseYearOptions = [
-      { value: 1, label: 1 }, { value: 2, label: 2 }, { value: 3, label: 3 },
-      { value: 4, label: 4 }, { value: 5, label: 5 }, { value: 6, label: 6 }
+      { value: 1, label: 'Year 1' }, { value: 2, label: 'Year 2' }, { value: 3, label: 'Year 3' },
+      { value: 4, label: 'Year 4' }, { value: 5, label: 'Year 5' }, { value: 6, label: 'Year 6' }
     ];
     this.state = {
       prefix: '',
       suffix: '',
-      course_desc: '',
-      course_year: '',
+      courseDesc: '',
+      courseYear: '',
       modalVisible: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -34,16 +34,18 @@ class NewCourseForm extends Component {
     this.setState({modalVisible: visible});
   }
 
-  handleCourseYearSelect(course_year) {
-    this.setState({ course_year });
+  handleCourseYearSelect(courseYear) {
+    this.setState({ courseYear });
   }
 
   handleNewCoursePost() {
     let data = {
-      ...this.state,
+      prefix: this.state.prefix,
+      suffix: this.state.suffix,
+      course_desc: this.state.courseDesc,
+      course_year: this.state.courseYear,
       inst_id: this.props.instId
     };
-    delete data.modalVisible;
     fetch('http://127.0.0.1:19001/api/courses', {
       method: 'POST',
       headers: {
@@ -75,6 +77,7 @@ class NewCourseForm extends Component {
               <TextInput
                 style={styles.textInput}
                 autoCapitalize="characters"
+                autoCorrect={false}
                 onChangeText={prefix => this.setState({prefix})}
                 value={this.state.prefix}
                 placeholder="Example: MATH"
@@ -87,6 +90,7 @@ class NewCourseForm extends Component {
               <TextInput
                 style={styles.textInput}
                 autoCapitalize="characters"
+                autoCorrect={false}
                 onChangeText={suffix => this.setState({suffix})}
                 value={this.state.suffix}
                 placeholder="Example: 101"
@@ -99,8 +103,8 @@ class NewCourseForm extends Component {
               <TextInput
                 style={styles.textInput}
                 autoCapitalize="sentences"
-                onChangeText={course_desc => this.setState({course_desc})}
-                value={this.state.course_desc}
+                onChangeText={courseDesc => this.setState({courseDesc})}
+                value={this.state.courseDesc}
                 placeholder="Example: Introducion to calculus"
                 underlineColorAndroid="rgba(0,0,0,0)"
               />
@@ -110,8 +114,8 @@ class NewCourseForm extends Component {
               <CourseYearSelect
                 options={this.courseYearOptions}
                 handleSelect={this.handleCourseYearSelect}
-                btnContent={{ type: 'text', name: this.state.course_year || 'Select academic year' }}
-                style={[styles.selectContainer, {color: this.state.course_year ? 'black' : '#004E89', fontWeight: this.state.course_year ? 'normal' : 'bold'}]}
+                btnContent={{ type: 'text', name: this.state.courseYear ? `Year ${this.state.courseYear}` : 'Select Academic Year' }}
+                style={[styles.selectContainer, {color: this.state.courseYear ? 'black' : '#004E89', fontWeight: this.state.courseYear ? 'normal' : 'bold'}]}
               />
               <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
             </View>

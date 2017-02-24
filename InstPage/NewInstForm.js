@@ -14,7 +14,9 @@ import ModalSelect from '../Partials/ModalSelect.js';
 class ChangeInstForm extends Component {
   constructor(props) {
     super(props);
-    this.countryList = [ { value: 'canada', label: 'Canada' }, { value: 'united_states', label: 'United State of America (USA)' } ];
+    this.countryList = [
+      { value: 'canada', label: 'Canada' }, { value: 'united_states', label: 'United State of America (USA)' }
+    ];
     this.provinceList = {
       canada: [
         { value: 'Alberta', label: 'Alberta' }, { value: 'British Columbia', label: 'British Columbia' }, { value: 'Manitoba', label: 'Manitoba' },
@@ -38,13 +40,16 @@ class ChangeInstForm extends Component {
         { value: 'VA', label: 'Virginia' }, { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' }, { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' }
       ]
     };
+    this.disabledOptions = [{ value: '', label: 'Select country first.' }];
 
     this.state = {
       modalVisible: false,
-      inst_long_name: '',
-      inst_short_name: '',
-      country: '',
-      province: ''
+      instLongName: '',
+      instShortName: '',
+      countryVal: '',
+      countryName: '',
+      provinceVal: '',
+      provinceName: ''
     };
 
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -57,26 +62,23 @@ class ChangeInstForm extends Component {
     this.setState({modalVisible: visible});
   }
 
-  handleCountrySelect(country) {
-    this.setState({ country });
+  handleCountrySelect(countryVal, countryName) {
+    if (this.state.countryVal !== countryVal) {
+      this.setState({ countryVal, countryName, provinceVal: '', provinceName: '' });
+    }
   }
 
-  handleProvinceSelect(province) {
-    this.setState({ province });
+  handleProvinceSelect(provinceVal, provinceName) {
+    this.setState({ provinceVal, provinceName });
   }
 
   handleNewInstPost() {
-    // $.ajax({
-    //   method: 'POST',
-    //   url: '/api/institutions',
-    //   data: this.state,
-    //   success: response => {
-    //     response ? this.reactAlert.showAlert("New institude added.", "info") : this.reactAlert.showAlert("could not add new institude", "error");
-    //   }
-    // }).always(() => HandleModal('new-inst-form'));
-
-    let data = { ...this.state };
-    delete data.modalVisible;
+    let data = {
+      country: this.state.countryVal,
+      province:  this.state.provinceVal,
+      inst_long_name: this.state.instLongName,
+      inst_short_name: this.state.instShortName
+    };
     fetch('http://127.0.0.1:19001/api/institutions', {
       method: 'POST',
       headers: {
@@ -108,8 +110,8 @@ class ChangeInstForm extends Component {
               <TextInput
                 style={styles.textInput}
                 autoCapitalize="words"
-                onChangeText={inst_long_name => this.setState({inst_long_name})}
-                value={this.state.inst_long_name}
+                onChangeText={instLongName => this.setState({instLongName})}
+                value={this.state.instLongName}
                 placeholder="Example: University of British Columbia"
                 underlineColorAndroid="rgba(0,0,0,0)"
               />
@@ -120,8 +122,9 @@ class ChangeInstForm extends Component {
               <TextInput
                 style={styles.textInput}
                 autoCapitalize="words"
-                onChangeText={inst_short_name => this.setState({inst_short_name})}
-                value={this.state.inst_short_name}
+                autoCorrect={false}
+                onChangeText={instShortName => this.setState({instShortName})}
+                value={this.state.instShortName}
                 placeholder="Example: UBC"
                 underlineColorAndroid="rgba(0,0,0,0)"
               />
@@ -131,18 +134,18 @@ class ChangeInstForm extends Component {
               <ModalSelect
                 options={this.countryList}
                 handleSelect={this.handleCountrySelect}
-                btnContent={{ type: 'text', name: this.state.country || 'Select country' }}
-                style={[styles.selectContainer, {color: this.state.country ? 'black' : '#004E89', fontWeight: this.state.country ? 'normal' : 'bold'}]}
+                btnContent={{ type: 'text', name: this.state.countryName || 'Select Country' }}
+                style={[styles.selectContainer, {color: this.state.countryName ? 'black' : '#004E89', fontWeight: this.state.countryName ? 'normal' : 'bold'}]}
               />
               <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
             </View>
 
             <View>
               <ModalSelect
-                options={this.provinceList.united_states}
+                options={this.state.countryVal ? this.provinceList[this.state.countryVal] : this.disabledOptions}
                 handleSelect={this.handleProvinceSelect}
-                btnContent={{ type: 'text', name: this.state.province || 'Select province / state' }}
-                style={[styles.selectContainer, {color: this.state.province ? 'black' : '#004E89', fontWeight: this.state.province ? 'normal' : 'bold'}]}
+                btnContent={{ type: 'text', name: this.state.provinceName || 'Select Province / State' }}
+                style={[styles.selectContainer, {color: this.state.provinceName ? 'black' : '#004E89', fontWeight: this.state.provinceName ? 'normal' : 'bold'}]}
               />
               <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
             </View>
