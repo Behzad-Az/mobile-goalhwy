@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -23,8 +22,8 @@ class InstPage extends React.Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      currInstId: '',
-      userId: '',
+      instId: '',
+      instName: '',
       instList: [],
       currInstCourses: [],
       currUserCourseIds: [],
@@ -44,33 +43,28 @@ class InstPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.loadComponentData(nextProps.instId);
+    if (nextProps.instId && (this.state.instId !== nextProps.instId)) {
+      this.loadComponentData(nextProps.instId);
+    }
   }
 
   loadComponentData(instId) {
-    if (this.state.currInstId !== instId) {
-      instId = instId || this.state.currInstId;
-      fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
-      .then(response => response.json())
-      .then(resJSON => this.conditionData(resJSON, instId))
-      .catch(err => {
-        console.log("Error here: InstPage.js: ", err);
-        this.setState({ dataLoaded: true, pageError: true });
-      });
-    }
+    fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
+    .then(response => response.json())
+    .then(resJSON => this.conditionData(resJSON, instId))
+    .catch(err => {
+      console.log("Error here: InstPage.js: Promise Error: ", err);
+      this.setState({ dataLoaded: true, pageError: true });
+    });
   }
 
   conditionData(resJSON, instId) {
     if (resJSON) {
-      resJSON.currInstId = instId;
-      resJSON.currInstCourses.forEach(course => course.displayName = `${course.prefix} ${course.suffix} - ${course.course_desc}`);
-      resJSON.instList.forEach(inst => {
-        inst.displayName = inst.inst_short_name ? inst.inst_long_name + ` (${inst.inst_short_name})` : inst.inst_long_name;
-      });
+      resJSON.instId = instId;
       resJSON.dataLoaded = true;
       this.setState(resJSON);
     } else {
-      console.log("Error here: InstPage.js: ", err);
+      console.log("Error here: InstPage.js: Server Error: ", err);
       this.setState({ dataLoaded: true, pageError: true });
     }
   }
@@ -80,13 +74,13 @@ class InstPage extends React.Component {
   }
 
   findInstName() {
-    let inst = this.state.instList.find(inst => inst.id == this.state.currInstId);
-    return inst ? inst.displayName : '';
+    let inst = this.state.instList.find(inst => inst.id == this.state.instId);
+    return inst ? inst.inst_display_name : '';
   }
 
   handleFilter(text) {
     let phrase = new RegExp(this.state.filterPhrase.toLowerCase());
-    return this.state.currInstCourses.filter(course => course.displayName.toLowerCase().match(phrase)).slice(0, 19);
+    return this.state.currInstCourses.filter(course => course.full_display_name.toLowerCase().match(phrase)).slice(0, 19);
   }
 
   renderPageAfterData() {
@@ -105,7 +99,7 @@ class InstPage extends React.Component {
           <Text style={styles.header}>{this.findInstName()}</Text>
           <View style={styles.headerBtnContainer}>
             <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} style={styles.headerBtn} />
-            <NewInstForm reload={this.loadComponentData} style={styles.headerBtn} />
+            <NewInstForm instId={this.state.instId} reload={this.loadComponentData} style={styles.headerBtn} />
           </View>
           <TextInput
             style={styles.textInput}
@@ -114,8 +108,8 @@ class InstPage extends React.Component {
             onChangeText={filterPhrase => this.setState({ filterPhrase })}
             placeholder="Search courses here..."
           />
-          { slicedArr.map(course => <CourseRow key={course.id} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
-          { !slicedArr[0] && <NewCourseForm instId={this.state.currInstId} reload={this.loadComponentData} /> }
+          { slicedArr.map(course => <CourseRow key={course.id} course={course} currUserCourseIds={this.state.currUserCourseIds} />) }
+          { !slicedArr[0] && <NewCourseForm instId={this.state.instId} reload={this.loadComponentData} /> }
         </View>
       );
     } else {

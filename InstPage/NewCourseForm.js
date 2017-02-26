@@ -55,7 +55,7 @@ class NewCourseForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server, NewCourseForm.js: ", resJSON))
+    .then(resJSON => resJSON ? this.props.reload(this.props.instId) : console.log("Error in server, NewCourseForm.js: ", resJSON))
     .catch(err => console.log("Error here in NewCourseForm.js: ", err));
     this.setModalVisible(false);
   }
@@ -70,9 +70,10 @@ class NewCourseForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
+
             <Text style={styles.modalHeader}>New Course:</Text>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Prefix:</Text>
               <TextInput
                 style={styles.textInput}
@@ -85,7 +86,7 @@ class NewCourseForm extends Component {
               />
             </View>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Suffix:</Text>
               <TextInput
                 style={styles.textInput}
@@ -98,7 +99,7 @@ class NewCourseForm extends Component {
               />
             </View>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Title:</Text>
               <TextInput
                 style={styles.textInput}
@@ -117,7 +118,8 @@ class NewCourseForm extends Component {
                 btnContent={{ type: 'text', name: this.state.courseYear ? `Year ${this.state.courseYear}` : 'Select Academic Year' }}
                 style={[styles.selectContainer, {color: this.state.courseYear ? 'black' : '#004E89', fontWeight: this.state.courseYear ? 'normal' : 'bold'}]}
               />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
+              <FontAwesome
+                name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
             </View>
 
             <View style={styles.dividedRow}>
@@ -159,7 +161,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  inputCotainer: {
+  inputContainer: {
     marginBottom: 10,
     padding: 5,
     borderWidth: .5,
@@ -169,10 +171,12 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold',
+    paddingTop: 2.5
+  },
+  textInput: {
+    minHeight: 30,
     paddingTop: 2.5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 5
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
@@ -191,10 +195,6 @@ const styles = StyleSheet.create({
   primaryBtn: {
     color: 'white',
     textAlign: 'center'
-  },
-  textInput: {
-    paddingRight: 5,
-    paddingLeft: 5
   },
   textBtn: {
     padding: 5,

@@ -28,7 +28,7 @@ class ChangeInstForm extends Component {
 
   filterInstList() {
     let phrase = new RegExp(this.state.filterPhrase.toLowerCase());
-    return this.props.instList.filter(inst => inst.displayName.toLowerCase().match(phrase));
+    return this.props.instList.filter(inst => inst.inst_display_name.toLowerCase().match(phrase));
   }
 
   handleInstSelect(instId) {
@@ -47,7 +47,9 @@ class ChangeInstForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
+
             <Text style={styles.modalHeader}>Select Institution:</Text>
+
             <TextInput
               style={styles.searchInput}
               autoCorrect={false}
@@ -57,7 +59,7 @@ class ChangeInstForm extends Component {
 
             { currInstList.map(inst =>
               <Text key={inst.id} style={styles.instRowText} onPress={() => this.handleInstSelect(inst.id)}>
-                {inst.displayName}
+                {inst.inst_display_name}
               </Text>
             )}
 
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     color: '#004E89',
     fontWeight: 'bold',
     paddingBottom: 5,
-    marginBottom: 5,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: .5,
     borderColor: '#aaa',
     borderRadius: 5,
-    minHeight: 25,
+    minHeight: 30,
     fontSize: 16
   },
   primaryBtnContainer: {

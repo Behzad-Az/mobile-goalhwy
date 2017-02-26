@@ -51,7 +51,6 @@ class ChangeInstForm extends Component {
       provinceVal: '',
       provinceName: ''
     };
-
     this.setModalVisible = this.setModalVisible.bind(this);
     this.handleCountrySelect = this.handleCountrySelect.bind(this);
     this.handleProvinceSelect = this.handleProvinceSelect.bind(this);
@@ -74,8 +73,8 @@ class ChangeInstForm extends Component {
 
   handleNewInstPost() {
     let data = {
-      country: this.state.countryVal,
-      province:  this.state.provinceVal,
+      country: this.state.country,
+      province:  this.state.province,
       inst_long_name: this.state.instLongName,
       inst_short_name: this.state.instShortName
     };
@@ -88,7 +87,7 @@ class ChangeInstForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server, NewInstForm.js: ", resJSON))
+    .then(resJSON => resJSON ? this.props.reload(this.props.instId) : console.log("Error in server, NewInstForm.js: ", resJSON))
     .catch(err => console.log("Error here in NewInstForm.js: ", err));
     this.setModalVisible(false);
   }
@@ -103,9 +102,10 @@ class ChangeInstForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
+
             <Text style={styles.modalHeader}>New Institution:</Text>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Institution Full Name:</Text>
               <TextInput
                 style={styles.textInput}
@@ -117,11 +117,11 @@ class ChangeInstForm extends Component {
               />
             </View>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Institution Given Name (optional):</Text>
               <TextInput
                 style={styles.textInput}
-                autoCapitalize="words"
+                autoCapitalize="characters"
                 autoCorrect={false}
                 onChangeText={instShortName => this.setState({instShortName})}
                 value={this.state.instShortName}
@@ -137,7 +137,7 @@ class ChangeInstForm extends Component {
                 btnContent={{ type: 'text', name: this.state.countryName || 'Select Country' }}
                 style={[styles.selectContainer, {color: this.state.countryName ? 'black' : '#004E89', fontWeight: this.state.countryName ? 'normal' : 'bold'}]}
               />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
+              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
             </View>
 
             <View>
@@ -147,7 +147,7 @@ class ChangeInstForm extends Component {
                 btnContent={{ type: 'text', name: this.state.provinceName || 'Select Province / State' }}
                 style={[styles.selectContainer, {color: this.state.provinceName ? 'black' : '#004E89', fontWeight: this.state.provinceName ? 'normal' : 'bold'}]}
               />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
+              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
             </View>
 
             <View style={styles.dividedRow}>
@@ -162,6 +162,8 @@ class ChangeInstForm extends Component {
                 </Text>
               </View>
             </View>
+
+
 
           </ScrollView>
         </Modal>
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  inputCotainer: {
+  inputContainer: {
     marginBottom: 10,
     padding: 5,
     borderWidth: .5,
@@ -197,25 +199,12 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold',
-    paddingTop: 2.5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 5
+    paddingTop: 2.5
   },
   textInput: {
-    paddingRight: 5,
-    paddingLeft: 5
-  },
-  selectContainer: {
-    marginBottom: 10,
-    borderWidth: .5,
-    borderRadius: 5,
-    paddingLeft: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingRight: 5,
-    borderColor: '#aaa',
-    alignItems: 'center'
+    minHeight: 30,
+    paddingTop: 2.5,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
@@ -234,5 +223,16 @@ const styles = StyleSheet.create({
   primaryBtn: {
     color: 'white',
     textAlign: 'center'
+  },
+  selectContainer: {
+    marginBottom: 10,
+    borderWidth: .5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });
