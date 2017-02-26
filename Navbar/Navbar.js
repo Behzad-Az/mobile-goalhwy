@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -42,11 +41,8 @@ class Navbar extends React.Component {
 
   conditionData(resJSON) {
     if (resJSON) {
-      let newState = {
-        ...resJSON,
-        unViewedNotif: resJSON.notifications.reduce((a, b) => ({ unviewed: a.unviewed || b.unviewed }), { unviewed: false } ).unviewed
-      }
-      this.setState(newState);
+      resJSON.unViewedNotif = resJSON.notifications.reduce((a, b) => ({ unviewed: a.unviewed || b.unviewed }), { unviewed: false } ).unviewed;
+      this.setState(resJSON);
     } else {
       console.log("Error here: Navbar.js: ", err);
       this.setState({ pageError: true });
@@ -60,11 +56,9 @@ class Navbar extends React.Component {
   renderPageAfterData() {
     if (this.state.pageError) {
       return (
-        <View style={styles.componentContainer}>
-          <Text style={{padding: 5, textAlign: 'center'}}>
-            <FontAwesome name="exclamation-triangle" size={19} /> Error in loading up the Navbar.
-          </Text>
-        </View>
+        <Text style={{padding: 5, textAlign: 'center'}}>
+          <FontAwesome name="exclamation-triangle" size={19} /> Error in loading up the Navbar.
+        </Text>
       );
     } else {
       return (
@@ -74,7 +68,7 @@ class Navbar extends React.Component {
             <FontAwesome
               name="feed"
               style={styles.navItem}
-              onPress={() => Actions.FeedPage({ userId: this.state.userInfo.id })} />
+              onPress={() => Actions.FeedPage()} />
           </View>
 
           <View style={[styles.navItemContainer, {borderBottomWidth: this.props.title === 'IndexPage' ? 3 : 0 }]}>
@@ -102,7 +96,7 @@ class Navbar extends React.Component {
             <FontAwesome
               name="user-circle-o"
               style={styles.navItem}
-              onPress={() => Actions.UserProfilePage({ userId: this.state.userInfo.id })} />
+              onPress={() => Actions.UserProfilePage()} />
           </View>
 
         </View>
