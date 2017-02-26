@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -25,7 +24,6 @@ class IndexPage extends React.Component {
       instId: '',
       searchResults: []
     };
-    this.handleSearch = this.handleSearch.bind(this);
     this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
@@ -47,40 +45,32 @@ class IndexPage extends React.Component {
     });
   }
 
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
-  }
-
   renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
-        <View style={styles.componentContainer}>
-          <Text style={{padding: 5, textAlign: 'center'}}>
-            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-          </Text>
-        </View>
+        <Text style={{padding: 5, textAlign: 'center'}}>
+          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+        </Text>
       );
     } else if (this.state.dataLoaded) {
       return (
-        <View style={styles.componentContainer}>
+        <View>
           <Text style={styles.header}>My Courses:</Text>
           { this.state.courses.map((course, index) => <IndexRow key={index} course={course} />) }
           { !this.state.courses[0] &&
           <Text style={styles.textBtn} onPress={() => Actions.InstPage({ instId: this.state.instId })}>
-            To get updates, click here to select and subscribe to at least one course.
+            Click here to select and subscribe to at least one course.
           </Text> }
         </View>
       );
     } else {
       return (
-        <View style={styles.componentContainer}>
-          <ActivityIndicator
-            animating={true}
-            style={{height: 80}}
-            size="large"
-            color="#004E89"
-          />
-        </View>
+        <ActivityIndicator
+          animating={true}
+          style={{height: 80}}
+          size="large"
+          color="#004E89"
+        />
       );
     }
   }
@@ -104,10 +94,6 @@ const styles = StyleSheet.create({
     padding: 5,
     color: 'white',
     fontWeight: 'bold'
-  },
-  componentContainer: {
-    marginBottom: 10,
-    backgroundColor: 'white'
   },
   textBtn: {
     padding: 5,
