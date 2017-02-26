@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -27,7 +26,7 @@ class RevisionRow extends React.Component {
   }
 
   loadComponentData() {
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.userId}`)
+    fetch('http://127.0.0.1:19001/api/users/currentuser')
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {
@@ -38,15 +37,15 @@ class RevisionRow extends React.Component {
 
   conditionData(resJSON) {
     if (resJSON) {
+      console.log("i'm here 2: ", resJSON);
       let userInfo = {
-        userId: resJSON.userInfo.id,
-        instId: resJSON.userInfo.inst_id,
-        progId: resJSON.userInfo.prog_id,
-        username: resJSON.userInfo.username,
-        email: resJSON.userInfo.email,
-        userYear: resJSON.userInfo.user_year,
-        instDisplayName: resJSON.userInfo.inst_short_name ? resJSON.userInfo.inst_long_name + ` (${resJSON.userInfo.inst_short_name})` : resJSON.userInfo.inst_long_name,
-        progDisplayName: resJSON.userInfo.prog_short_name ? resJSON.userInfo.prog_long_name + ` (${resJSON.userInfo.prog_short_name})` : resJSON.userInfo.prog_long_name
+        instId: resJSON.inst_id,
+        progId: resJSON.prog_id,
+        username: resJSON.username,
+        email: resJSON.email,
+        userYear: resJSON.user_year,
+        instDisplayName: resJSON.inst_display_name,
+        progDisplayName: resJSON.prog_display_name
       };
       this.setState({ dataLoaded: true, userInfo, pageMsg: '' });
     } else {
@@ -90,7 +89,13 @@ class RevisionRow extends React.Component {
            <Text>{this.state.userInfo.userYear}</Text>
         </View>
 
-        <EditProfileForm style={styles.editBtn} setMessage={this.setMessage} userInfo={this.state.userInfo} reload={this.loadComponentData} />
+        <View style={[{position: 'absolute', top: 10, right: 10}, styles.editBtnContainer]}>
+          <EditProfileForm
+            style={styles.editBtn}
+            setMessage={this.setMessage}
+            userInfo={this.state.userInfo}
+            reload={this.loadComponentData} />
+        </View>
 
       </View>
     );
@@ -120,13 +125,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: 2
   },
-  editBtn: {
+  editBtnContainer: {
     backgroundColor: '#004E89',
-    color: 'white',
     paddingTop: 3,
     paddingBottom: 3,
     paddingRight: 6,
     paddingLeft: 6,
     borderRadius: 5
+  },
+  editBtn: {
+    color: 'white'
   }
 });
