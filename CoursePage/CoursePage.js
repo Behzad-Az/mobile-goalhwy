@@ -134,18 +134,16 @@ class CoursePage extends React.Component {
   renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
-        <View style={styles.componentContainer}>
-          <Text style={{padding: 5, textAlign: 'center'}}>
-            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-          </Text>
-        </View>
+        <Text style={{padding: 5, textAlign: 'center'}}>
+          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+        </Text>
       );
     } else if (this.state.dataLoaded) {
       return (
         <View>
           <View style={styles.componentContainer}>
             <Text style={styles.header}>
-              {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
+              {this.state.courseInfo.short_display_name}
             </Text>
             <TopRow courseInfo={this.state.courseInfo} />
           </View>
@@ -201,14 +199,12 @@ class CoursePage extends React.Component {
       );
     } else {
       return (
-        <View style={styles.componentContainer}>
-          <ActivityIndicator
-            animating={true}
-            style={{height: 80}}
-            size="large"
-            color="#004E89"
-          />
-        </View>
+        <ActivityIndicator
+          animating={true}
+          style={{height: 80}}
+          size="large"
+          color="#004E89"
+        />
       );
     }
   }

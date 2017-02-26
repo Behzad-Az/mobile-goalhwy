@@ -6,84 +6,93 @@ import {
   View,
   ScrollView,
   TextInput,
-  Picker,
   TouchableHighlight
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import ClosureSelect from '../Partials/ModalSelect.js';
 
 class NewAssistForm extends Component {
   constructor(props) {
     super(props);
+    this.closureOptions = [
+      { value: 'Resolved on my own', label: 'Resolved on my own' },
+      { value: 'Resolved with tutor', label: 'Resolved with tutor' },
+      { value: 'No longer needed', label: 'No longer needed' },
+      { value: 'Other', label: 'Other' }
+    ];
     this.state = {
       modalVisible: false,
       height: 0,
-      issue_desc: this.props.courseInfo.latestAssistRequest,
+      issueDesc: this.props.courseInfo.latestAssistRequest,
       assistReqOpen: this.props.courseInfo.assistReqOpen,
       closureReason: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
-    this.validateForm = this.validateForm.bind(this);
+    this.handleClosureSelect = this.handleClosureSelect.bind(this);
     this.formFooterOptions = this.formFooterOptions.bind(this);
     this.handleNewRequestAssist = this.handleNewRequestAssist.bind(this);
     this.handleUpdateRequestAssist = this.handleUpdateRequestAssist.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    nextProps.courseInfo.latestAssistRequest !== this.state.issue_desc ? this.setState({ issue_desc: nextProps.courseInfo.latestAssistRequest }) : '';
-    nextProps.courseInfo.assistReqOpen !== this.state.assistReqOpen ? this.setState({ assistReqOpen: nextProps.courseInfo.assistReqOpen }) : '';
+    if (nextProps.courseInfo.latestAssistRequest !== this.state.issueDesc || nextProps.courseInfo.assistReqOpen !== this.state.assistReqOpen) {
+      this.setState({
+        issueDesc: nextProps.courseInfo.latestAssistRequest,
+        assistReqOpen: nextProps.courseInfo.assistReqOpen
+      });
+    }
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
 
-  validateForm() {
-    return this.state.issue_desc &&
-           this.state.issue_desc.length <= 400
+  handleClosureSelect(closureReason) {
+    this.setState({ closureReason });
   }
 
   formFooterOptions() {
     if (this.state.assistReqOpen) {
       return (
         <View>
-          <View style={styles.selectContainer}>
-            <Picker
-              selectedValue={this.state.closureReason}
-              onValueChange={closureReason => this.setState({closureReason})}
-              style={{color: '#004E89'}}>
-              <Picker.Item label="Close the issue?" value="" />
-              <Picker.Item label="Resolved on my own" value="Resolved on my own" />
-              <Picker.Item label="Resolved with tutor" value="Resolved with tutor" />
-              <Picker.Item label="No longer needed" value="No longer needed" />
-              <Picker.Item label="Other" value="Other" />
-            </Picker>
+
+          <View>
+            <ClosureSelect
+              options={this.closureOptions}
+              handleSelect={this.handleClosureSelect}
+              btnContent={{ type: 'text', name: this.state.closureReason ? this.state.closureReason : 'Select outcome to close the issue' }}
+              style={[styles.selectContainer, {color: this.state.closureReason ? 'black' : '#004E89', fontWeight: this.state.closureReason ? 'normal' : 'bold'}]}
+            />
+            <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
           </View>
-          <View style={[styles.dividedRow, {marginTop: 10}]}>
-            <View style={{flex: 1}}>
-              <Text onPress={this.handleUpdateRequestAssist} style={[styles.primaryBtn, {marginRight: 5}]}>
+
+          <View style={styles.dividedRow}>
+            <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+              <Text style={styles.primaryBtn} onPress={this.handleUpdateRequestAssist}>
                 Update
               </Text>
             </View>
-            <View style={{flex: 1}}>
-              <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginLeft: 5}]}>
-                Go Back
+            <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+              <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                Cancel
               </Text>
             </View>
           </View>
+
         </View>
       );
     } else {
       return (
-        <View style={[styles.dividedRow, {marginTop: 10}]}>
-          <View style={{flex: 1}}>
-            <Text onPress={this.handleNewRequestAssist} style={[styles.primaryBtn, {marginRight: 5}]}>
+        <View style={styles.dividedRow}>
+          <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+            <Text style={styles.primaryBtn} onPress={this.handleNewRequestAssist}>
               Submit
             </Text>
           </View>
-          <View style={{flex: 1}}>
-            <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginLeft: 5}]}>
-              Go Back
+          <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+            <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+              Cancel
             </Text>
           </View>
         </View>
@@ -92,10 +101,8 @@ class NewAssistForm extends Component {
   }
 
   handleNewRequestAssist() {
-    let data = {...this.state};
-    delete data.height;
-    delete data.modalVisible;
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog`, {
+    let data = { issue_desc: this.state.issueDesc };
+    fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}/tutorlog`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -112,12 +119,11 @@ class NewAssistForm extends Component {
   handleUpdateRequestAssist() {
     let data = {
       action: this.state.closureReason ? 'close' : 'update',
-      issue_desc: this.state.issue_desc,
+      issue_desc: this.state.issueDesc,
       closure_reason: this.state.closureReason
     };
-    let newState = this.state.closureReason ? { assistReqOpen: false, issue_desc: '' } : { assistReqOpen: true };
-
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog/update`, {
+    let newState = this.state.closureReason ? { assistReqOpen: false, issueDesc: '' } : { assistReqOpen: true };
+    fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}/tutorlog/update`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -141,17 +147,19 @@ class NewAssistForm extends Component {
           onRequestClose={() => {alert("Modal has been closed.")}}
         >
           <ScrollView style={styles.modalContainer}>
+
             <Text style={styles.modalHeader}>Request Assistance:</Text>
 
-            <View style={[styles.inputCotainer, {minHeight: 200}]}>
+            <View style={[styles.inputContainer, {minHeight: 200}]}>
+              <Text style={styles.inputLabel}>Describe your question / issue?</Text>
               <TextInput
                 style={[styles.textInput, {height: this.state.height}]}
                 multiline
-                onChangeText={issue_desc => this.setState({issue_desc})}
-                value={this.state.issue_desc}
+                onChangeText={issueDesc => this.setState({issueDesc})}
+                value={this.state.issueDesc}
                 placeholder="How may one of our tutors assist you?"
                 underlineColorAndroid="rgba(0,0,0,0)"
-                onContentSizeChange={(event) => {
+                onContentSizeChange={event => {
                   this.setState({height: event.nativeEvent.contentSize.height});
                 }}
               />
@@ -184,27 +192,25 @@ const styles = StyleSheet.create({
     color: '#004E89',
     fontWeight: 'bold',
     paddingBottom: 5,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  inputCotainer: {
-    marginTop: 10,
+  inputContainer: {
+    marginBottom: 10,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#aaa'
   },
-  selectContainer: {
-    borderWidth: .5,
-    borderRadius: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
-    marginTop: 10,
-    borderColor: '#aaa'
-  },
   inputLabel: {
     color: '#004E89',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingTop: 2.5
+  },
+  textInput: {
+    paddingTop: 2.5,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
@@ -221,26 +227,27 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 19
   },
-  uploadBtn: {
-    maxWidth: 80,
-    maxHeight: 80,
-    padding: 5,
-    borderWidth: .5,
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
     borderRadius: 5,
-    borderColor: '#bbb',
-    textAlign: 'center',
-    backgroundColor: '#eee'
-  },
-  textInput: {
-    paddingRight: 5,
-    paddingLeft: 5
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
   },
   primaryBtn: {
     color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
+    textAlign: 'center'
+  },
+  selectContainer: {
+    marginBottom: 10,
+    borderWidth: .5,
     borderRadius: 5,
-    textAlign: 'center',
-    marginBottom: 10
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });

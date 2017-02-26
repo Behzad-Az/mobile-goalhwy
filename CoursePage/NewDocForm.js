@@ -6,24 +6,31 @@ import {
   View,
   ScrollView,
   TextInput,
-  Picker,
   TouchableHighlight
 } from 'react-native';
 
 import { ImagePicker } from 'exponent';
 import { FontAwesome } from '@exponent/vector-icons';
+import DocTypeSelect from '../Partials/ModalSelect.js';
 
 class NewDocForm extends Component {
   constructor(props) {
     super(props);
+    this.docTypeOptions = [
+      { value: "asg_report", label: "Assignment / Report" },
+      { value: "lecture_note", label: "Lecture Note" },
+      { value: "sample_question", label: "Sample Question" }
+    ];
     this.state = {
       modalVisible: false,
       title: '',
       type: '',
+      typeDisplayName: '',
       rev_desc: 'New Upload',
       file_path: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.handleDocTypeSelect = this.handleDocTypeSelect.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
     this.handleNewDocPost = this.handleNewDocPost.bind(this);
@@ -31,6 +38,10 @@ class NewDocForm extends Component {
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  handleDocTypeSelect(type, typeDisplayName) {
+    this.setState({ type, typeDisplayName });
   }
 
   validateForm() {
@@ -80,69 +91,75 @@ class NewDocForm extends Component {
           onRequestClose={() => {alert("Modal has been closed.")}}
         >
           <ScrollView style={styles.modalContainer}>
+
             <Text style={styles.modalHeader}>New Document Form:</Text>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Document Title:</Text>
               <TextInput
                 style={styles.textInput}
                 onChangeText={title => this.setState({title})}
                 value={this.state.title}
                 placeholder="Example: Lab 1 - Electromagnetism"
-                underlineColorAndroid="#004E89"
+                underlineColorAndroid="rgba(0,0,0,0)"
               />
             </View>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={[styles.inputLabel, {marginBottom: 5}]}>Upload the Document:</Text>
               <View style={styles.dividedRow}>
+
                 <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text style={styles.uploadBtn}>
-                    <FontAwesome name="files-o" size={40} color="black" />
-                    From Files
-                  </Text>
+                  <View style={styles.uploadBtnContainer}>
+                    <FontAwesome name="files-o" size={40} style={styles.uploadBtn} />
+                    <Text style={styles.uploadBtn} onPress={this.selectPhotoTapped}>
+                      From Files
+                    </Text>
+                  </View>
                 </View>
+
                 <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text style={styles.uploadBtn} onPress={this.selectPhotoTapped}>
-                    <FontAwesome name="camera" size={40} color="black" />
-                    From Camera
-                  </Text>
+                  <View style={styles.uploadBtnContainer}>
+                    <FontAwesome name="camera" size={40} style={styles.uploadBtn} />
+                    <Text style={styles.uploadBtn} onPress={this.selectPhotoTapped}>
+                      From Camera
+                    </Text>
+                  </View>
                 </View>
+
               </View>
             </View>
 
-            <View style={styles.inputCotainer}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Revision Comment:</Text>
               <TextInput
                 style={styles.textInput}
                 onChangeText={rev_desc => this.setState({rev_desc})}
                 value={this.state.rev_desc}
                 placeholder="Example: New Upload"
-                underlineColorAndroid="#004E89"
+                underlineColorAndroid="rgba(0,0,0,0)"
               />
             </View>
 
-            <View style={styles.selectContainer}>
-              <Picker
-                selectedValue={this.state.type}
-                onValueChange={type => this.setState({type})}
-                style={{color: '#004E89'}}>
-                <Picker.Item label="Document Type:" value="" />
-                <Picker.Item label="Assignment / Report" value="asg_report" />
-                <Picker.Item label="Lecture Note" value="lecture_note" />
-                <Picker.Item label="Sample Question" value="sample_question" />
-              </Picker>
+            <View>
+              <DocTypeSelect
+                options={this.docTypeOptions}
+                handleSelect={this.handleDocTypeSelect}
+                btnContent={{ type: 'text', name: this.state.typeDisplayName ? this.state.typeDisplayName : 'Select Document Type' }}
+                style={[styles.selectContainer, {color: this.state.typeDisplayName ? 'black' : '#004E89', fontWeight: this.state.typeDisplayName ? 'normal' : 'bold'}]}
+              />
+              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
             </View>
 
-            <View style={[styles.dividedRow, {marginTop: 10}]}>
-              <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginRight: 5}]}>
+            <View style={styles.dividedRow}>
+              <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
                   Submit
                 </Text>
               </View>
-              <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginLeft: 5}]}>
-                  Go Back
+              <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                  Cancel
                 </Text>
               </View>
             </View>
@@ -171,32 +188,44 @@ const styles = StyleSheet.create({
     color: '#004E89',
     fontWeight: 'bold',
     paddingBottom: 5,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  inputCotainer: {
-    marginTop: 10,
+  inputContainer: {
+    marginBottom: 10,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#aaa'
   },
-  selectContainer: {
-    borderWidth: .5,
-    borderRadius: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
-    marginTop: 10,
-    borderColor: '#aaa'
-  },
   inputLabel: {
     color: '#004E89',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingTop: 2.5
+  },
+  textInput: {
+    minHeight: 30,
+    paddingTop: 2.5,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 5
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
+  primaryBtn: {
+    color: 'white',
+    textAlign: 'center'
   },
   headerBtnContainer: {
     padding: 5,
@@ -210,27 +239,28 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: 'white'
   },
-  uploadBtn: {
-    maxWidth: 80,
+  uploadBtnContainer: {
+    width: 110,
     maxHeight: 80,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#bbb',
-    textAlign: 'center',
     backgroundColor: '#eee'
   },
-  textInput: {
-    height: 40,
-    paddingRight: 5,
-    paddingLeft: 5
-  },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
+  uploadBtn: {
     textAlign: 'center',
-    marginBottom: 10
+    paddingTop: 5
+  },
+  selectContainer: {
+    marginBottom: 10,
+    borderWidth: .5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });
