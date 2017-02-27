@@ -35,10 +35,10 @@ class TopRow extends React.Component {
     });
 
     return {
-      overall_rating: Math.round(sumRatings.overall_rating / length * 2) / 2,
-      workload_rating: Math.round(sumRatings.workload_rating / length),
-      fairness_rating: Math.round(sumRatings.fairness_rating / length),
-      prof_rating: Math.round(sumRatings.prof_rating / length)
+      overallRating: sumRatings.overall_rating / length,
+      workloadRating: Math.round(sumRatings.workload_rating / length),
+      fairnessRating: Math.round(sumRatings.fairness_rating / length),
+      profRating: Math.round(sumRatings.prof_rating / length)
     };
   }
 
@@ -112,15 +112,15 @@ class TopRow extends React.Component {
           <View style={{flex: 1, padding: 5}}>
             <Text style={styles.topRowLabel}>Average Ratings:</Text>
             <Text style={styles.textRow}>
-              Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
+              Overall: <FontAwesome name={this.getStarName(overallAvgs.overallRating, 1)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 2)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 3)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 4)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 5)} size={19} color="black" />
             </Text>
-            <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.prof_rating)}</Text>
-            <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairness_rating)}</Text>
-            <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workload_rating)}</Text>
+            <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.profRating)}</Text>
+            <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairnessRating)}</Text>
+            <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workloadRating)}</Text>
           </View>
           <View style={{flex: 1, padding: 5}}>
             <Text style={styles.topRowLabel}>Previous Instructors:</Text>
