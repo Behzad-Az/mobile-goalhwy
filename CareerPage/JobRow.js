@@ -10,7 +10,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import FlagModal from '../Partials/ModalSelect.js';
 
-class RevisionRow extends React.Component {
+class JobRow extends React.Component {
   constructor(props) {
     super(props);
     this.flagOptions = [
@@ -81,14 +81,14 @@ class RevisionRow extends React.Component {
   }
 }
 
-export default RevisionRow;
+export default JobRow;
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
     borderTopWidth: .5,
     borderBottomWidth: .5,
-    marginBottom: 5,
+    marginTop: 5,
     borderColor: '#004E89',
     backgroundColor: 'white'
   },

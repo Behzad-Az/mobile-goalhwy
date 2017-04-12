@@ -1,15 +1,15 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { FontAwesome } from '@exponent/vector-icons';
-import RevisionRow from './RevisionRow.js';
+import JobRow from './JobRow.js';
 
 class RevisionsContainer extends React.Component {
   render() {
     return (
       <View style={styles.componentContainer}>
-        <Text style={styles.headerText}>Revisions:</Text>
-        { this.props.docInfo.revisions.map(rev => <RevisionRow key={rev.id} rev={rev} />) }
-        { !this.props.docInfo.revisions[0] && <Text style={{padding: 5}}>No revision could be found...</Text> }
+        <Text style={styles.headerText}>Open Positions:</Text>
+        { this.props.jobs.map(job => <JobRow key={job.id} job={job} />) }
+        { !this.props.jobs[0] && <Text style={{padding: 5, textAlign: 'center'}}>No jobs matching your search. Revise your search criteria.</Text> }
       </View>
     );
   }

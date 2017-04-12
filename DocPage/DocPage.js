@@ -2,7 +2,6 @@ import React from 'react';
 import {
   ScrollView,
   View,
-  Text,
   Dimensions,
   ActivityIndicator
 } from 'react-native';
