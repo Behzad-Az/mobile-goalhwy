@@ -7,39 +7,18 @@ import {
 
 import { FontAwesome } from '@exponent/vector-icons';
 
-class CourseFeedRow extends React.Component {
-  constructor(props) {
-    super(props);
-    this._determineIcon = this._determineIcon.bind(this);
-  }
-
-  _determineIcon(feed) {
-    // switch (feedCategory) {
-    //   case 'docRevision':
-    //     return 'file-text';
-    //   case 'tutorLog':
-    //     return 'slideshare';
-    //   default:
-    //     return 'question-circle-o';
-    // }
-
-    if (this.props.feed.doc_id) return 'file-text';
-    else if (this.props.feed.tutor_log_id) return 'slideshare';
-    else return 'question-circle-o';
-  }
-
+class ResumeReviewFeedRow extends React.Component {
   render() {
-
     return (
       <View style={styles.feedContainer}>
         <View style={styles.dividedRow}>
           <View style={{flex: 1, padding: 5}}>
-            <FontAwesome name={this._determineIcon()} style={styles.iconStyle} />
+            <FontAwesome name='question-circle-o' style={styles.iconStyle} />
           </View>
           <View style={{flex: 6, padding: 5}}>
-            <Text style={styles.headerText}>@{this.props.feed.short_display_name} - New Document!</Text>
-            <Text style={styles.contentText}>{this.props.feed.content}</Text>
-            <Text style={styles.posterText}>By "{this.props.feed.commenter_name}" on {this.props.feed.created_at.slice(0, 10)}</Text>
+            <Text style={styles.headerText}>@{this.props.feed.owner_name} - Resume Review Request</Text>
+            <Text style={styles.contentText}>{this.props.feed.additional_info}</Text>
+            <Text style={styles.posterText}>Posted on {this.props.feed.created_at.slice(0, 10)}</Text>
           </View>
         </View>
       </View>
@@ -47,7 +26,7 @@ class CourseFeedRow extends React.Component {
   }
 }
 
-export default CourseFeedRow;
+export default ResumeReviewFeedRow;
 
 const styles = StyleSheet.create({
   feedContainer: {

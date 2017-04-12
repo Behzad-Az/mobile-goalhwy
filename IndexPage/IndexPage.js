@@ -20,14 +20,17 @@ class IndexPage extends React.Component {
       dataLoaded: false,
       pageError: false,
       courses: [],
-      updates: '',
+      updates: [],
       instId: ''
     };
     this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
-    fetch('http://127.0.0.1:19001/api/home')
+    fetch('http://127.0.0.1:19001/api/home', {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
     .then(response => response.json())
     .then(resJSON => {
       if (resJSON) {

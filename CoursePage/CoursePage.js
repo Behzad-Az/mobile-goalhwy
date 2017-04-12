@@ -34,7 +34,6 @@ class CoursePage extends React.Component {
     };
     this.conditionData = this.conditionData.bind(this);
     this.loadComponentData = this.loadComponentData.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
     this.renderSampleQuestions = this.renderSampleQuestions.bind(this);
     this.renderLectureNotes = this.renderLectureNotes.bind(this);
     this.renderItemsForSale = this.renderItemsForSale.bind(this);
