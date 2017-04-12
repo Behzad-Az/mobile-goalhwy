@@ -1,68 +1,63 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
+import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome } from '@exponent/vector-icons';
 
 class CourseReviewRow extends React.Component {
   constructor(props) {
     super(props);
-    this.decodeWorkload = this.decodeWorkload.bind(this);
-    this.decodeFairness = this.decodeFairness.bind(this);
-    this.decodeProf = this.decodeProf.bind(this);
-    this.getStarName = this.getStarName.bind(this);
+    this._decodeWorkload = this._decodeWorkload.bind(this);
+    this._decodeFairness = this._decodeFairness.bind(this);
+    this._decodeProf = this._decodeProf.bind(this);
+    this._getStarName = this._getStarName.bind(this);
   }
 
-  decodeWorkload(value) {
+  _decodeWorkload(value) {
     switch(value) {
       case 1:
-        return "Too little";
+        return 'Too little';
       case 2:
-        return "Too much";
+        return 'Too much';
       case 3:
-        return "Fair";
+        return 'Fair';
       default:
-        return "unknown";
+        return 'unknown';
     };
   }
 
-  decodeFairness(value) {
+  _decodeFairness(value) {
     switch(value) {
       case 1:
-        return "Too easy";
+        return 'Too easy';
       case 2:
-        return "Too difficult";
+        return 'Too difficult';
       case 3:
-        return "Fair";
+        return 'Fair';
       default:
-        return "unknown";
+        return 'unknown';
     };
   }
 
-  decodeProf(value) {
+  _decodeProf(value) {
     switch(value) {
       case 1:
-        return "Not good";
+        return 'Not good';
       case 2:
-        return "Below average";
+        return 'Below average';
       case 3:
-        return "Average";
+        return 'Average';
       case 4:
-        return "Above average";
+        return 'Above average';
       case 5:
-        return "Excellent!";
+        return 'Excellent!';
       default:
-        return "unknown";
+        return 'unknown';
     };
   }
 
-  getStarName(rating, number) {
-    if (parseInt(rating) >= number) return "star";
-    else if (parseInt(rating) > number - 1) return "star-half-full";
-    else return "star-o";
+  _getStarName(rating, number) {
+    if (parseInt(rating) >= number) return 'star';
+    else if (parseInt(rating) > number - 1) return 'star-half-full';
+    else return 'star-o';
   }
 
   render() {
@@ -72,28 +67,28 @@ class CourseReviewRow extends React.Component {
 
           <View style={{flex: 1}}>
             <Text style={styles.textRow}>
-              Overall: <FontAwesome name={this.getStarName(this.props.review.overall_rating, 1)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(this.props.review.overall_rating, 2)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(this.props.review.overall_rating, 3)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(this.props.review.overall_rating, 4)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(this.props.review.overall_rating, 5)} size={19} color="black" />
+              Overall: <FontAwesome name={this._getStarName(this.props.review.overall_rating, 1)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(this.props.review.overall_rating, 2)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(this.props.review.overall_rating, 3)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(this.props.review.overall_rating, 4)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(this.props.review.overall_rating, 5)} size={19} color='black' />
             </Text>
             <Text style={styles.textRow}>Term: {this.props.review.start_month} {this.props.review.start_year}</Text>
             <Text style={styles.textRow}>Instructor: {this.props.review.name}</Text>
-            <Text style={styles.textRow}>By: {this.props.review.reviewer_name || "anonymous"}</Text>
+            <Text style={styles.textRow}>By: {this.props.review.reviewer_name || 'anonymous'}</Text>
           </View>
 
           <View style={{flex: 1}}>
-            <Text style={styles.textRow}>Teaching: {this.decodeProf(this.props.review.prof_rating)}</Text>
-            <Text style={styles.textRow}>Evaluation: {this.decodeFairness(this.props.review.fairness_rating)}</Text>
-            <Text style={styles.textRow}>Workload: {this.decodeWorkload(this.props.review.workload_rating)}</Text>
+            <Text style={styles.textRow}>Teaching: {this._decodeProf(this.props.review.prof_rating)}</Text>
+            <Text style={styles.textRow}>Evaluation: {this._decodeFairness(this.props.review.fairness_rating)}</Text>
+            <Text style={styles.textRow}>Workload: {this._decodeWorkload(this.props.review.workload_rating)}</Text>
             <Text style={styles.textRow}>Posted On: {this.props.review.review_created_at.slice(0, 10)}</Text>
           </View>
 
         </View>
 
         <View style={styles.descContainer}>
-          <Text style={styles.descText}>"{this.props.review.review_desc || "no comment provided"}"</Text>
+          <Text style={styles.descText}>'{this.props.review.review_desc || 'no comment provided'}'</Text>
         </View>
 
       </View>

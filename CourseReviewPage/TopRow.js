@@ -1,24 +1,19 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
+import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome } from '@exponent/vector-icons';
 
 class TopRow extends React.Component {
   constructor(props) {
     super(props);
-    this.getAverageValues = this.getAverageValues.bind(this);
-    this.getProfAvgRatings = this.getProfAvgRatings.bind(this);
-    this.decodeProf = this.decodeProf.bind(this);
-    this.decodeWorkload = this.decodeWorkload.bind(this);
-    this.decodeFairness = this.decodeFairness.bind(this);
-    this.getStarName = this.getStarName.bind(this);
+    this._getAverageValues = this._getAverageValues.bind(this);
+    this._getProfAvgRatings = this._getProfAvgRatings.bind(this);
+    this._decodeProf = this._decodeProf.bind(this);
+    this._decodeWorkload = this._decodeWorkload.bind(this);
+    this._decodeFairness = this._decodeFairness.bind(this);
+    this._getStarName = this._getStarName.bind(this);
   }
 
-  getAverageValues() {
+  _getAverageValues() {
     let length = this.props.courseReviews.length || 1;
     let sumRatings = this.props.courseReviews.reduce((a, b) => {
       return {
@@ -42,85 +37,87 @@ class TopRow extends React.Component {
     };
   }
 
-  getProfAvgRatings() {
+  _getProfAvgRatings() {
     let profRatingSum = {};
     let profRatingCount = {};
     this.props.courseReviews.forEach(review => {
       profRatingSum[review.name] = profRatingSum[review.name] ? profRatingSum[review.name] + review.prof_rating : review.prof_rating;
       profRatingCount[review.name] = profRatingCount[review.name] ? profRatingCount[review.name] + 1 : 1;
     });
-    return Object.keys(profRatingSum).map((profName, index) => <Text key={index} style={styles.textRow}>• {profName}: {this.decodeProf(Math.round(profRatingSum[profName] / profRatingCount[profName]))}</Text> );
+    return Object.keys(profRatingSum)[0] ? Object.keys(profRatingSum).map((profName, index) =>
+      <Text key={index} style={styles.textRow}>• {profName}: {this._decodeProf(Math.round(profRatingSum[profName] / profRatingCount[profName]))}</Text>
+    ) : <Text style={styles.textRow}>Not Available</Text>;
   }
 
-  decodeWorkload(value) {
+  _decodeWorkload(value) {
     switch(value) {
       case 1:
-        return "Too little";
+        return 'Too little';
       case 2:
-        return "Too much";
+        return 'Too much';
       case 3:
-        return "Fair";
+        return 'Fair';
       default:
-        return "unknown";
-    };
+        return 'Not Available';
+    }
   }
 
-  decodeFairness(value) {
+  _decodeFairness(value) {
     switch(value) {
       case 1:
-        return "Too easy";
+        return 'Too easy';
       case 2:
-        return "Too difficult";
+        return 'Too difficult';
       case 3:
-        return "Fair";
+        return 'Fair';
       default:
-        return "unknown";
-    };
+        return 'Not Available';
+    }
   }
 
-  decodeProf(value) {
+  _decodeProf(value) {
     switch(value) {
       case 1:
-        return "Not good";
+        return 'Not good';
       case 2:
-        return "Below average";
+        return 'Below average';
       case 3:
-        return "Average";
+        return 'Average';
       case 4:
-        return "Above average";
+        return 'Above average';
       case 5:
-        return "Excellent!";
+        return 'Excellent!';
       default:
-        return "unknown";
-    };
+        return 'Not Available';
+    }
   }
 
-  getStarName(rating, number) {
-    if (rating >= number) return "star";
-    else if (rating > number - 1) return "star-half-full";
-    else return "star-o";
+  _getStarName(rating, number) {
+    if (rating >= number) return 'star';
+    else if (rating > number - 1) return 'star-half-full';
+    else return 'star-o';
   }
 
   render() {
-    let profAvgs = this.getProfAvgRatings();
-    let overallAvgs = this.getAverageValues();
+    let profAvgs = this._getProfAvgRatings();
+    let overallAvgs = this._getAverageValues();
     return (
       <View style={styles.container}>
-        <Text style={styles.header} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
+        <Text style={styles.headerText} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
 
         <View style={styles.dividedRow}>
           <View style={{flex: 1, padding: 5}}>
             <Text style={styles.topRowLabel}>Average Ratings:</Text>
             <Text style={styles.textRow}>
-              Overall: <FontAwesome name={this.getStarName(overallAvgs.overallRating, 1)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 2)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 3)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 4)} size={19} color="black" />
-              <FontAwesome name={this.getStarName(overallAvgs.overallRating, 5)} size={19} color="black" />
+              Overall: <FontAwesome name={this._getStarName(overallAvgs.overallRating, 1)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(overallAvgs.overallRating, 2)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(overallAvgs.overallRating, 3)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(overallAvgs.overallRating, 4)} size={19} color='black' />
+              <FontAwesome name={this._getStarName(overallAvgs.overallRating, 5)} size={19} color='black' />
             </Text>
-            <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.profRating)}</Text>
-            <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairnessRating)}</Text>
-            <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workloadRating)}</Text>
+            <Text style={styles.textRow}>Teaching: {this._decodeProf(overallAvgs.profRating)}</Text>
+            <Text style={styles.textRow}>Evaluation: {this._decodeFairness(overallAvgs.fairnessRating)}</Text>
+            <Text style={styles.textRow}>Workload: {this._decodeWorkload(overallAvgs.workloadRating)}</Text>
           </View>
           <View style={{flex: 1, padding: 5}}>
             <Text style={styles.topRowLabel}>Previous Instructors:</Text>
@@ -142,7 +139,7 @@ const styles = StyleSheet.create({
     borderColor: '#004E89',
     borderBottomWidth: .5
   },
-  header: {
+  headerText: {
     backgroundColor: '#004E89',
     padding: 5,
     color: 'white',

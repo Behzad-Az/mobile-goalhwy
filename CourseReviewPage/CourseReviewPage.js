@@ -1,19 +1,14 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   ScrollView,
+  View,
+  Text,
   Dimensions,
   ActivityIndicator
 } from 'react-native';
-
-import SortModal from '../Partials/ModalSelect.js';
+import PageLoadError from '../Partials/PageLoadError.js';
 import TopRow from './TopRow.js';
-import CourseReviewRow from './CourseReviewRow.js';
-import NewCoureReviewForm from './NewCourseReviewForm.js';
-
-import { FontAwesome } from '@exponent/vector-icons';
+import CourseReviewsContainer from './CourseReviewsContainer.js';
 
 class CourseReviewPage extends React.Component {
   constructor(props) {
@@ -28,115 +23,62 @@ class CourseReviewPage extends React.Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      courseInfo: {},
+      courseInfo: {
+        id: this.props.courseId
+      },
       courseReviews: [],
       sortedBy: '',
       profs: []
     };
-    this.loadComponentData = this.loadComponentData.bind(this);
-    this.sortReviews = this.sortReviews.bind(this);
-    this.renderPageAfterData = this.renderPageAfterData.bind(this);
+    this._loadComponentData = this._loadComponentData.bind(this);
+    this._conditionData = this._conditionData.bind(this);
+    this._renderPageAfterData = this._renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
-    this.loadComponentData();
+    this._loadComponentData();
   }
 
-  loadComponentData() {
-    fetch(`http://127.0.0.1:19001/api/courses/${this.props.courseId}/reviews`)
-    .then(response => response.json())
-    .then(resJSON => {
-      if (resJSON) {
-        resJSON.dataLoaded = true;
-        this.setState(resJSON);
-      } else {
-        console.log("Error here: CourseReviewPage.js: ", err);
-        this.setState({ dataLoaded: true, pageError: true });
-      }
+  _loadComponentData() {
+    fetch(`http://127.0.0.1:19001/api/courses/${this.state.courseInfo.id}/reviews`, {
+      method: 'GET',
+      credentials: 'same-origin'
     })
-    .catch(err => {
-      console.log("Error here: CourseReviewPage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: true });
-    });
+    .then(response => response.json())
+    .then(resJSON => this._conditionData(resJSON))
+    .catch(() => this.setState({ dataLoaded: true, pageError: true }));
   }
 
-  sortReviews(sortedBy) {
-    switch(sortedBy) {
-      case "date_new_to_old":
-        this.state.courseReviews.sort((a, b) => a.review_created_at < b.review_created_at ? 1 : -1);
-        break;
-      case "date_old_to_new":
-        this.state.courseReviews.sort((a, b) => a.review_created_at > b.review_created_at ? 1 : -1);
-        break;
-      case "rating_high_to_low":
-        this.state.courseReviews.sort((a, b) => a.overall_rating < b.overall_rating ? 1 : -1);
-        break;
-      case "rating_low_to_high":
-        this.state.courseReviews.sort((a, b) => a.overall_rating > b.overall_rating ? 1 : -1);
-        break;
-      case "instructor_name":
-        this.state.courseReviews.sort((a, b) => a.name > b.name ? 1 : -1);
-        break;
-      default:
-        break;
-    };
-    this.setState({ sortedBy });
-  }
-
-  renderPageAfterData() {
-    if (this.state.dataLoaded && this.state.pageError) {
-      return (
-        <View style={styles.componentContainer}>
-          <Text style={{padding: 5, textAlign: 'center'}}>
-            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-          </Text>
-        </View>
-      );
-    } else if (this.state.dataLoaded) {
-      return (
-        <View>
-          <TopRow courseReviews={this.state.courseReviews} />
-          <View style={styles.componentContainer}>
-            <Text style={styles.header}>Reviews:</Text>
-
-            <View style={styles.headerBtnContainer}>
-              <SortModal
-                options={this.sortOptions}
-                handleSelect={this.sortReviews}
-                btnContent={{ type: 'icon', name: 'sort-amount-desc'}}
-                style={styles.headerBtn}
-              />
-              <NewCoureReviewForm
-                profs={this.state.profs.map(prof => prof.name)}
-                courseId={this.state.courseInfo.id}
-                reload={this.loadComponentData}
-                style={styles.headerBtn}
-              />
-            </View>
-
-            { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
-          </View>
-        </View>
-      );
+  _conditionData(resJSON) {
+    if (resJSON) {
+      resJSON.dataLoaded = true;
+      this.setState(resJSON);
     } else {
-      return (
-        <View style={styles.componentContainer}>
-          <ActivityIndicator
-            animating={true}
-            style={{height: 80}}
-            size="large"
-            color="#004E89"
-          />
-        </View>
-      );
+      throw 'Server returned false';
     }
+  }
+
+  _renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) return <PageLoadError />;
+    else if (this.state.dataLoaded) return (
+      <View>
+        <TopRow courseReviews={this.state.courseReviews} />
+        <CourseReviewsContainer
+          courseReviews={this.state.courseReviews}
+          profs={this.state.profs}
+          reload={this._loadComponentData}
+          courseId={this.state.courseInfo.id}
+        />
+      </View>
+    );
+    else return <ActivityIndicator animating={true} style={{height: 80}} size='large' color='#004E89' />;
   }
 
   render() {
     return (
       <ScrollView>
         <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
-          { this.renderPageAfterData() }
+          { this._renderPageAfterData() }
         </View>
       </ScrollView>
     );
@@ -144,31 +86,3 @@ class CourseReviewPage extends React.Component {
 }
 
 export default CourseReviewPage;
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#004E89',
-    padding: 5,
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  componentContainer: {
-    marginBottom: 10
-  },
-  headerBtnContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    position: 'absolute',
-    right: 5,
-    top: 5,
-    backgroundColor: '#004E89'
-  },
-  headerBtn: {
-    paddingLeft: 7,
-    paddingRight: 7,
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 19
-  }
-});
