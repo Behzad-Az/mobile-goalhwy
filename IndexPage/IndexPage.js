@@ -45,7 +45,7 @@ class IndexPage extends React.Component {
   _renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) return <PageLoadError />;
     else if (this.state.dataLoaded) return <CoursesContainer courses={this.state.courses} instId={this.state.instId} />;
-    else return <ActivityIndicator animating={true} style={{height: 80}} size="large" color="#004E89" />;
+    else return <ActivityIndicator animating={true} style={{height: 80}} size='large' color='#004E89' />;
   }
 
   render() {

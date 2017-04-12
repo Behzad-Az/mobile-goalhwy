@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Modal,
-  Text,
-  View,
   ScrollView,
-  TextInput
+  View,
+  Text,
+  TextInput,
+  StyleSheet
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
@@ -14,9 +14,7 @@ import ModalSelect from '../Partials/ModalSelect.js';
 class ChangeInstForm extends Component {
   constructor(props) {
     super(props);
-    this.countryList = [
-      { value: 'canada', label: 'Canada' }, { value: 'united_states', label: 'United State of America (USA)' }
-    ];
+    this.countryList = [ { value: 'canada', label: 'Canada' }, { value: 'united_states', label: 'United State of America (USA)' } ];
     this.provinceList = {
       canada: [
         { value: 'Alberta', label: 'Alberta' }, { value: 'British Columbia', label: 'British Columbia' }, { value: 'Manitoba', label: 'Manitoba' },
@@ -73,10 +71,10 @@ class ChangeInstForm extends Component {
 
   handleNewInstPost() {
     let data = {
-      country: this.state.country,
-      province:  this.state.province,
-      inst_long_name: this.state.instLongName,
-      inst_short_name: this.state.instShortName
+      country: this.state.countryName,
+      province:  this.state.provinceName,
+      instLongName: this.state.instLongName,
+      instShortName: this.state.instShortName
     };
     fetch('http://127.0.0.1:19001/api/institutions', {
       method: 'POST',
@@ -87,8 +85,8 @@ class ChangeInstForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server, NewInstForm.js: ", resJSON))
-    .catch(err => console.log("Error here in NewInstForm.js: ", err));
+    .then(resJSON => resJSON ? this.props.reload() : console.log('Error in server, NewInstForm.js: ', resJSON))
+    .catch(err => console.log('Error here in NewInstForm.js: ', err));
     this.setModalVisible(false);
   }
 
@@ -96,7 +94,7 @@ class ChangeInstForm extends Component {
     return (
       <View>
         <Modal
-          animationType={"slide"}
+          animationType={'slide'}
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => this.setModalVisible(false)}
@@ -109,11 +107,11 @@ class ChangeInstForm extends Component {
               <Text style={styles.inputLabel}>Institution Full Name:</Text>
               <TextInput
                 style={styles.textInput}
-                autoCapitalize="words"
+                autoCapitalize='words'
                 onChangeText={instLongName => this.setState({instLongName})}
                 value={this.state.instLongName}
-                placeholder="Example: University of British Columbia"
-                underlineColorAndroid="rgba(0,0,0,0)"
+                placeholder='Example: University of British Columbia'
+                underlineColorAndroid='rgba(0,0,0,0)'
               />
             </View>
 
@@ -121,12 +119,12 @@ class ChangeInstForm extends Component {
               <Text style={styles.inputLabel}>Institution Given Name (optional):</Text>
               <TextInput
                 style={styles.textInput}
-                autoCapitalize="characters"
+                autoCapitalize='characters'
                 autoCorrect={false}
                 onChangeText={instShortName => this.setState({instShortName})}
                 value={this.state.instShortName}
-                placeholder="Example: UBC"
-                underlineColorAndroid="rgba(0,0,0,0)"
+                placeholder='Example: UBC'
+                underlineColorAndroid='rgba(0,0,0,0)'
               />
             </View>
 
@@ -137,7 +135,7 @@ class ChangeInstForm extends Component {
                 btnContent={{ type: 'text', name: this.state.countryName || 'Select Country' }}
                 style={[styles.selectContainer, {color: this.state.countryName ? 'black' : '#004E89', fontWeight: this.state.countryName ? 'normal' : 'bold'}]}
               />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
+              <FontAwesome name='chevron-down' style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
             </View>
 
             <View>
@@ -147,7 +145,7 @@ class ChangeInstForm extends Component {
                 btnContent={{ type: 'text', name: this.state.provinceName || 'Select Province / State' }}
                 style={[styles.selectContainer, {color: this.state.provinceName ? 'black' : '#004E89', fontWeight: this.state.provinceName ? 'normal' : 'bold'}]}
               />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
+              <FontAwesome name='chevron-down' style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
             </View>
 
             <View style={styles.dividedRow}>
@@ -168,7 +166,7 @@ class ChangeInstForm extends Component {
           </ScrollView>
         </Modal>
 
-        <FontAwesome name="plus" style={this.props.style} onPress={() => this.setModalVisible(true)} />
+        <FontAwesome name='plus' style={this.props.style} onPress={() => this.setModalVisible(true)} />
 
       </View>
     );

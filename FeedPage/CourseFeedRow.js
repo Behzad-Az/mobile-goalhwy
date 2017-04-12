@@ -30,7 +30,7 @@ class CourseFeedRow extends React.Component {
           <View style={{flex: 6, padding: 5}}>
             <Text style={styles.headerText}>@{this.props.feed.short_display_name} - New Document!</Text>
             <Text style={styles.contentText}>{this.props.feed.content}</Text>
-            <Text style={styles.posterText}>By "{this.props.feed.commenter_name}" on {this.props.feed.created_at.slice(0, 10)}</Text>
+            <Text style={styles.posterText}>By {this.props.feed.commenter_name} on {this.props.feed.created_at.slice(0, 10)}</Text>
           </View>
         </View>
       </View>

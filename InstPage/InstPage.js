@@ -1,19 +1,13 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   ScrollView,
-  TextInput,
+  View,
+  Text,
   Dimensions,
   ActivityIndicator
 } from 'react-native';
-import { FontAwesome } from '@exponent/vector-icons';
-
-import CourseRow from './CourseRow.js';
-import ChangeInstForm from './ChangeInstForm.js';
-import NewInstForm from './NewInstForm.js';
-import NewCourseForm from './NewCourseForm.js';
+import PageLoadError from '../Partials/PageLoadError.js';
+import CoursesContainer from './CoursesContainer.js';
 
 class InstPage extends React.Component {
   constructor(props) {
@@ -21,43 +15,42 @@ class InstPage extends React.Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      instId: '',
-      instName: '',
+      instId: this.props.instId,
       instList: [],
       currInstCourses: [],
       currUserCourseIds: [],
-      searchResults: [],
       filterPhrase: ''
     };
-    this.loadComponentData = this.loadComponentData.bind(this);
-    this.conditionData = this.conditionData.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.findInstName = this.findInstName.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
-    this.renderPageAfterData = this.renderPageAfterData.bind(this);
+    this._loadComponentData = this._loadComponentData.bind(this);
+    this._conditionData = this._conditionData.bind(this);
+    this._findInstName = this._findInstName.bind(this);
+    this._saveFilterPhrase = this._saveFilterPhrase.bind(this);
+    this._filterCourseList = this._filterCourseList.bind(this);
+    this._renderPageAfterData = this._renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
-    this.loadComponentData(this.props.instId);
+    this._loadComponentData(this.state.instId);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.instId && (this.state.instId !== nextProps.instId)) {
-      this.loadComponentData(nextProps.instId);
+      this._loadComponentData(nextProps.instId);
     }
   }
 
-  loadComponentData(instId) {
-    fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
+  _loadComponentData(instId) {
+    instId = instId || this.state.instId;
+    fetch(`http://127.0.0.1:19001/api/institutions/${instId}`, {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
     .then(response => response.json())
-    .then(resJSON => this.conditionData(resJSON, instId))
-    .catch(err => {
-      console.log("Error here: InstPage.js: Promise Error: ", err);
-      this.setState({ dataLoaded: true, pageError: true });
-    });
+    .then(resJSON => this._conditionData(resJSON, instId))
+    .catch(() => this.setState({ dataLoaded: true, pageError: true }));
   }
 
-  conditionData(resJSON, instId) {
+  _conditionData(resJSON, instId) {
     if (resJSON) {
       resJSON.instId = instId;
       resJSON.dataLoaded = true;
@@ -68,69 +61,42 @@ class InstPage extends React.Component {
     }
   }
 
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
-  }
-
-  findInstName() {
+  _findInstName() {
     let inst = this.state.instList.find(inst => inst.id == this.state.instId);
     return inst ? inst.inst_display_name : '';
   }
 
-  handleFilter(text) {
-    let phrase = new RegExp(this.state.filterPhrase.toLowerCase());
-    return this.state.currInstCourses.filter(course => course.full_display_name.toLowerCase().match(phrase)).slice(0, 19);
+  _saveFilterPhrase(filterPhrase) {
+    this.setState({ filterPhrase });
   }
 
-  renderPageAfterData() {
-    if (this.state.dataLoaded && this.state.pageError) {
-      return (
-        <Text style={{padding: 5, textAlign: 'center'}}>
-          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-        </Text>
-      );
-    } else if (this.state.dataLoaded) {
-      let slicedArr = this.handleFilter();
-      return (
-        <View style={styles.componentContainer}>
-          <Text style={styles.header}>{this.findInstName()}</Text>
-          <View style={styles.headerBtnContainer}>
-            <ChangeInstForm
-              instList={this.state.instList}
-              reload={this.loadComponentData}
-              style={styles.headerBtn} />
-            <NewInstForm
-              reload={() => this.loadComponentData(this.state.instId)}
-              style={styles.headerBtn} />
-          </View>
-          <TextInput
-            style={styles.textInput}
-            autoCorrect={false}
-            autoCapitalize="none"
-            onChangeText={filterPhrase => this.setState({ filterPhrase })}
-            placeholder="Search courses here..."
-          />
-          { slicedArr.map(course => <CourseRow key={course.id} course={course} currUserCourseIds={this.state.currUserCourseIds} />) }
-          { !slicedArr[0] && <NewCourseForm instId={this.state.instId} reload={() => this.loadComponentData(this.state.instId)} /> }
-        </View>
-      );
-    } else {
-      return (
-        <ActivityIndicator
-          animating={true}
-          style={{height: 80}}
-          size="large"
-          color="#004E89"
-        />
-      );
-    }
+  _filterCourseList() {
+    let phrase = new RegExp(this.state.filterPhrase.toLowerCase());
+    return this.state.currInstCourses.filter(course => course.full_display_name.toLowerCase().match(phrase)).slice(0, 14);
+  }
+
+  _renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) return <PageLoadError />
+    else if (this.state.dataLoaded) return (
+      <CoursesContainer
+        instName={this._findInstName()}
+        instList={this.state.instList}
+        reload={this._loadComponentData}
+        handleFilter={this._saveFilterPhrase}
+        courses={this._filterCourseList()}
+        currInstCourses={this.state.currInstCourses}
+        currUserCourseIds={this.state.currUserCourseIds}
+        instId={this.state.instId}
+      />
+    );
+    else return <ActivityIndicator animating={true} style={{height: 80}} size="large" color="#004E89" />;
   }
 
   render() {
     return (
       <ScrollView>
         <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
-          { this.renderPageAfterData() }
+          { this._renderPageAfterData() }
         </View>
       </ScrollView>
     );
@@ -138,44 +104,3 @@ class InstPage extends React.Component {
 }
 
 export default InstPage;
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#004E89',
-    padding: 5,
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  textInput: {
-    margin: 5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingTop: 2,
-    paddingBottom: 2,
-    borderWidth: .5,
-    borderColor: '#999',
-    borderRadius: 5,
-    backgroundColor: 'white',
-    minHeight: 30,
-    fontSize: 16
-  },
-  componentContainer: {
-    marginBottom: 10
-  },
-  headerBtnContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    position: 'absolute',
-    right: 5,
-    top: 5,
-    backgroundColor: '#004E89'
-  },
-  headerBtn: {
-    paddingLeft: 7,
-    paddingRight: 7,
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 19
-  }
-});

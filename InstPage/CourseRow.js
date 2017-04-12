@@ -8,7 +8,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@exponent/vector-icons';
 
-class InstPage extends React.Component {
+class CourseRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,7 +63,7 @@ class InstPage extends React.Component {
   }
 }
 
-export default InstPage;
+export default CourseRow;
 
 const styles = StyleSheet.create({
   dividedRow: {
