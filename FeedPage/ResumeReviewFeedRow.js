@@ -4,7 +4,6 @@ import {
   Text,
   View
 } from 'react-native';
-
 import { FontAwesome } from '@exponent/vector-icons';
 
 class ResumeReviewFeedRow extends React.Component {

@@ -13,16 +13,7 @@ class CourseFeedRow extends React.Component {
     this._determineIcon = this._determineIcon.bind(this);
   }
 
-  _determineIcon(feed) {
-    // switch (feedCategory) {
-    //   case 'docRevision':
-    //     return 'file-text';
-    //   case 'tutorLog':
-    //     return 'slideshare';
-    //   default:
-    //     return 'question-circle-o';
-    // }
-
+  _determineIcon() {
     if (this.props.feed.doc_id) return 'file-text';
     else if (this.props.feed.tutor_log_id) return 'slideshare';
     else return 'question-circle-o';

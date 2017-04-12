@@ -7,9 +7,9 @@ import {
   Dimensions,
   ActivityIndicator
 } from 'react-native';
-
 import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@exponent/vector-icons';
+
 import CourseFeedRow from './CourseFeedRow.js';
 import ResumeReviewFeedRow from './ResumeReviewFeedRow.js';
 
@@ -50,7 +50,7 @@ class FeedPage extends React.Component {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
         <Text style={{padding: 5, textAlign: 'center'}}>
-          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+          <FontAwesome name='exclamation-triangle' size={19}/> Error in loading up the page.
         </Text>
       );
     } else if (this.state.dataLoaded) {
@@ -65,7 +65,7 @@ class FeedPage extends React.Component {
         </View>
       );
     } else {
-      return <ActivityIndicator animating={true} style={{height: 80}} size="large" color="#004E89" />;
+      return <ActivityIndicator animating={true} style={{height: 80}} size='large' color='#004E89' />;
     }
   }
 

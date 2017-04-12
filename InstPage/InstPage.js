@@ -8,7 +8,6 @@ import {
   Dimensions,
   ActivityIndicator
 } from 'react-native';
-
 import { FontAwesome } from '@exponent/vector-icons';
 
 import CourseRow from './CourseRow.js';
