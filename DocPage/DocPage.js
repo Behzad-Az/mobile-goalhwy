@@ -1,17 +1,14 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   ScrollView,
+  View,
+  Text,
   Dimensions,
   ActivityIndicator
 } from 'react-native';
-
-import { FontAwesome } from '@exponent/vector-icons';
-
+import PageLoadError from '../Partials/PageLoadError.js';
 import TopRow from './TopRow.js';
-import RevisionRow from './RevisionRow.js';
+import RevisionsContainer from './RevisionsContainer.js';
 
 class DocPage extends React.Component {
   constructor(props) {
@@ -25,80 +22,60 @@ class DocPage extends React.Component {
       docInfo: {
         id: this.props.docId,
         revisions: []
-      },
-      searchResults: []
+      }
     };
-    this.loadComponentData = this.loadComponentData.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.renderPageAfterData = this.renderPageAfterData.bind(this);
+    this._loadComponentData = this._loadComponentData.bind(this);
+    this._conditionData = this._conditionData.bind(this);
+    this._renderPageAfterData = this._renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
-    this.loadComponentData(this.state.courseInfo.id, this.state.docInfo.id);
+    this._loadComponentData(this.state.courseInfo.id, this.state.docInfo.id);
   }
 
-  loadComponentData(courseId, docId) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.docId !== this.state.docInfo.id || nextProps.courseId  !== this.state.courseInfo.id) {
+      this._loadComponentData(nextProps.courseId, nextProps.docId);
+    }
+  }
+
+  _loadComponentData(courseId, docId) {
     courseId = courseId || this.state.courseInfo.id;
     docId = docId || this.state.docInfo.id;
-    fetch(`http://127.0.0.1:19001/api/courses/${courseId}/docs/${docId}`)
-    .then(response => response.json())
-    .then(resJSON => {
-      if (resJSON) {
-        resJSON.dataLoaded = true;
-        this.setState(resJSON)
-      } else {
-        console.log("Error here: DocPage.js: ", err);
-        this.setState({ dataLoaded: true, pageError: true });
-      }
+    fetch(`http://127.0.0.1:19001/api/courses/${courseId}/docs/${docId}`, {
+      method: 'GET',
+      credentials: 'same-origin'
     })
-    .catch(err => {
-      console.log("Error here: DocPage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: true });
-    });
+    .then(response => response.json())
+    .then(resJSON => this._conditionData(resJSON))
+    .catch(() => this.setState({ dataLoaded: true, pageError: true }));
   }
 
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
-  }
-
-  renderPageAfterData() {
-    if (this.state.dataLoaded && this.state.pageError) {
-      return (
-        <Text style={{padding: 5, textAlign: 'center'}}>
-          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-        </Text>
-      );
-    } else if (this.state.dataLoaded) {
-      return (
-        <View>
-          <View style={styles.componentContainer}>
-            <Text style={styles.header}>{this.state.docInfo.title}</Text>
-            <TopRow courseInfo={this.state.courseInfo} />
-          </View>
-          <View style={styles.componentContainer}>
-            <Text style={styles.header}>Revisions:</Text>
-            { this.state.docInfo.revisions.map((rev, index) => <RevisionRow key={index} rev={rev} />) }
-            { !this.state.docInfo.revisions[0] && <Text style={{padding: 5}}>No revision could be found...</Text> }
-          </View>
-        </View>
-      );
+  _conditionData(resJSON) {
+    if (resJSON) {
+      resJSON.dataLoaded = true;
+      this.setState(resJSON);
     } else {
-      return (
-        <ActivityIndicator
-          animating={true}
-          style={{height: 80}}
-          size="large"
-          color="#004E89"
-        />
-      );
+      throw 'Server returned false';
     }
+  }
+
+  _renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) return <PageLoadError />;
+    else if (this.state.dataLoaded) return (
+      <View>
+        <TopRow title={this.state.docInfo.title} courseInfo={this.state.courseInfo} />
+        <RevisionsContainer docInfo={this.state.docInfo} />
+      </View>
+    );
+    else return <ActivityIndicator animating={true} style={{height: 80}} size='large' color='#004E89' />;
   }
 
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
-          { this.renderPageAfterData() }
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5}}>
+          { this._renderPageAfterData() }
         </View>
       </ScrollView>
     );
@@ -106,15 +83,3 @@ class DocPage extends React.Component {
 }
 
 export default DocPage;
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#004E89',
-    padding: 5,
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  componentContainer: {
-    marginBottom: 10
-  }
-});

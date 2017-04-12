@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  Text,
+  StyleSheet
 } from 'react-native';
 import { FontAwesome } from '@exponent/vector-icons';
 import { Actions } from 'react-native-router-flux';
@@ -18,37 +18,39 @@ class TopRow extends React.Component {
       tutorStatus: this.props.courseInfo.tutorStatus,
       assistReqOpen: this.props.courseInfo.assistReqOpen
     };
-    this.handleUnsubscribe = this.handleUnsubscribe.bind(this);
-    this.handleSubscribe = this.handleSubscribe.bind(this);
-    this.handleTutorStatus = this.handleTutorStatus.bind(this);
+    this._handleUnsubscribe = this._handleUnsubscribe.bind(this);
+    this._handleSubscribe = this._handleSubscribe.bind(this);
+    this._handleTutorStatus = this._handleTutorStatus.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    nextProps.courseInfo.subscriptionStatus !== this.state.subscriptionStatus ? this.setState({ subscriptionStatus: nextProps.courseInfo.subscriptionStatus }) : '';
-    nextProps.courseInfo.tutorStatus !== this.state.tutorStatus ? this.setState({ tutorStatus: nextProps.courseInfo.tutorStatus }) : '';
-    nextProps.courseInfo.assistReqOpen !== this.state.assistReqOpen ? this.setState({ assistReqOpen: nextProps.courseInfo.assistReqOpen }) : '';
+    this.setState({
+      subscriptionStatus: nextProps.courseInfo.subscriptionStatus,
+      tutorStatus: nextProps.courseInfo.tutorStatus,
+      assistReqOpen: nextProps.courseInfo.assistReqOpen
+    });
   }
 
-  handleUnsubscribe() {
+  _handleUnsubscribe() {
     fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}`, {
       method: 'DELETE'
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutorStatus: false, assistReqOpen: false }) : console.log("Error in server, TopRow.js - 0: ", resJSON))
-    .catch(err => console.log("Error here: TopRow.js ", err));
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutorStatus: false, assistReqOpen: false }) : console.log('Error in server, TopRow.js - 0: ', resJSON))
+    .catch(err => console.log('Error here: TopRow.js ', err));
   }
 
-  handleSubscribe() {
+  _handleSubscribe() {
     fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}`, {
       method: 'POST',
       body: JSON.stringify({ courseId: this.props.courseInfo.id })
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.log("Error in server - 0: TopRow.js: ", resJSON))
-    .catch(err => console.log("Error here: TopRow.js: ", err));
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.log('Error in server - 0: TopRow.js: ', resJSON))
+    .catch(err => console.log('Error here: TopRow.js: ', err));
   }
 
-  handleTutorStatus() {
+  _handleTutorStatus() {
     let tutorStatus = !this.state.tutorStatus;
     fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}/tutor`, {
       method: 'POST',
@@ -59,8 +61,8 @@ class TopRow extends React.Component {
       body: JSON.stringify({ tutorStatus }),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ tutorStatus }) : console.log("Error in server - 0: TopRow.js: ", resJSON))
-    .catch(err => console.log("Error here: TopRow.js: ", err));
+    .then(resJSON => resJSON ? this.setState({ tutorStatus }) : console.log('Error in server - 0: TopRow.js: ', resJSON))
+    .catch(err => console.log('Error here: TopRow.js: ', err));
   }
 
   render() {
@@ -81,15 +83,15 @@ class TopRow extends React.Component {
             <TouchableHighlight
               style={styles.headerBtnContainer}
               onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
-              <FontAwesome name="star" style={styles.headerBtn} />
+              <FontAwesome name='star' style={styles.headerBtn} />
             </TouchableHighlight>
           </View>
 
           <View style={{flex: 1}}>
             <TouchableHighlight
               style={styles.headerBtnContainer}
-              onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
-              <FontAwesome name="check-circle" style={[styles.headerBtn, {color: this.state.subscriptionStatus ? "green" : "white"}]} />
+              onPress={this.state.subscriptionStatus ? this._handleUnsubscribe : this._handleSubscribe}>
+              <FontAwesome name='check-circle' style={[styles.headerBtn, {color: this.state.subscriptionStatus ? 'green' : 'white'}]} />
             </TouchableHighlight>
           </View>
 
@@ -101,10 +103,10 @@ class TopRow extends React.Component {
 
           <View style={{flex: 1}}>
             <TouchableHighlight
-              style={[styles.headerBtnContainer, {backgroundColor: this.state.subscriptionStatus ? "#004E89" : "#bbb"}]}
-              onPress={this.handleTutorStatus}
+              style={[styles.headerBtnContainer, {backgroundColor: this.state.subscriptionStatus ? '#004E89' : '#bbb'}]}
+              onPress={this._handleTutorStatus}
               disabled={!this.state.subscriptionStatus}>
-              <FontAwesome name="slideshare" style={[styles.headerBtn, {color: this.state.tutorStatus ? "green" : "white"}]} />
+              <FontAwesome name='slideshare' style={[styles.headerBtn, {color: this.state.tutorStatus ? 'green' : 'white'}]} />
             </TouchableHighlight>
           </View>
 

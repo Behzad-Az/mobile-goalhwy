@@ -1,14 +1,12 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  Text,
+  StyleSheet
 } from 'react-native';
-
 import { FontAwesome } from '@exponent/vector-icons';
 import { Actions } from 'react-native-router-flux';
-
 import NewDocForm from '../CoursePage/NewDocForm.js';
 import NewAssistForm from '../CoursePage/NewAssistForm.js';
 
@@ -17,92 +15,102 @@ class TopRow extends React.Component {
     super(props);
     this.state = {
       subscriptionStatus: this.props.courseInfo.subscriptionStatus,
-      tutor_status: this.props.courseInfo.tutor_status,
+      tutorStatus: this.props.courseInfo.tutorStatus,
       assistReqOpen: this.props.courseInfo.assistReqOpen
     };
-    this.handleUnsubscribe = this.handleUnsubscribe.bind(this);
-    this.handleSubscribe = this.handleSubscribe.bind(this);
-    this.handleTutorStatus = this.handleTutorStatus.bind(this);
+    this._handleUnsubscribe = this._handleUnsubscribe.bind(this);
+    this._handleSubscribe = this._handleSubscribe.bind(this);
+    this._handleTutorStatus = this._handleTutorStatus.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    nextProps.courseInfo.subscriptionStatus !== this.state.subscriptionStatus ? this.setState({ subscriptionStatus: nextProps.courseInfo.subscriptionStatus }) : '';
-    nextProps.courseInfo.tutor_status !== this.state.tutor_status ? this.setState({ tutor_status: nextProps.courseInfo.tutor_status }) : '';
-    nextProps.courseInfo.assistReqOpen !== this.state.assistReqOpen ? this.setState({ assistReqOpen: nextProps.courseInfo.assistReqOpen }) : '';
+    this.setState({
+      subscriptionStatus: nextProps.courseInfo.subscriptionStatus,
+      tutorStatus: nextProps.courseInfo.tutorStatus,
+      assistReqOpen: nextProps.courseInfo.assistReqOpen
+    });
   }
 
-  handleUnsubscribe() {
+  _handleUnsubscribe() {
     fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}`, {
       method: 'DELETE'
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutor_status: false, assistReqOpen: false }) : console.log("Error in server, TopRow.js - 0: ", resJSON))
-    .catch(err => console.log("Error here: TopRow.js ", err));
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: false, tutorStatus: false, assistReqOpen: false }) : console.log('Error in server, TopRow.js - 0: ', resJSON))
+    .catch(err => console.log('Error here: TopRow.js ', err));
 
   }
 
-  handleSubscribe() {
+  _handleSubscribe() {
     fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}`, {
         method: 'POST',
         body: JSON.stringify({ course_id: this.props.courseInfo.id })
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.log("Error in server - 0: TopRow.js: ", resJSON))
-    .catch(err => console.log("Error here: TopRow.js: ", err));
+    .then(resJSON => resJSON ? this.setState({ subscriptionStatus: true }) : console.log('Error in server - 0: TopRow.js: ', resJSON))
+    .catch(err => console.log('Error here: TopRow.js: ', err));
   }
 
-  handleTutorStatus() {
-    let tutor_status = !this.state.tutor_status;
+  _handleTutorStatus() {
+    let tutorStatus = !this.state.tutorStatus;
     fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}/tutor`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ tutor_status }),
+      body: JSON.stringify({ tutorStatus }),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.setState({ tutor_status }) : console.log("Error in server - 0: TopRow.js: ", resJSON))
-    .catch(err => console.log("Error here: TopRow.js: ", err));
+    .then(resJSON => resJSON ? this.setState({ tutorStatus }) : console.log('Error in server - 0: TopRow.js: ', resJSON))
+    .catch(err => console.log('Error here: TopRow.js: ', err));
   }
 
   render() {
     return (
-      <View style={[styles.dividedRow, {maxHeight: 50}]}>
+      <View style={styles.componentContainer}>
 
-        <View style={{flex: 1}}>
-          <NewDocForm />
-        </View>
+        <Text style={styles.headerText}>
+          { this.props.title }
+        </Text>
 
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            style={styles.headerBtnContainer}
-            onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
-            <FontAwesome name="star" style={styles.headerBtn} />
-          </TouchableHighlight>
-        </View>
+        <View style={[styles.dividedRow, {maxHeight: 50}]}>
 
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            style={styles.headerBtnContainer}
-            onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
-            <FontAwesome name="check-circle" style={[styles.headerBtn, {color: this.state.subscriptionStatus ? "green" : "white"}]} />
-          </TouchableHighlight>
-        </View>
+          <View style={{flex: 1}}>
+            <NewDocForm />
+          </View>
 
-        <View style={{flex: 1}}>
-          <NewAssistForm
-            courseInfo={this.props.courseInfo}
-            subscriptionStatus={this.state.subscriptionStatus} />
-        </View>
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              style={styles.headerBtnContainer}
+              onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
+              <FontAwesome name='star' style={styles.headerBtn} />
+            </TouchableHighlight>
+          </View>
 
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            style={[styles.headerBtnContainer, {backgroundColor: this.state.subscriptionStatus ? "#004E89" : "#bbb"}]}
-            onPress={this.handleTutorStatus}
-            disabled={!this.state.subscriptionStatus}>
-            <FontAwesome name="slideshare" style={[styles.headerBtn, {color: this.state.tutor_status ? "green" : "white"}]} />
-          </TouchableHighlight>
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              style={styles.headerBtnContainer}
+              onPress={this.state.subscriptionStatus ? this._handleUnsubscribe : this._handleSubscribe}>
+              <FontAwesome name='check-circle' style={[styles.headerBtn, {color: this.state.subscriptionStatus ? 'green' : 'white'}]} />
+            </TouchableHighlight>
+          </View>
+
+          <View style={{flex: 1}}>
+            <NewAssistForm
+              courseInfo={this.props.courseInfo}
+              subscriptionStatus={this.state.subscriptionStatus} />
+          </View>
+
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              style={[styles.headerBtnContainer, {backgroundColor: this.state.subscriptionStatus ? '#004E89' : '#bbb'}]}
+              onPress={this._handleTutorStatus}
+              disabled={!this.state.subscriptionStatus}>
+              <FontAwesome name='slideshare' style={[styles.headerBtn, {color: this.state.tutorStatus ? 'green' : 'white'}]} />
+            </TouchableHighlight>
+          </View>
+
         </View>
 
       </View>
@@ -130,5 +138,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 19,
     color: 'white'
+  },
+  componentContainer: {
+    marginBottom: 10
+  },
+  headerText: {
+    backgroundColor: '#004E89',
+    padding: 5,
+    color: 'white',
+    fontWeight: 'bold'
   }
 });

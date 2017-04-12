@@ -104,7 +104,6 @@ class TopRow extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.headerText} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
-
         <View style={styles.dividedRow}>
           <View style={{flex: 1, padding: 5}}>
             <Text style={styles.topRowLabel}>Average Ratings:</Text>
@@ -124,7 +123,6 @@ class TopRow extends React.Component {
             {profAvgs}
           </View>
         </View>
-
       </View>
     );
   }
