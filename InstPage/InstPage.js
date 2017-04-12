@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   componentContainer: {
-    marginBottom: 10,
+    marginBottom: 10
   },
   headerBtnContainer: {
     flexDirection: 'row',
