@@ -76,7 +76,7 @@ class InstPage extends React.Component {
   }
 
   _renderPageAfterData() {
-    if (this.state.dataLoaded && this.state.pageError) return <PageLoadError />
+    if (this.state.dataLoaded && this.state.pageError) return <PageLoadError />;
     else if (this.state.dataLoaded) return (
       <CoursesContainer
         instName={this._findInstName()}
@@ -95,7 +95,7 @@ class InstPage extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5}}>
           { this._renderPageAfterData() }
         </View>
       </ScrollView>

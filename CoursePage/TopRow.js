@@ -5,10 +5,8 @@ import {
   View,
   TouchableHighlight
 } from 'react-native';
-
 import { FontAwesome } from '@exponent/vector-icons';
 import { Actions } from 'react-native-router-flux';
-
 import NewDocForm from './NewDocForm.js';
 import NewAssistForm from './NewAssistForm.js';
 
@@ -67,41 +65,49 @@ class TopRow extends React.Component {
 
   render() {
     return (
-      <View style={[styles.dividedRow, {maxHeight: 50}]}>
+      <View style={styles.componentContainer}>
 
-        <View style={{flex: 1}}>
-          <NewDocForm />
-        </View>
+        <Text style={styles.headerText}>
+          { this.props.courseInfo.short_display_name }
+        </Text>
 
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            style={styles.headerBtnContainer}
-            onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
-            <FontAwesome name="star" style={styles.headerBtn} />
-          </TouchableHighlight>
-        </View>
+        <View style={[styles.dividedRow, {maxHeight: 50}]}>
 
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            style={styles.headerBtnContainer}
-            onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
-            <FontAwesome name="check-circle" style={[styles.headerBtn, {color: this.state.subscriptionStatus ? "green" : "white"}]} />
-          </TouchableHighlight>
-        </View>
+          <View style={{flex: 1}}>
+            <NewDocForm />
+          </View>
 
-        <View style={{flex: 1}}>
-          <NewAssistForm
-            courseInfo={this.props.courseInfo}
-            subscriptionStatus={this.state.subscriptionStatus} />
-        </View>
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              style={styles.headerBtnContainer}
+              onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
+              <FontAwesome name="star" style={styles.headerBtn} />
+            </TouchableHighlight>
+          </View>
 
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            style={[styles.headerBtnContainer, {backgroundColor: this.state.subscriptionStatus ? "#004E89" : "#bbb"}]}
-            onPress={this.handleTutorStatus}
-            disabled={!this.state.subscriptionStatus}>
-            <FontAwesome name="slideshare" style={[styles.headerBtn, {color: this.state.tutorStatus ? "green" : "white"}]} />
-          </TouchableHighlight>
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              style={styles.headerBtnContainer}
+              onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
+              <FontAwesome name="check-circle" style={[styles.headerBtn, {color: this.state.subscriptionStatus ? "green" : "white"}]} />
+            </TouchableHighlight>
+          </View>
+
+          <View style={{flex: 1}}>
+            <NewAssistForm
+              courseInfo={this.props.courseInfo}
+              subscriptionStatus={this.state.subscriptionStatus} />
+          </View>
+
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              style={[styles.headerBtnContainer, {backgroundColor: this.state.subscriptionStatus ? "#004E89" : "#bbb"}]}
+              onPress={this.handleTutorStatus}
+              disabled={!this.state.subscriptionStatus}>
+              <FontAwesome name="slideshare" style={[styles.headerBtn, {color: this.state.tutorStatus ? "green" : "white"}]} />
+            </TouchableHighlight>
+          </View>
+
         </View>
 
       </View>
@@ -129,5 +135,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 19,
     color: 'white'
+  },
+  componentContainer: {
+    marginBottom: 10
+  },
+  headerText: {
+    backgroundColor: '#004E89',
+    padding: 5,
+    color: 'white',
+    fontWeight: 'bold'
   }
 });

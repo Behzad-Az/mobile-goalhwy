@@ -1,17 +1,14 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   ScrollView,
+  View,
+  Text,
   Dimensions,
   ActivityIndicator
 } from 'react-native';
-
-import { FontAwesome } from '@exponent/vector-icons';
-
+import PageLoadError from '../Partials/PageLoadError.js';
 import TopRow from './TopRow.js';
-import DocRow from './DocRow.js';
+import DocsContainer from './DocsContainer.js';
 
 class CoursePage extends React.Component {
   constructor(props) {
@@ -26,43 +23,35 @@ class CoursePage extends React.Component {
       itemsForSale: [],
       sampleQuestions: [],
       asgReports: [],
-      lectureNotes: [],
-      showAsgReports: false,
-      showSampleQuestions: false,
-      showLectureNotes: false,
-      showItemsForSale: false
+      lectureNotes: []
     };
-    this.conditionData = this.conditionData.bind(this);
-    this.loadComponentData = this.loadComponentData.bind(this);
-    this.renderSampleQuestions = this.renderSampleQuestions.bind(this);
-    this.renderLectureNotes = this.renderLectureNotes.bind(this);
-    this.renderItemsForSale = this.renderItemsForSale.bind(this);
-    this.toggleDocView = this.toggleDocView.bind(this);
-    this.renderPageAfterData = this.renderPageAfterData.bind(this);
+    this._loadComponentData = this._loadComponentData.bind(this);
+    this._conditionData = this._conditionData.bind(this);
+    this._renderPageAfterData = this._renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
-    this.loadComponentData(this.state.courseInfo.id);
+    this._loadComponentData(this.state.courseInfo.id);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.courseId !== this.state.courseInfo.id) {
-      this.loadComponentData(nextProps.courseId);
+      this._loadComponentData(nextProps.courseId);
     }
   }
 
-  loadComponentData(courseId) {
+  _loadComponentData(courseId) {
     courseId = courseId || this.state.courseInfo.id;
-    fetch(`http://127.0.0.1:19001/api/courses/${courseId}`)
+    fetch(`http://127.0.0.1:19001/api/courses/${courseId}`, {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
     .then(response => response.json())
-    .then(resJSON => this.conditionData(resJSON))
-    .catch(err => {
-      console.log("Error here: CoursePage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: true });
-    });
+    .then(resJSON => this._conditionData(resJSON))
+    .catch(() => this.setState({ dataLoaded: true, pageError: true }));
   }
 
-  conditionData(resJSON) {
+  _conditionData(resJSON) {
     if (resJSON) {
       let filterDocs = (docs, docType) => docs.filter(doc => doc.type === docType);
       let newState = {
@@ -76,145 +65,29 @@ class CoursePage extends React.Component {
       };
       this.setState(newState);
     } else {
-      console.log("Error here: CoursePage.js: ", err);
-      this.setState({ dataLoaded: true, pageError: true });
+      throw 'Server returned false';
     }
   }
 
-  renderAsgReports() {
-    let docCount = this.state.asgReports.length;
-    let lastUpdate = docCount ? this.state.asgReports[0].revisions[0].rev_created_at.slice(0, 10) : '';
-    return this.state.showAsgReports ?
-      this.state.asgReports.map((doc, index) =>
-        <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
-        <View style={styles.summaryInfo}>
-          <Text>{docCount} document(s)... last update on {lastUpdate}</Text>
-        </View>
-  }
-
-  renderSampleQuestions() {
-    let docCount = this.state.sampleQuestions.length;
-    let lastUpdate = docCount ? this.state.sampleQuestions[0].revisions[0].rev_created_at.slice(0, 10) : '';
-    return this.state.showSampleQuestions ?
-      this.state.sampleQuestions.map((doc, index) =>
-        <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
-        <View style={styles.summaryInfo}>
-          <Text>{docCount} document(s)... last update on {lastUpdate}</Text>
-        </View>
-  }
-
-  renderLectureNotes() {
-    let docCount = this.state.lectureNotes.length;
-    let lastUpdate = docCount ? this.state.lectureNotes[0].revisions[0].rev_created_at.slice(0, 10) : '';
-    return this.state.showLectureNotes ?
-      this.state.lectureNotes.map((doc, index) =>
-        <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
-        <View style={styles.summaryInfo}>
-          <Text>{docCount} document(s)... last update on {lastUpdate}</Text>
-        </View>
-  }
-
-  renderItemsForSale() {
-    let itemCount = this.state.itemsForSale.length;
-    return this.state.showItemsForSale ?
-      this.state.itemsForSale.map((item, index) =>
-        <View key={index} style={styles.summaryInfo}>
-          <Text>{item.title}</Text>
-        </View>) :
-        <View style={styles.summaryInfo}>
-          <Text>{itemCount} item(s) for sale...</Text>
-        </View>
-  }
-
-  toggleDocView(stateBool) {
-    let obj = {};
-    obj[stateBool] = !this.state[stateBool];
-    this.setState(obj);
-  }
-
-  renderPageAfterData() {
-    if (this.state.dataLoaded && this.state.pageError) {
-      return (
-        <Text style={{padding: 5, textAlign: 'center'}}>
-          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-        </Text>
-      );
-    } else if (this.state.dataLoaded) {
-      return (
-        <View>
-          <View style={styles.componentContainer}>
-            <Text style={styles.header}>
-              {this.state.courseInfo.short_display_name}
-            </Text>
-            <TopRow courseInfo={this.state.courseInfo} />
-          </View>
-
-          <View style={styles.componentContainer}>
-            <Text style={styles.header} onPress={() => this.toggleDocView('showAsgReports')}>
-              Assignment & Reports:
-            </Text>
-            <FontAwesome
-              name={this.state.showAsgReports ? "chevron-up" : "chevron-down"}
-              style={styles.headerStanAloneChevron}
-              onPress={() => this.toggleDocView('showAsgReports')}
-            />
-            { this.renderAsgReports() }
-          </View>
-
-          <View style={styles.componentContainer}>
-            <Text style={styles.header} onPress={() => this.toggleDocView('showSampleQuestions')}>
-              Sample Questions:
-            </Text>
-            <FontAwesome
-              name={this.state.showSampleQuestions ? "chevron-up" : "chevron-down"}
-              style={styles.headerStanAloneChevron}
-              onPress={() => this.toggleDocView('showSampleQuestions')}
-            />
-            { this.renderSampleQuestions() }
-          </View>
-
-          <View style={styles.componentContainer}>
-            <Text style={styles.header} onPress={() => this.toggleDocView('showLectureNotes')}>
-              Lecture Notes:
-            </Text>
-            <FontAwesome
-              name={this.state.showLectureNotes ? "chevron-up" : "chevron-down"}
-              style={styles.headerStanAloneChevron}
-              onPress={() => this.toggleDocView('showLectureNotes')}
-            />
-            { this.renderLectureNotes() }
-          </View>
-
-          <View style={styles.componentContainer}>
-            <Text style={styles.header} onPress={() => this.toggleDocView('showItemsForSale')}>
-              Items for Sale or Trade:
-            </Text>
-            <FontAwesome
-              name={this.state.showItemsForSale ? "chevron-up" : "chevron-down"}
-              style={styles.headerStanAloneChevron}
-              onPress={() => this.toggleDocView('showItemsForSale')}
-            />
-            { this.renderItemsForSale() }
-          </View>
-        </View>
-      );
-    } else {
-      return (
-        <ActivityIndicator
-          animating={true}
-          style={{height: 80}}
-          size="large"
-          color="#004E89"
-        />
-      );
-    }
+  _renderPageAfterData() {
+    if (this.state.dataLoaded && this.state.pageError) return <PageLoadError />;
+    else if (this.state.dataLoaded) return (
+      <View>
+        <TopRow courseInfo={this.state.courseInfo} />
+        <DocsContainer header='Assignment & Reports:' docs={this.state.asgReports} courseId={this.state.courseInfo.id} />
+        <DocsContainer header='Lecture Notes:' docs={this.state.lectureNotes} courseId={this.state.courseInfo.id} />
+        <DocsContainer header='Sample Questions:' docs={this.state.sampleQuestions} courseId={this.state.courseInfo.id} />
+        <DocsContainer header='Items for Sale or Trade:' docs={this.state.itemsForSale} courseId={this.state.courseInfo.id} />
+      </View>
+    );
+    else return <ActivityIndicator animating={true} style={{height: 80}} size='large' color='#004E89' />;
   }
 
   render() {
     return (
       <ScrollView>
-        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
-          { this.renderPageAfterData() }
+        <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5}}>
+          { this._renderPageAfterData() }
         </View>
       </ScrollView>
     );
@@ -222,31 +95,3 @@ class CoursePage extends React.Component {
 }
 
 export default CoursePage;
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#004E89',
-    padding: 5,
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  summaryInfo: {
-    padding: 5,
-    backgroundColor: 'white',
-    borderBottomWidth: .5,
-    borderColor: '#004E89'
-  },
-  componentContainer: {
-    marginBottom: 10
-  },
-  headerStanAloneChevron: {
-    textAlign: 'center',
-    fontSize: 19,
-    color: 'white',
-    textAlign: 'right',
-    position: 'absolute',
-    top: 5,
-    right: 12,
-    backgroundColor: '#004E89'
-  }
-});

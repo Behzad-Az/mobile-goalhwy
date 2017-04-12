@@ -1,10 +1,10 @@
 {
   "exponentServerPort": null,
   "packagerPort": 19001,
-  "packagerPid": 2223,
+  "packagerPid": 6958,
   "exponentServerNgrokUrl": null,
   "packagerNgrokUrl": "https://packager.9v-m4r.behzad-az.mobile-goalhwy.exp.direct",
-  "ngrokPid": 2249,
+  "ngrokPid": 7013,
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://9v-m4r.behzad-az.mobile-goalhwy.exp.direct"
 }
