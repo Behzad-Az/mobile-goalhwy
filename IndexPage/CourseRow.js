@@ -7,7 +7,7 @@ import {
 
 import { Actions } from 'react-native-router-flux';
 
-class IndexRow extends React.Component {
+class CourseRow extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -23,7 +23,7 @@ class IndexRow extends React.Component {
   }
 }
 
-export default IndexRow;
+export default CourseRow;
 
 const styles = StyleSheet.create({
   container: {
